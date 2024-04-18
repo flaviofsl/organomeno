@@ -5,8 +5,8 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 public interface ContasCategoriasService {
-    List<ContasCategoriasDTO> buscarTodasCategorias();
-    ContasCategoriasDTO buscarCategoriaPorId(Integer id);
+    List<ContasCategorias> buscarTodasCategorias();
+    ContasCategorias buscarCategoriaPorId(Integer id);
     Response excluirCategoriaPorID(Integer id);
-    Response inserirCategoria(ContasCategoriasDTO contasCategoriasDTO);
+    Response inserirCategoria(ContasCategorias contasCategoriasDTO);
 }

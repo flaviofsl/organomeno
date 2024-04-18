@@ -4,9 +4,10 @@ import br.com.organomemo.contasCategorias.ContasCategorias;
 import br.com.organomemo.notaFiscal.NotaFiscal;
 import br.com.organomemo.notaFiscal.NotaFiscalDTO;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
-
+@ApplicationScoped
 public class DespesasRepository implements PanacheRepositoryBase<DespesasDTO,Integer> {
 
     public List<DespesasDTO> encontrarDespesasPorCategoria(ContasCategorias contasCategorias){

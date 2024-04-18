@@ -4,7 +4,7 @@ import br.com.organomemo.contasCategorias.ContasCategorias;
 import br.com.organomemo.notaFiscal.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,7 +14,8 @@ public class Despesas extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_DESPESAS")
     private Integer id;
-    @Column(name = "CATEGORIA_VINCULADA")
+    @ManyToOne
+    @JoinColumn(name = "CATEGORIA_VINCULADA")
     private ContasCategorias categoria;
     @Column(name = "DESPESA_DESCRICAO")
     private String descricao;
@@ -24,7 +25,8 @@ public class Despesas extends PanacheEntityBase {
     private Double valorLiquido;
     @Column(name = "DESPESA_VENCIMENTO")
     private Date vencimento;
-    @Column(name = "NOTA_FISCAL_VINCULADA")
+    @ManyToOne
+    @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
 
     public NotaFiscal getNotaFiscal() {

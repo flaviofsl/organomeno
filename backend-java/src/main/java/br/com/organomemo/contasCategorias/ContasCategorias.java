@@ -1,11 +1,12 @@
 package br.com.organomemo.contasCategorias;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.*;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CONTAS_CATEGORIAS", schema = "dbo")
 public class ContasCategorias extends PanacheEntityBase {
+
     @Id
     @Column(name = "ID_CATEGORIA")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,11 @@ public class ContasCategorias extends PanacheEntityBase {
         this.id = id;
     }
 
-    public String getCategoriaDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setCategoriaDescricao(String categoriaDescricao) {
-        this.descricao = categoriaDescricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

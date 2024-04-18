@@ -14,12 +14,12 @@ public class ContasCategoriasRest {
 
     @GET
     @Path("/")
-    public List<ContasCategoriasDTO> buscarTodasCategorias(){
+    public List<ContasCategorias> buscarTodasCategorias(){
         return contasCategoriasService.buscarTodasCategorias();
     }
     @GET
     @Path("/{id}")
-    public ContasCategoriasDTO buscarCategoriaPorId(@PathParam("id") Integer id){
+    public ContasCategorias buscarCategoriaPorId(@PathParam("id") Integer id){
         return contasCategoriasService.buscarCategoriaPorId(id);
     }
     @DELETE
@@ -30,7 +30,7 @@ public class ContasCategoriasRest {
     }
     @PUT
     @Path("/")
-    public Response inserirCategoria(ContasCategoriasDTO contasCategoriasDTO){
+    public Response inserirCategoria(ContasCategorias contasCategoriasDTO){
         contasCategoriasService.inserirCategoria(contasCategoriasDTO);
         return Response.ok(Json.encode("Categoria inserida!!")).build();
     }

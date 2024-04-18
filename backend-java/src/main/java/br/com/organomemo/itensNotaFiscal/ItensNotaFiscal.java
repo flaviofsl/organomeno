@@ -3,7 +3,7 @@ package br.com.organomemo.itensNotaFiscal;
 import br.com.organomemo.notaFiscal.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ITENS_NOTA_FISCAL", schema = "dbo")

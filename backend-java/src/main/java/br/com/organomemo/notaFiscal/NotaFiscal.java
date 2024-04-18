@@ -1,12 +1,12 @@
 package br.com.organomemo.notaFiscal;
 
-import br.com.organomemo.despesas.Despesas;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.Date;
+
 @Entity
-@Table(name = "NOTA_FISCA", schema = "dbo")
+@Table(name = "NOTA_FISCAL", schema = "dbo")
 public class NotaFiscal extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,23 +1,23 @@
 package br.com.organomemo.contasCategorias;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import io.vertx.core.json.Json;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-
+@ApplicationScoped
 public class ContasCategoriasServiceImpl implements ContasCategoriasService{
 
     @Inject
     ContasCategoriasRepository contasCategoriasRepository;
 
     @Override
-    public List<ContasCategoriasDTO> buscarTodasCategorias() {
+    public List<ContasCategorias> buscarTodasCategorias() {
         return contasCategoriasRepository.findAll().list();
     }
     @Override
-    public ContasCategoriasDTO buscarCategoriaPorId(Integer id) {
+    public ContasCategorias buscarCategoriaPorId(Integer id) {
         return contasCategoriasRepository.findById(id);
     }
     @Override
@@ -26,7 +26,7 @@ public class ContasCategoriasServiceImpl implements ContasCategoriasService{
         return Response.ok(Json.encode("Categoria Excluida!")).build();
     }
     @Override
-    public Response inserirCategoria(ContasCategoriasDTO contasCategoriasDTO) {
+    public Response inserirCategoria(ContasCategorias contasCategoriasDTO) {
         contasCategoriasRepository.persist(contasCategoriasDTO);
         return Response.ok(Json.encode("Categoria Inserida!")).build();
     }
