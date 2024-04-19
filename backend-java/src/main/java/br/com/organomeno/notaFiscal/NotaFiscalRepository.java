@@ -1,4 +1,4 @@
-package br.com.organomemo.notaFiscal;
+package br.com.organomeno.notaFiscal;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;

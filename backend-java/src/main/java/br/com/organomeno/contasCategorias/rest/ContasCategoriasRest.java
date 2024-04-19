@@ -1,12 +1,17 @@
-package br.com.organomemo.contasCategorias;
+package br.com.organomeno.contasCategorias.rest;
 
+import br.com.organomeno.contasCategorias.entity.ContasCategorias;
+import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
+import br.com.organomeno.contasCategorias.services.ContasCategoriasService;
 import io.vertx.core.json.Json;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("/categorias")
 public class ContasCategoriasRest {
     @Inject
@@ -28,9 +33,9 @@ public class ContasCategoriasRest {
         contasCategoriasService.excluirCategoriaPorID(id);
         return Response.ok(Json.encode("Categoria Excluida!!")).build();
     }
-    @PUT
+    @POST
     @Path("/")
-    public Response inserirCategoria(ContasCategorias contasCategoriasDTO){
+    public Response inserirCategoria(ContasCategoriasDTO contasCategoriasDTO){
         contasCategoriasService.inserirCategoria(contasCategoriasDTO);
         return Response.ok(Json.encode("Categoria inserida!!")).build();
     }

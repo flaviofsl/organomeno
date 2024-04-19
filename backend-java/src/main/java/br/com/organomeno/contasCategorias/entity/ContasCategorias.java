@@ -1,4 +1,4 @@
-package br.com.organomemo.contasCategorias;
+package br.com.organomeno.contasCategorias.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;

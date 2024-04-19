@@ -1,6 +1,6 @@
-package br.com.organomemo.receitas;
+package br.com.organomeno.receitas;
 
-import br.com.organomemo.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.NotaFiscal;
 
 import java.util.Date;
 

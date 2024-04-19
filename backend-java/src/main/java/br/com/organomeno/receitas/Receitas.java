@@ -1,6 +1,6 @@
-package br.com.organomemo.receitas;
+package br.com.organomeno.receitas;
 
-import br.com.organomemo.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import jakarta.persistence.*;
@@ -22,7 +22,8 @@ public class Receitas extends PanacheEntityBase {
     private Double valorLiquido;
     @Column(name = "RECEITA_DATA_ENTRADA")
     private Date dataEntrada;
-    @Column(name = "NOTA_FISCAL_VINCULADA")
+    @ManyToOne
+    @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
 
     public Integer getId() {

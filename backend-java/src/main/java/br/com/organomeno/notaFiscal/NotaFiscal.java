@@ -1,4 +1,4 @@
-package br.com.organomemo.notaFiscal;
+package br.com.organomeno.notaFiscal;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -50,5 +50,4 @@ public class NotaFiscal extends PanacheEntityBase {
     public void setValorBruto(Double valorBruto) {
         this.valorBruto = valorBruto;
     }
-
 }
