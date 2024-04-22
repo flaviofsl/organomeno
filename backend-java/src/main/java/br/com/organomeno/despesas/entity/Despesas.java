@@ -1,7 +1,7 @@
 package br.com.organomeno.despesas.entity;
 
 import br.com.organomeno.contasCategorias.entity.ContasCategorias;
-import br.com.organomeno.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import jakarta.persistence.*;

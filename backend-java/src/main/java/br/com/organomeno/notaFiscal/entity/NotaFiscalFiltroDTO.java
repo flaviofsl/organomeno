@@ -1,31 +1,16 @@
-package br.com.organomeno.notaFiscal;
+package br.com.organomeno.notaFiscal.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
+import jakarta.ws.rs.QueryParam;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "NOTA_FISCAL", schema = "dbo")
-public class NotaFiscal extends PanacheEntityBase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "NOTA_ID")
-    private Integer id;
-    @Column(name = "NOTA_DESCRICAO")
+public class NotaFiscalFiltroDTO {
+    @QueryParam("descricao")
     private String descricao;
-    @Column(name = "NOTA_DATA_CADASTRO")
+    @QueryParam("dataCadastro")
     private Date dataCadastro;
-    @Column(name = "NOTA_VALOR_BRUTO")
+    @QueryParam("valorBruto")
     private Double valorBruto;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getDescricao() {
         return descricao;

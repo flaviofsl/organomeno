@@ -1,6 +1,6 @@
 package br.com.organomeno.despesas.entity;
 import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
 import java.util.Date;
 

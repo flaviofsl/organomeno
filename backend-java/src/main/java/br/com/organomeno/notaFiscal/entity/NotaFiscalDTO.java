@@ -1,4 +1,4 @@
-package br.com.organomeno.notaFiscal;
+package br.com.organomeno.notaFiscal.entity;
 
 import java.util.Date;
 

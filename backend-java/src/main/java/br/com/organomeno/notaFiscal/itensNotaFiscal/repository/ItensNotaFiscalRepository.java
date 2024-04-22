@@ -1,6 +1,7 @@
-package br.com.organomeno.itensNotaFiscal;
+package br.com.organomeno.notaFiscal.itensNotaFiscal.repository;
 
-import br.com.organomeno.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.itensNotaFiscal.entity.ItensNotaFiscal;
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
