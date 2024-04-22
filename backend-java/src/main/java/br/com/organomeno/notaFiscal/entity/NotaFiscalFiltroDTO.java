@@ -11,6 +11,26 @@ public class NotaFiscalFiltroDTO {
     private Date dataCadastro;
     @QueryParam("valorBruto")
     private Double valorBruto;
+    @QueryParam("pageNum")
+    private Integer pageNum;
+    @QueryParam("pageSize")
+    private Integer pageSize;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public String getDescricao() {
         return descricao;

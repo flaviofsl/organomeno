@@ -14,22 +14,6 @@ public class DespesasDTO {
     private NotaFiscalDTO notaFiscal;
     private Date dataCadastro;
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public NotaFiscalDTO getNotaFiscalDTO() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscalDTO(NotaFiscalDTO notaFiscalDTO) {
-        this.notaFiscal = notaFiscalDTO;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -44,14 +28,6 @@ public class DespesasDTO {
 
     public void setCategoria(ContasCategoriasDTO categoria) {
         this.categoria = categoria;
-    }
-
-    public NotaFiscalDTO getNotaFiscal() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
-        this.notaFiscal = notaFiscal;
     }
 
     public String getDescricao() {
@@ -84,5 +60,21 @@ public class DespesasDTO {
 
     public void setVencimento(Date vencimento) {
         this.vencimento = vencimento;
+    }
+
+    public NotaFiscalDTO getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }

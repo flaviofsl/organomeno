@@ -1,29 +1,14 @@
-package br.com.organomeno.notaFiscal.itensNotaFiscal.entity;
+package br.com.organomeno.notaFiscal.itensNotaFiscal;
 
-import br.com.organomeno.notaFiscal.entity.NotaFiscal;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "ITENS_NOTA_FISCAL", schema = "dbo")
-public class ItensNotaFiscal extends PanacheEntityBase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ITEM_ID")
+public class ItensNotaFiscalDTO {
     private Integer id;
-    @Column(name = "ITEM_UND_MEDIDA")
     private String unidadeMedida;
-    @Column(name = "ITEM_QUANTIDADE")
     private Double quantidade;
-    @Column(name = "ITEM_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "ITEM_VALOR_LIQUIDO")
     private Double valorLiquido;
-    @ManyToOne
-    @JoinColumn(name = "NOTA_VINCULADA", nullable = false)
-    private NotaFiscal notaFiscal;
+    private NotaFiscalDTO notaFiscal;
 
     public Integer getId() {
         return id;
@@ -65,11 +50,11 @@ public class ItensNotaFiscal extends PanacheEntityBase {
         this.valorLiquido = valorLiquido;
     }
 
-    public NotaFiscal getNotaFiscal() {
+    public NotaFiscalDTO getNotaFiscal() {
         return notaFiscal;
     }
 
-    public void setNotaFiscal(NotaFiscal notaFiscal) {
+    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
         this.notaFiscal = notaFiscal;
     }
 }

@@ -1,12 +1,25 @@
 package br.com.organomeno.notaFiscal.entity;
 
+import br.com.organomeno.notaFiscal.itensNotaFiscal.ItensNotaFiscalDTO;
+
 import java.util.Date;
+import java.util.List;
 
 public class NotaFiscalDTO {
     private Integer id;
     private String descricao;
     private Date dataCadastro;
     private Double valorBruto;
+    private List<ItensNotaFiscalDTO> itensNotaFiscal;
+
+    public List<ItensNotaFiscalDTO> getItensNotaFiscal() {
+        return itensNotaFiscal;
+    }
+
+    public void setItensNotaFiscal(List<ItensNotaFiscalDTO> itensNotaFiscal) {
+        this.itensNotaFiscal = itensNotaFiscal;
+    }
+
     public Integer getId() {
         return id;
     }

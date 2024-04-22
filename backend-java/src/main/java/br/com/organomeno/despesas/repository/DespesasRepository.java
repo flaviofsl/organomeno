@@ -40,12 +40,11 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
         parametros.put("notaFiscal", despesasFiltroDTO.getNotaFiscal());
 
         PanacheQuery<Despesas> despesas = find(query.toString(),parametros);
-        if (despesasFiltroDTO.getPageNum() == null && despesasFiltroDTO.getPageSize() == null){
-            despesas.page(Page.of(0, 20));
+        if (despesasFiltroDTO.getPageNum() != null || despesasFiltroDTO.getPageSize() != null) {
+            despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
             return despesas.stream().toList();
         }
-        despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
+        despesas.page(Page.of(0, 20));
         return despesas.stream().toList();
     }
-
 }
