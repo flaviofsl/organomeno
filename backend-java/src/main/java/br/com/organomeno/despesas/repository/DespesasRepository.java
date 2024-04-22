@@ -7,6 +7,7 @@ import br.com.organomeno.despesas.entity.DespesasMapper;
 import br.com.organomeno.notaFiscal.NotaFiscalDTO;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import io.quarkus.panache.common.Page;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -16,10 +17,10 @@ import java.util.*;
 public class DespesasRepository implements PanacheRepositoryBase<Despesas,Integer> {
 
     public List<Despesas> encontrarDespesasPorCategoria(ContasCategoriasDTO contasCategoriasDTO){
-        return find("categoria = ?1", contasCategoriasDTO).stream().toList();
+        return find("categoria = ?1", contasCategoriasDTO).list();
     }
     public List<Despesas> encontrarDespesasPorNota(NotaFiscalDTO notaFiscal){
-        return find("notaFiscal = ?1", notaFiscal).stream().toList();
+        return find("notaFiscal = ?1", notaFiscal).list();
     }
     public List<Despesas> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO){
         StringJoiner query = new StringJoiner(" ");
@@ -41,8 +42,8 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
         query.add("ORDER BY dataCadastro DESC");
 
         PanacheQuery<Despesas> despesas = find(query.toString(),parametros);
-
-        return despesas.list();
+        despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
+        return despesas.stream().toList();
     }
 
 }
