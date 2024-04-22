@@ -10,12 +10,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "cdi")
 public interface DespesasMapper {
-    @Mapping(target = "notaFiscal", source = "notaFiscalDTO")
     Despesas toEntity(DespesasDTO despesasDTO);
-    @Mapping(target = "notaFiscalDTO", source = "notaFiscal")
+
     DespesasDTO toDTO(Despesas despesas);
-    @Mapping(target = "notaFiscalDTO", source = "notaFiscal")
-    List<DespesasDTO> toListDTO(List<Despesas> despesas);
+
+    default List<DespesasDTO> toListDTO(List<Despesas> despesas) {
+        if (despesas == null) {
+            return null;
+        }
+
+        return despesas.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
 }

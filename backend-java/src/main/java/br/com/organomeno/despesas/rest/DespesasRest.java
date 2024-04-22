@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -15,8 +16,10 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/despesas")
 public class DespesasRest {
+
     @Inject
     DespesasService despesasService;
+
     @GET
     @Path("/")
     public List<DespesasDTO> buscarTodasAsDespesas(){

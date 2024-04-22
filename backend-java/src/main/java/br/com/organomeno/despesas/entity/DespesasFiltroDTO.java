@@ -1,5 +1,6 @@
 package br.com.organomeno.despesas.entity;
 
+import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.notaFiscal.NotaFiscal;
 import br.com.organomeno.notaFiscal.NotaFiscalDTO;
 import jakarta.ws.rs.QueryParam;
@@ -18,7 +19,27 @@ public class DespesasFiltroDTO {
     @QueryParam("vencimento")
     private Date vencimento;
     @QueryParam("notaFiscal")
-    private NotaFiscalDTO notaFiscal;
+    private Integer notaFiscal;
+    @QueryParam("pageNum")
+    private Integer pageNum;
+    @QueryParam("pageSize")
+    private Integer pageSize;
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public Integer getCategoria() {
         return categoria;
@@ -60,11 +81,11 @@ public class DespesasFiltroDTO {
         this.vencimento = vencimento;
     }
 
-    public NotaFiscalDTO getNotaFiscal() {
+    public Integer getNotaFiscal() {
         return notaFiscal;
     }
 
-    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
+    public void setNotaFiscal(Integer notaFiscal) {
         this.notaFiscal = notaFiscal;
     }
 }

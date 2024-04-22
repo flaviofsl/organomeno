@@ -46,6 +46,14 @@ public class DespesasDTO {
         this.categoria = categoria;
     }
 
+    public NotaFiscalDTO getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
+
     public String getDescricao() {
         return descricao;
     }

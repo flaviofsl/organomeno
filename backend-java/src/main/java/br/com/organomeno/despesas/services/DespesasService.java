@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface DespesasService{
     List<DespesasDTO> buscarTodasAsDespesas();
+
     DespesasDTO buscarDespesaPorId(Integer id);
+
     List<DespesasDTO> buscarDespesasPorNota(NotaFiscalDTO notaFiscalDTO);
+
     Response inserirDespesa(DespesasDTO despesasDTO);
+
     List<Despesas> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO);
 }
