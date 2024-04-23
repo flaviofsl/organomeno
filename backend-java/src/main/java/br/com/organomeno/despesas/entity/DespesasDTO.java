@@ -1,6 +1,6 @@
 package br.com.organomeno.despesas.entity;
 import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
 import java.util.Date;
 
@@ -13,22 +13,6 @@ public class DespesasDTO {
     private Date vencimento;
     private NotaFiscalDTO notaFiscal;
     private Date dataCadastro;
-
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public NotaFiscalDTO getNotaFiscalDTO() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscalDTO(NotaFiscalDTO notaFiscalDTO) {
-        this.notaFiscal = notaFiscalDTO;
-    }
 
     public Integer getId() {
         return id;
@@ -44,14 +28,6 @@ public class DespesasDTO {
 
     public void setCategoria(ContasCategoriasDTO categoria) {
         this.categoria = categoria;
-    }
-
-    public NotaFiscalDTO getNotaFiscal() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
-        this.notaFiscal = notaFiscal;
     }
 
     public String getDescricao() {
@@ -84,5 +60,21 @@ public class DespesasDTO {
 
     public void setVencimento(Date vencimento) {
         this.vencimento = vencimento;
+    }
+
+    public NotaFiscalDTO getNotaFiscal() {
+        return notaFiscal;
+    }
+
+    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
+        this.notaFiscal = notaFiscal;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }

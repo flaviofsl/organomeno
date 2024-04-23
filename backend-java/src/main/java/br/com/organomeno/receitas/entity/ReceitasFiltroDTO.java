@@ -1,37 +1,39 @@
-package br.com.organomeno.receitas;
+package br.com.organomeno.receitas.entity;
 
-import br.com.organomeno.notaFiscal.NotaFiscal;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.ws.rs.QueryParam;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "RECEITAS", schema = "dbo")
-public class Receitas extends PanacheEntityBase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_RECEITA")
-    private Integer id;
-    @Column(name = "RECEITA_DESCRICAO")
+public class ReceitasFiltroDTO {
+    @QueryParam("descricao")
     private String descricao;
-    @Column(name = "RECEITA_VALOR_BRUTO")
+    @QueryParam("valorBruto")
     private Double valorBruto;
-    @Column(name = "RECEITA_VALOR_LIQUIDO")
+    @QueryParam("valorLiquido")
     private Double valorLiquido;
-    @Column(name = "RECEITA_DATA_ENTRADA")
+    @QueryParam("dataEntrada")
     private Date dataEntrada;
-    @ManyToOne
-    @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
-    private NotaFiscal notaFiscal;
+    @QueryParam("notaFiscal")
+    private Integer notaFiscal;
+    @QueryParam("pageNum")
+    private Integer pageNum;
+    @QueryParam("pageSize")
+    private Integer pageSize;
 
-    public Integer getId() {
-        return id;
+    public Integer getPageNum() {
+        return pageNum;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public String getDescricao() {
@@ -66,11 +68,11 @@ public class Receitas extends PanacheEntityBase {
         this.dataEntrada = dataEntrada;
     }
 
-    public NotaFiscal getNotaFiscal() {
+    public Integer getNotaFiscal() {
         return notaFiscal;
     }
 
-    public void setNotaFiscal(NotaFiscal notaFiscal) {
+    public void setNotaFiscal(Integer notaFiscal) {
         this.notaFiscal = notaFiscal;
     }
 }

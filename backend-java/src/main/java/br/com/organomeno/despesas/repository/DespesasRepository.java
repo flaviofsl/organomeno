@@ -3,13 +3,11 @@ package br.com.organomeno.despesas.repository;
 import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasFiltroDTO;
-import br.com.organomeno.despesas.entity.DespesasMapper;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Page;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.util.*;
 
@@ -24,12 +22,14 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
     }
     public List<Despesas> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO){
         StringJoiner query = new StringJoiner(" ");
-        query.add("(:categoria IS NULL OR categoria.id = :categoria)");
-        query.add("AND (:descricao IS NULL OR descricao = :descricao)");
-        query.add("AND (:valorBruto IS NULL OR valorBruto = :valorBruto)");
-        query.add("AND (:valorLiquido IS NULL OR valorLiquido = :valorLiquido");
-        query.add("AND (:vencimento IS NULL OR vencimento = :vencimento");
-        query.add("AND (:notaFiscal IS NULL OR notaFiscal.id = :notaFiscal");
+        query.add("FROM Despesas d WHERE");
+        query.add("(:categoria IS NULL OR d.categoria.id = :categoria)");
+        query.add("AND (:descricao IS NULL OR d.descricao = :descricao)");
+        query.add("AND (:valorBruto IS NULL OR d.valorBruto = :valorBruto)");
+        query.add("AND (:valorLiquido IS NULL OR d.valorLiquido = :valorLiquido)");
+        query.add("AND (:vencimento IS NULL OR d.vencimento = :vencimento)");
+        query.add("AND (:notaFiscal IS NULL OR d.notaFiscal.id = :notaFiscal)");
+        query.add("ORDER BY d.dataCadastro DESC");
 
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("categoria", despesasFiltroDTO.getCategoria());
@@ -39,11 +39,12 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
         parametros.put("vencimento", despesasFiltroDTO.getVencimento());
         parametros.put("notaFiscal", despesasFiltroDTO.getNotaFiscal());
 
-        query.add("ORDER BY dataCadastro DESC");
-
         PanacheQuery<Despesas> despesas = find(query.toString(),parametros);
-        despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
+        if (despesasFiltroDTO.getPageNum() != null || despesasFiltroDTO.getPageSize() != null) {
+            despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
+            return despesas.stream().toList();
+        }
+        despesas.page(Page.of(0, 20));
         return despesas.stream().toList();
     }
-
 }

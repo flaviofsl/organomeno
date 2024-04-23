@@ -1,14 +1,16 @@
-package br.com.organomeno.itensNotaFiscal;
+package br.com.organomeno.receitas.entity;
 
-import br.com.organomeno.notaFiscal.NotaFiscal;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
-public class ItensNotaFiscalDTO {
+import java.util.Date;
+
+public class ReceitasDTO {
     private Integer id;
-    private String unidadeMedida;
-    private Double quantidade;
+    private String descricao;
     private Double valorBruto;
     private Double valorLiquido;
+    private Date dataEntrada;
     private NotaFiscalDTO notaFiscal;
 
     public Integer getId() {
@@ -19,20 +21,12 @@ public class ItensNotaFiscalDTO {
         this.id = id;
     }
 
-    public String getUnidadeMedida() {
-        return unidadeMedida;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setUnidadeMedida(String unidadeMedida) {
-        this.unidadeMedida = unidadeMedida;
-    }
-
-    public Double getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Double quantidade) {
-        this.quantidade = quantidade;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Double getValorBruto() {
@@ -49,6 +43,14 @@ public class ItensNotaFiscalDTO {
 
     public void setValorLiquido(Double valorLiquido) {
         this.valorLiquido = valorLiquido;
+    }
+
+    public Date getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
     }
 
     public NotaFiscalDTO getNotaFiscal() {
