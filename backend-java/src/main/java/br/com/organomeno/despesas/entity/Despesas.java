@@ -21,10 +21,6 @@ public class Despesas extends PanacheEntityBase {
     private String descricao;
     @Column(name = "DESPESA_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "DESPESA_VALOR_LIQUIDO")
-    private Double valorLiquido;
-    @Column(name = "DESPESA_VENCIMENTO")
-    private Date vencimento;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
@@ -79,19 +75,4 @@ public class Despesas extends PanacheEntityBase {
         this.valorBruto = valorBruto;
     }
 
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
-    }
-
-    public Date getVencimento() {
-        return vencimento;
-    }
-
-    public void setVencimento(Date vencimento) {
-        this.vencimento = vencimento;
-    }
 }

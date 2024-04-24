@@ -18,8 +18,6 @@ public class Receitas extends PanacheEntityBase {
     private String descricao;
     @Column(name = "RECEITA_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "RECEITA_VALOR_LIQUIDO")
-    private Double valorLiquido;
     @Column(name = "RECEITA_DATA_ENTRADA")
     private Date dataEntrada;
     @ManyToOne
@@ -48,14 +46,6 @@ public class Receitas extends PanacheEntityBase {
 
     public void setValorBruto(Double valorBruto) {
         this.valorBruto = valorBruto;
-    }
-
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
     }
 
     public Date getDataEntrada() {

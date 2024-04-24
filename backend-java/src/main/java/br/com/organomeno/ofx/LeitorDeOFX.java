@@ -1,5 +1,10 @@
 package br.com.organomeno.ofx;
 
+import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
+import br.com.organomeno.despesas.entity.DespesasDTO;
+import br.com.organomeno.receitas.entity.Receitas;
+import br.com.organomeno.receitas.entity.ReceitasDTO;
+import br.com.organomeno.util.DataUtil;
 import br.com.organomeno.util.UtilFile;
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
@@ -7,7 +12,6 @@ import net.sf.ofx4j.domain.data.ResponseMessageSet;
 import net.sf.ofx4j.domain.data.banking.BankStatementResponseTransaction;
 import net.sf.ofx4j.domain.data.banking.BankingResponseMessageSet;
 import net.sf.ofx4j.domain.data.common.Transaction;
-import net.sf.ofx4j.domain.data.common.TransactionType;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardResponseMessageSet;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardStatementResponse;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardStatementResponseTransaction;
@@ -19,23 +23,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class ImportaArquivo {
-
-    public static void main(String args[])
-    {
-        try {
-        ImportaArquivo fileImportRN = new ImportaArquivo();
-        FileInputStream stream = new FileInputStream("C://Users//caiocardoso//Documents/nubank-2023-09.ofx");
-        fileImportRN.importarExtratoBancario(stream);
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+public class LeitorDeOFX {
 
     public void teste(){
 
@@ -57,11 +50,10 @@ public class ImportaArquivo {
         }
 
     }
- 
 
-    public void importarCartaoCredito(InputStream inputStream, Date dataVencimentoFatura)
-            throws IOException, OFXParseException {
-        System.out.println("importarExtratoBancario");
+
+    public void importarCartaoCredito(InputStream inputStream)
+           throws IOException, OFXParseException {
 
         File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
         File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
@@ -90,104 +82,42 @@ public class ImportaArquivo {
 
         List<CreditCardStatementResponseTransaction> responses = messageSet.getStatementResponses();
 
-
-        Workbook workbook = new XSSFWorkbook();
-
-        Sheet sheet = workbook.createSheet("Finanças");
-        sheet.setColumnWidth(0, 6000);
-        sheet.setColumnWidth(1, 4000);
-
-        Row header = sheet.createRow(0);
-
-        CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 16);
-        font.setBold(true);
-        headerStyle.setFont(font);
-
-        Cell headerCell = header.createCell(0);
-        headerCell.setCellValue("ID");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("TIPO");
-        headerCell.setCellStyle(headerStyle);
-        headerCell = header.createCell(2);
-        headerCell.setCellValue("DATA");
-        headerCell.setCellStyle(headerStyle);
-        headerCell = header.createCell(3);
-        headerCell.setCellValue("DESCRIÇÃO");
-        headerCell.setCellStyle(headerStyle);
-        headerCell = header.createCell(4);
-        headerCell.setCellValue("VALOR");
-        headerCell.setCellStyle(headerStyle);
-
-        CellStyle style = workbook.createCellStyle();
-        style.setWrapText(true);
+        List<ReceitasDTO> listaReceita = new ArrayList<>();
+        List<DespesasDTO> listaDespesas = new ArrayList<>();
 
         for (CreditCardStatementResponseTransaction response : responses) {
 
             CreditCardStatementResponse message = response.getMessage();
-
-            System.out.println("NÚMERO DO CARTÃO: " + message.getAccount().getAccountNumber());
-            System.out.println("TOTAL: " + message.getLedgerBalance().getAmount());
-            System.out.println("DATA DE VENCIMENTO: " + message.getLedgerBalance().getAsOfDate());
-            System.out.println("");
-
-
             String currencyCode = message.getCurrencyCode();
             List<Transaction> transactions = message.getTransactionList().getTransactions();
 
-            int qtdRegistros = 0;
+
             for (Transaction transaction : transactions) {
 
-                System.out.println("ID:    " + transaction.getId());
-                System.out.println("TIPO:  " + transaction.getTransactionType());
-                System.out.println("DATA:  " + new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDatePosted()));
-                System.out.println("MEMO   " + transaction.getMemo());
-                System.out.println("VALOR: " + transaction.getAmount() + " " + currencyCode);
-                System.out.println("");
-                System.out.println("-------------------------------------------------------------- ");
+                if (transaction.getAmount() < 0){
+                    DespesasDTO despesa = new DespesasDTO();
+                    ContasCategoriasDTO categoria = new ContasCategoriasDTO();
 
-                Row row = sheet.createRow(qtdRegistros+1);
-                Cell cell = row.createCell(0);
-                cell.setCellValue(transaction.getId());
-                cell.setCellStyle(style);
-                cell = row.createCell(1);
-                cell.setCellValue(transaction.getTransactionType()+"");
-                cell.setCellStyle(style);
-                cell = row.createCell(2);
-                cell.setCellValue(new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDatePosted())+"");
-                cell.setCellStyle(style);
-                cell = row.createCell(3);
-                cell.setCellValue(transaction.getMemo()+"");
-                cell.setCellStyle(style);
-                cell = row.createCell(4);
-                cell.setCellValue((transaction.getAmount().toString().replace("-","")));
-                cell.setCellStyle(style);
+                    despesa.setDescricao(transaction.getMemo());
+                    despesa.setValorBruto(transaction.getAmount());
+                    despesa.setDataCadastro(transaction.getDatePosted());
+                    categoria.setDescricao(String.valueOf(transaction.getTransactionType()));
+                    despesa.setCategoria(categoria);
+                    listaDespesas.add(despesa);
+                }
 
-                qtdRegistros++;
+                ReceitasDTO receita = new ReceitasDTO();
+                ContasCategoriasDTO categoria = new ContasCategoriasDTO();
+
+
+
             }
-
-            System.out.println("QUANTIDADE: " + qtdRegistros);
         }
 
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
         String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
 
-        try {
-            FileOutputStream outputStream = new FileOutputStream(fileLocation);
-            workbook.write(outputStream);
-            workbook.close();
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
 
         fileTarget.delete();
         fileSource.delete();

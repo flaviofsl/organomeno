@@ -9,8 +9,6 @@ public class DespesasDTO {
     private ContasCategoriasDTO categoria;
     private String descricao;
     private Double valorBruto;
-    private Double valorLiquido;
-    private Date vencimento;
     private NotaFiscalDTO notaFiscal;
     private Date dataCadastro;
 
@@ -44,22 +42,6 @@ public class DespesasDTO {
 
     public void setValorBruto(Double valorBruto) {
         this.valorBruto = valorBruto;
-    }
-
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
-    }
-
-    public Date getVencimento() {
-        return vencimento;
-    }
-
-    public void setVencimento(Date vencimento) {
-        this.vencimento = vencimento;
     }
 
     public NotaFiscalDTO getNotaFiscal() {

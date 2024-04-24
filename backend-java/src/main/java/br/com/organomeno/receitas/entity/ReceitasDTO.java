@@ -9,7 +9,6 @@ public class ReceitasDTO {
     private Integer id;
     private String descricao;
     private Double valorBruto;
-    private Double valorLiquido;
     private Date dataEntrada;
     private NotaFiscalDTO notaFiscal;
 
@@ -35,14 +34,6 @@ public class ReceitasDTO {
 
     public void setValorBruto(Double valorBruto) {
         this.valorBruto = valorBruto;
-    }
-
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
     }
 
     public Date getDataEntrada() {
