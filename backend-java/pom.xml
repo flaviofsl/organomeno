@@ -30,8 +30,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-mssql</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
