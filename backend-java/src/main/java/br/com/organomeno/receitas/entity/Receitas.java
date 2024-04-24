@@ -23,6 +23,16 @@ public class Receitas extends PanacheEntityBase {
     @ManyToOne
     @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
+    @Column(name = "TRANSACAO_FITID")
+    private String fitId;
+
+    public String getFitId() {
+        return fitId;
+    }
+
+    public void setFitId(String fitId) {
+        this.fitId = fitId;
+    }
 
     public Integer getId() {
         return id;

@@ -11,6 +11,15 @@ public class DespesasDTO {
     private Double valorBruto;
     private NotaFiscalDTO notaFiscal;
     private Date dataCadastro;
+    private String fitId;
+
+    public String getFitId() {
+        return fitId;
+    }
+
+    public void setFitId(String fitId) {
+        this.fitId = fitId;
+    }
 
     public Integer getId() {
         return id;

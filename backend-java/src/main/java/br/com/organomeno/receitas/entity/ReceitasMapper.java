@@ -14,7 +14,7 @@ public interface ReceitasMapper {
 
     Receitas toEntity(ReceitasDTO dto);
 
-    default List<ReceitasDTO> toListDTO(List<Receitas> receitas) {
+    default List<ReceitasDTO> toDTOList(List<Receitas> receitas) {
         if (receitas == null) {
             return null;
         }
@@ -22,4 +22,6 @@ public interface ReceitasMapper {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+
+    List<Receitas> toEntityList(List<ReceitasDTO> dtos);
 }

@@ -26,6 +26,16 @@ public class Despesas extends PanacheEntityBase {
     private NotaFiscal notaFiscal;
     @Column(name = "DATA_CADASTRO")
     private Date dataCadastro;
+    @Column(name = "TRANSACAO_FITID")
+    private String fitId;
+
+    public String getFitId() {
+        return fitId;
+    }
+
+    public void setFitId(String fitId) {
+        this.fitId = fitId;
+    }
 
     public Date getDataCadastro() {
         return dataCadastro;

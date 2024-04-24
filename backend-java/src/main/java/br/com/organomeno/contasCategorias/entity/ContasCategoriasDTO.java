@@ -2,7 +2,7 @@ package br.com.organomeno.contasCategorias.entity;
 
 public class ContasCategoriasDTO {
     private Integer id;
-    private ContasCategorias.CategoriaDescricao descricao;
+    private String descricao;
 
     public Integer getId() {
         return id;
@@ -12,11 +12,11 @@ public class ContasCategoriasDTO {
         this.id = id;
     }
 
-    public ContasCategorias.CategoriaDescricao getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(ContasCategorias.CategoriaDescricao descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 }

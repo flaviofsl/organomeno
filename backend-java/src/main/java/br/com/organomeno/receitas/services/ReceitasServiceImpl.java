@@ -22,7 +22,7 @@ public class ReceitasServiceImpl implements ReceitasService{
 
     @Override
     public Response filtrarReceitas(ReceitasFiltroDTO receitasFiltroDTO) {
-        List<ReceitasDTO> receitas = receitasMapper.toListDTO(receitasRepository.filtrarReceitas(receitasFiltroDTO));
+        List<ReceitasDTO> receitas = receitasMapper.toDTOList(receitasRepository.filtrarReceitas(receitasFiltroDTO));
         return Response.ok(receitas).build();
     }
 

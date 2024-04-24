@@ -19,4 +19,6 @@ public interface DespesasMapper {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
+
+    List<Despesas> toListEntity(List<DespesasDTO> despesasDTO);
 }
