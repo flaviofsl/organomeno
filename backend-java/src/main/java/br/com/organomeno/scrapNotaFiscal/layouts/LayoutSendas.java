@@ -36,17 +36,18 @@ public class LayoutSendas {
 
         for (Element linha : linhas) {
             String descricao = linha.select("span.txtTit").text();
-            String quantidadeStr = (linha.select("span.Rqtd").text()).trim();
+            String quantidadeStr = (linha.select("span.Rqtd").text()).trim().replaceAll("\\D+","");
             String unidade = linha.select("span.RUN").text();
-            String valorBrutoStr = linha.select("span.valor").text();
+            String valorBrutoStr = linha.select("span.valor").text().replaceAll("\\D+","");
 
             if (!descricao.isEmpty() && !quantidadeStr.isEmpty() && !unidade.isEmpty()
                     && !valorBrutoStr.isEmpty()) {
                 ItensNotaFiscalDTO item = new ItensNotaFiscalDTO();
-                notaFiscal.setDescricao(descricao);
-                item.setQuantidade(Double.parseDouble(quantidadeStr.replace(',', '.'))); // Substitua a vírgula pelo ponto
+
+                item.setDescricao(descricao);
+                item.setQuantidade(Double.parseDouble(quantidadeStr.replace(',', '.')));
                 item.setUnidadeMedida(unidade);
-                item.setValorBruto(Double.parseDouble(valorBrutoStr.replace(',', '.'))); // Substitua a vírgula pelo ponto
+                item.setValorBruto(Double.parseDouble(valorBrutoStr.replace(',', '.')));
 
                 itens.add(item);
             }

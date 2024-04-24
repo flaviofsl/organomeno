@@ -34,18 +34,19 @@ public class LayoutDefault {
 
         for (Element linha : linhas) {
             String descricao = linha.select("td.fixo-prod-serv-descricao span").text();
-            String quantidadeStr = linha.select("td.fixo-prod-serv-qtd span").text();
+            String quantidadeStr = linha.select("td.fixo-prod-serv-qtd span").text().replaceAll("\\D+","");
             String unidade = linha.select("td.fixo-prod-serv-uc span").text();
-            String valorBrutoStr = linha.select("td.fixo-prod-serv-vb span").text();
+            String valorBrutoStr = linha.select("td.fixo-prod-serv-vb span").text().replaceAll("\\D+","");
 
             if (!descricao.isEmpty() && !quantidadeStr.isEmpty() && !unidade.isEmpty()
                     && !valorBrutoStr.isEmpty()) {
                 ItensNotaFiscalDTO item = new ItensNotaFiscalDTO();
                 notaFiscal.setDescricao(descricao);
-                item.setQuantidade(Double.parseDouble(quantidadeStr.replace(',', '.'))); // Substitua a vírgula pelo ponto
-                item.setUnidadeMedida(unidade);
-                item.setValorBruto(Double.parseDouble(valorBrutoStr.replace(',', '.'))); // Substitua a vírgula pelo ponto
 
+                item.setDescricao(descricao);
+                item.setQuantidade(Double.parseDouble(quantidadeStr.replace(',', '.')));
+                item.setUnidadeMedida(unidade);
+                item.setValorBruto(Double.parseDouble(valorBrutoStr.replace(',', '.')));
                 itens.add(item);
             }
         }

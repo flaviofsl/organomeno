@@ -28,7 +28,6 @@ public class NotaFiscalRest {
         try {
             Document document = Jsoup.parse(htmlFile);
             IdentificadorLayout identificadorLayout = new IdentificadorLayout(document);
-
             return notaFiscalService.inserirNotaFiscal(identificadorLayout);
         }catch (Exception e){
             throw e;
