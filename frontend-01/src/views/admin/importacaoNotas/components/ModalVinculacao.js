@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function ModalVinculacao(props) {
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const [formData, setFormData ] = useState({
     descricao: '',
     valorBruto: '',
@@ -53,7 +53,7 @@ export default function ModalVinculacao(props) {
               name="valorBruto"
               value={formData.valorBruto}
             />
-            
+
           </FormControl>
         </ModalBody>
         <ModalFooter>

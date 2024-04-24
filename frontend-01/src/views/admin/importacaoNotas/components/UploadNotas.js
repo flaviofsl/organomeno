@@ -27,24 +27,22 @@ export default function UploadNotas(props) {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("htmlFile", file); // Aqui está a modificação
 
         try {
             const response = await fetch("http://localhost:8080/api/notas", {
                 method: "POST",
                 body: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
             });
 
             if (response.ok) {
                 alert("Nota Fiscal enviada com sucesso!");
                 setFile(null);
             } else {
-                alert("Houve um problema ao enviar a Nota Fiscal. Por favor, tente novamente.");
+                alert(
+                    "Houve um problema ao enviar a Nota Fiscal. Por favor, tente novamente."
+                );
             }
-
         } catch (error) {
             console.error("Erro ao enviar a Nota Fiscal:", error);
             alert("Houve um erro ao enviar a Nota Fiscal.");
@@ -52,6 +50,7 @@ export default function UploadNotas(props) {
             setLoading(false);
         }
     };
+
 
     const brandColor = useColorModeValue("brand.500", "white");
     const textColorSecondary = "gray.400";
