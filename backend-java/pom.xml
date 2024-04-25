@@ -83,11 +83,13 @@
         </dependency>
 
         <!-- OFX -->
+        <!-- https://mvnrepository.com/artifact/com.webcohesion.ofx4j/ofx4j -->
         <dependency>
-            <groupId>net.sf.ofx4j</groupId>
+            <groupId>com.webcohesion.ofx4j</groupId>
             <artifactId>ofx4j</artifactId>
-            <version>1.6</version>
+            <version>1.37</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.poi</groupId>

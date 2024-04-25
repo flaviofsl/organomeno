@@ -3,22 +3,23 @@ package br.com.organomeno.ofx.services;
 import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasMapper;
 import br.com.organomeno.despesas.repository.DespesasRepository;
-import br.com.organomeno.ofx.leitura.LeitorDeOFX;
+import br.com.organomeno.ofx.leitura.LeitorDeOfx;
 import br.com.organomeno.receitas.entity.Receitas;
 import br.com.organomeno.receitas.entity.ReceitasMapper;
 import br.com.organomeno.receitas.repository.ReceitasRepository;
+import com.webcohesion.ofx4j.io.OFXParseException;
 import io.vertx.core.json.Json;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
-import net.sf.ofx4j.io.OFXParseException;
+
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 @ApplicationScoped
-public class OFXServiceImpl implements OFXService{
+public class OfxServiceImpl implements OfxService {
 
     @Inject
     DespesasRepository despesasRepository;
@@ -32,8 +33,8 @@ public class OFXServiceImpl implements OFXService{
     @Override
     public Response fazerLeituraDeOFX(InputStream inputStreamOFX) throws IOException, OFXParseException {
         try {
-            LeitorDeOFX leitorDeOFX = new LeitorDeOFX();
-            LeitorDeOFX.ResultadoImportacao resultado = leitorDeOFX.importarCartaoCredito(inputStreamOFX);
+            LeitorDeOfx leitorDeOFX = new LeitorDeOfx();
+            LeitorDeOfx.ResultadoImportacao resultado = leitorDeOFX.importarOFX(inputStreamOFX);
 
             List<Despesas> despesas = despesasMapper.toListEntity(resultado.getListaDespesas());
             despesasRepository.persist(despesas);
