@@ -2,6 +2,7 @@ package br.com.organomeno.ofx.leitura;
 
 import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.despesas.entity.DespesasDTO;
+import br.com.organomeno.ofx.rest.MulitipleDocumentDetailsRequest;
 import br.com.organomeno.receitas.entity.ReceitasDTO;
 import br.com.organomeno.util.UtilFile;
 import com.webcohesion.ofx4j.domain.data.MessageSetType;
@@ -32,7 +33,6 @@ public class LeitorDeOfx {
         AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
         try {
-            String arquivo = UtilFile.lerOfxComoTexto(inputStream);
             // Cria arquivos temporários
             File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
             File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
@@ -80,23 +80,38 @@ public class LeitorDeOfx {
     public ResultadoImportacao importarCartaoCredito(InputStream inputStream)
             throws IOException, OFXParseException {
 
-        AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<>(ResponseEnvelope.class);
+        File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
+        File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
+
+        UtilFile.copyFileUsingStream(inputStream, fileSource);
+        UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
+
+        if (!UtilFile.arquivoPossuiTexto(fileTarget, "[-3:BRT]")) {
+            System.out.println("Não tem indicação de time zone");
+            TimeZone.setDefault(TimeZone.getTimeZone("BRT"));
+        }
+
+        AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
+
+        ResponseEnvelope envelope = (ResponseEnvelope) a.unmarshal(new FileInputStream(fileTarget));
+
+        CreditCardResponseMessageSet messageSet = (CreditCardResponseMessageSet) envelope
+                .getMessageSet(MessageSetType.creditcard);
+
+        List<CreditCardStatementResponseTransaction> responses = messageSet.getStatementResponses();
 
         try {
-            ResponseEnvelope envelope = unmarshaller.unmarshal(inputStream);
 
             if (envelope == null) {
                 throw new OFXParseException("Failed to parse OFX file: Envelope is null");
             }
 
-            CreditCardResponseMessageSet messageSet = (CreditCardResponseMessageSet) envelope
-                    .getMessageSet(MessageSetType.creditcard);
+
 
             if (messageSet == null) {
                 throw new OFXParseException("OFX não possui dados de cartão de crédito.");
             }
 
-            List<CreditCardStatementResponseTransaction> responses = messageSet.getStatementResponses();
 
             List<ReceitasDTO> listaReceita = new ArrayList<>();
             List<DespesasDTO> listaDespesas = new ArrayList<>();
@@ -146,15 +161,19 @@ public class LeitorDeOfx {
     }
 
 
-    public ResultadoImportacao importarOFX(InputStream inputStream) throws IOException, OFXParseException {
+    public ResultadoImportacao importarOFX(MulitipleDocumentDetailsRequest documentDetailsRequests) throws IOException, OFXParseException {
         IdentificadorOfx identificadorOfx = new IdentificadorOfx();
 
 
-        MessageSetType messageType = identificadorOfx.identificadorMessageType(inputStream);
+        MessageSetType messageType = identificadorOfx.identificadorMessageType(documentDetailsRequests );
 
         if (messageType == MessageSetType.creditcard) {
+            InputStream inputStream = new FileInputStream(documentDetailsRequests.getFileUpload().get(0).uploadedFile().toString() );
+
             return importarCartaoCredito(inputStream);
         } else if (messageType == MessageSetType.banking) {
+            InputStream inputStream = new FileInputStream(documentDetailsRequests.getFileUpload().get(0).uploadedFile().toString() );
+
             return importarExtratoBancario(inputStream);
         } else {
             throw new OFXParseException("MessageType não encontrado.");
