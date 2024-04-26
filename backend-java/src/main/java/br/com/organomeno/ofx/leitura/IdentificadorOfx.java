@@ -1,46 +1,29 @@
 package br.com.organomeno.ofx.leitura;
 
+
 import br.com.organomeno.util.UtilFile;
 import com.webcohesion.ofx4j.domain.data.MessageSetType;
-import com.webcohesion.ofx4j.domain.data.ResponseEnvelope;
-import com.webcohesion.ofx4j.io.AggregateUnmarshaller;
 import com.webcohesion.ofx4j.io.OFXParseException;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 
 public class IdentificadorOfx {
-
-    public MessageSetType identificadorMessageType(InputStream inputStream) throws IOException, OFXParseException {
-
-        AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<>(ResponseEnvelope.class);
-        File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
-        File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
-
-        UtilFile.copyFileUsingStream(inputStream, fileSource);
-        UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
-
+    public MessageSetType identificadorMessageType(InputStream inputStream) throws IOException{
         try {
-            ResponseEnvelope envelope = (ResponseEnvelope) unmarshaller.unmarshal(new FileInputStream(fileTarget));
+            String arquivo = UtilFile.lerOfxComoTexto(inputStream);
 
-            if (envelope == null){
-                throw new OFXParseException("Formato inválido");
-            }
-            if(envelope.getMessageSet(MessageSetType.creditcard) != null){
-                return MessageSetType.creditcard;
-            } else if (envelope.getMessageSet(MessageSetType.banking) != null) {
+            if (arquivo.contains("<BANKMSGSRSV1>")) {
                 return MessageSetType.banking;
+            } else if (arquivo.contains("<CREDITCARDMSGSRSV1>")) {
+                return MessageSetType.creditcard;
             } else {
-                throw new OFXParseException("MessageType não encontrado");
+                throw new IOException("Tipo de OFX inválido");
             }
 
-        } catch (OFXParseException e){
-            throw e;
-        } catch (Exception e){
-            throw new OFXParseException(e);
+        } catch (Exception e) {
+            throw new IOException(e.getMessage());
         }
 
     }

@@ -3,6 +3,7 @@ package br.com.organomeno.ofx.leitura;
 import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.despesas.entity.DespesasDTO;
 import br.com.organomeno.receitas.entity.ReceitasDTO;
+import br.com.organomeno.util.UtilFile;
 import com.webcohesion.ofx4j.domain.data.MessageSetType;
 import com.webcohesion.ofx4j.domain.data.ResponseEnvelope;
 import com.webcohesion.ofx4j.domain.data.ResponseMessageSet;
@@ -15,19 +16,41 @@ import com.webcohesion.ofx4j.domain.data.creditcard.CreditCardStatementResponseT
 import com.webcohesion.ofx4j.io.AggregateUnmarshaller;
 import com.webcohesion.ofx4j.io.OFXParseException;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class LeitorDeOfx {
 
     public ResultadoImportacao importarExtratoBancario(InputStream inputStream) throws IOException, OFXParseException {
+
         AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
         try {
-            ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(inputStream);
+            String arquivo = UtilFile.lerOfxComoTexto(inputStream);
+            // Cria arquivos temporários
+            File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
+            File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
+
+            // Copia o InputStream para um arquivo temporário
+            UtilFile.copyFileUsingStream(inputStream, fileSource);
+
+            // Converte a codificação do arquivo temporário
+            UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
+
+            // Verifica se o arquivo possui indicação de time zone
+            if (!UtilFile.arquivoPossuiTexto(fileTarget, "[-3:BRT]")) {
+                System.out.println("Não tem indicação de time zone");
+                TimeZone.setDefault(TimeZone.getTimeZone("BRT"));
+            }
+
+            // Realiza o unmarshal no arquivo convertido
+            ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(new FileInputStream(fileTarget));
 
             ResponseMessageSet messageSet = re.getMessageSet(MessageSetType.banking);
 
@@ -44,13 +67,12 @@ public class LeitorDeOfx {
                 inserirTransacao(listaReceita, listaDespesas, list);
             }
 
+
             return new ResultadoImportacao(listaReceita, listaDespesas);
         } catch (OFXParseException e) {
             throw e;
         } catch (Exception e) {
-            throw new OFXParseException("Failed to parse Extrato Bancario.", e);
-        } finally {
-            inputStream.close();
+            throw new OFXParseException("Failed to parse Extrato Bancario." + e);
         }
     }
 
@@ -91,8 +113,6 @@ public class LeitorDeOfx {
             throw e;
         } catch (Exception e) {
             throw new OFXParseException("Failed to parse Cartao de Credito.", e);
-        } finally {
-            inputStream.close();
         }
     }
 
@@ -128,6 +148,7 @@ public class LeitorDeOfx {
 
     public ResultadoImportacao importarOFX(InputStream inputStream) throws IOException, OFXParseException {
         IdentificadorOfx identificadorOfx = new IdentificadorOfx();
+
 
         MessageSetType messageType = identificadorOfx.identificadorMessageType(inputStream);
 

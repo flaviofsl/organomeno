@@ -12,7 +12,6 @@ public class DataUtil {
 		cal.setTime(new Date());
 		int mes = (cal.get(Calendar.MONDAY) + 1);
 		return mes;
-
 	}
 
 	public static int getCurrentYear() {
