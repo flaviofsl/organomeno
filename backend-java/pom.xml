@@ -28,11 +28,30 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.eclipse.microprofile.openapi/microprofile-openapi-api -->
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>4.0.0.Beta5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+            <version>4.5.8.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-mssql</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -69,7 +88,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.2</version>
+            <version>1.16.1</version>
         </dependency><!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -84,11 +103,13 @@
         </dependency>
 
         <!-- OFX -->
+        <!-- https://mvnrepository.com/artifact/com.webcohesion.ofx4j/ofx4j -->
         <dependency>
-            <groupId>net.sf.ofx4j</groupId>
+            <groupId>com.webcohesion.ofx4j</groupId>
             <artifactId>ofx4j</artifactId>
-            <version>1.6</version>
+            <version>1.37</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.poi</groupId>

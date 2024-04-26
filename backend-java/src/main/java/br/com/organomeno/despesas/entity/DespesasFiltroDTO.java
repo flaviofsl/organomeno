@@ -1,8 +1,5 @@
 package br.com.organomeno.despesas.entity;
 
-import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
-import br.com.organomeno.notaFiscal.NotaFiscal;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
 import jakarta.ws.rs.QueryParam;
 
 import java.util.Date;

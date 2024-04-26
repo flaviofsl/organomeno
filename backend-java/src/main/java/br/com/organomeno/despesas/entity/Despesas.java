@@ -1,7 +1,7 @@
 package br.com.organomeno.despesas.entity;
 
 import br.com.organomeno.contasCategorias.entity.ContasCategorias;
-import br.com.organomeno.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import jakarta.persistence.*;
@@ -21,15 +21,21 @@ public class Despesas extends PanacheEntityBase {
     private String descricao;
     @Column(name = "DESPESA_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "DESPESA_VALOR_LIQUIDO")
-    private Double valorLiquido;
-    @Column(name = "DESPESA_VENCIMENTO")
-    private Date vencimento;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
     @Column(name = "DATA_CADASTRO")
     private Date dataCadastro;
+    @Column(name = "TRANSACAO_FITID")
+    private String fitId;
+
+    public String getFitId() {
+        return fitId;
+    }
+
+    public void setFitId(String fitId) {
+        this.fitId = fitId;
+    }
 
     public Date getDataCadastro() {
         return dataCadastro;
@@ -79,19 +85,4 @@ public class Despesas extends PanacheEntityBase {
         this.valorBruto = valorBruto;
     }
 
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
-    }
-
-    public Date getVencimento() {
-        return vencimento;
-    }
-
-    public void setVencimento(Date vencimento) {
-        this.vencimento = vencimento;
-    }
 }

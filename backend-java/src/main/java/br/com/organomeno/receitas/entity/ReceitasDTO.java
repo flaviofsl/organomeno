@@ -1,16 +1,16 @@
-package br.com.organomeno.despesas.entity;
-import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
+package br.com.organomeno.receitas.entity;
+
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
 import java.util.Date;
 
-public class DespesasDTO {
+public class ReceitasDTO {
     private Integer id;
-    private ContasCategoriasDTO categoria;
     private String descricao;
     private Double valorBruto;
+    private Date dataEntrada;
     private NotaFiscalDTO notaFiscal;
-    private Date dataCadastro;
     private String fitId;
 
     public String getFitId() {
@@ -29,14 +29,6 @@ public class DespesasDTO {
         this.id = id;
     }
 
-    public ContasCategoriasDTO getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(ContasCategoriasDTO categoria) {
-        this.categoria = categoria;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -53,19 +45,19 @@ public class DespesasDTO {
         this.valorBruto = valorBruto;
     }
 
+    public Date getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
     public NotaFiscalDTO getNotaFiscal() {
         return notaFiscal;
     }
 
     public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
         this.notaFiscal = notaFiscal;
-    }
-
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
     }
 }

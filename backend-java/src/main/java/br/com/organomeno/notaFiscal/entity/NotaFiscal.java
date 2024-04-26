@@ -1,9 +1,11 @@
-package br.com.organomeno.notaFiscal;
+package br.com.organomeno.notaFiscal.entity;
 
+import br.com.organomeno.notaFiscal.itensNotaFiscal.ItensNotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "NOTA_FISCAL", schema = "dbo")
@@ -18,6 +20,16 @@ public class NotaFiscal extends PanacheEntityBase {
     private Date dataCadastro;
     @Column(name = "NOTA_VALOR_BRUTO")
     private Double valorBruto;
+    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL)
+    private List<ItensNotaFiscal> itensNotaFiscal;
+
+    public List<ItensNotaFiscal> getItensNotaFiscal() {
+        return itensNotaFiscal;
+    }
+
+    public void setItensNotaFiscal(List<ItensNotaFiscal> itensNotaFiscal) {
+        this.itensNotaFiscal = itensNotaFiscal;
+    }
 
     public Integer getId() {
         return id;

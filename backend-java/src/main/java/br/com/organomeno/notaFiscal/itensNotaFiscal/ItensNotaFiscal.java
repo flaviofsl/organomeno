@@ -1,6 +1,6 @@
-package br.com.organomeno.itensNotaFiscal;
+package br.com.organomeno.notaFiscal.itensNotaFiscal;
 
-import br.com.organomeno.notaFiscal.NotaFiscal;
+import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import jakarta.persistence.*;
@@ -19,11 +19,20 @@ public class ItensNotaFiscal extends PanacheEntityBase {
     private Double quantidade;
     @Column(name = "ITEM_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "ITEM_VALOR_LIQUIDO")
-    private Double valorLiquido;
+    @Column(name = "ITEM_DESCRICAO")
+    private String descricao;
     @ManyToOne
-    @JoinColumn(name = "NOTA_VINCULADA")
+    @JoinColumn(name = "NOTA_VINCULADA", nullable = false)
     private NotaFiscal notaFiscal;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -54,14 +63,6 @@ public class ItensNotaFiscal extends PanacheEntityBase {
 
     public void setValorBruto(Double valorBruto) {
         this.valorBruto = valorBruto;
-    }
-
-    public Double getValorLiquido() {
-        return valorLiquido;
-    }
-
-    public void setValorLiquido(Double valorLiquido) {
-        this.valorLiquido = valorLiquido;
     }
 
     public NotaFiscal getNotaFiscal() {

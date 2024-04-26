@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Icon } from "@chakra-ui/react";
+import { Icon, layout } from "@chakra-ui/react";
 import {
   MdBarChart,
   MdPerson,
@@ -13,6 +13,7 @@ import {
 import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
+import ImportacaoNotas from "views/admin/importacaoNotas";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
 
@@ -26,6 +27,13 @@ const routes = [
     path: "/default",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
+  },
+  {
+    name: "Importação de Notas",
+    layout: "/admin",
+    path: "/importacao-notas",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: ImportacaoNotas
   },
   {
     name: "NFT Marketplace",

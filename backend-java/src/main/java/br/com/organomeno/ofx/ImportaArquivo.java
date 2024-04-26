@@ -1,18 +1,17 @@
 package br.com.organomeno.ofx;
 
 import br.com.organomeno.util.UtilFile;
-import net.sf.ofx4j.domain.data.MessageSetType;
-import net.sf.ofx4j.domain.data.ResponseEnvelope;
-import net.sf.ofx4j.domain.data.ResponseMessageSet;
-import net.sf.ofx4j.domain.data.banking.BankStatementResponseTransaction;
-import net.sf.ofx4j.domain.data.banking.BankingResponseMessageSet;
-import net.sf.ofx4j.domain.data.common.Transaction;
-import net.sf.ofx4j.domain.data.common.TransactionType;
-import net.sf.ofx4j.domain.data.creditcard.CreditCardResponseMessageSet;
-import net.sf.ofx4j.domain.data.creditcard.CreditCardStatementResponse;
-import net.sf.ofx4j.domain.data.creditcard.CreditCardStatementResponseTransaction;
-import net.sf.ofx4j.io.AggregateUnmarshaller;
-import net.sf.ofx4j.io.OFXParseException;
+import com.webcohesion.ofx4j.domain.data.MessageSetType;
+import com.webcohesion.ofx4j.domain.data.ResponseEnvelope;
+import com.webcohesion.ofx4j.domain.data.ResponseMessageSet;
+import com.webcohesion.ofx4j.domain.data.banking.BankStatementResponseTransaction;
+import com.webcohesion.ofx4j.domain.data.banking.BankingResponseMessageSet;
+import com.webcohesion.ofx4j.domain.data.common.Transaction;
+import com.webcohesion.ofx4j.domain.data.creditcard.CreditCardResponseMessageSet;
+import com.webcohesion.ofx4j.domain.data.creditcard.CreditCardStatementResponse;
+import com.webcohesion.ofx4j.domain.data.creditcard.CreditCardStatementResponseTransaction;
+import com.webcohesion.ofx4j.io.AggregateUnmarshaller;
+import com.webcohesion.ofx4j.io.OFXParseException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -29,35 +28,13 @@ public class ImportaArquivo {
     {
         try {
         ImportaArquivo fileImportRN = new ImportaArquivo();
-        FileInputStream stream = new FileInputStream("/home/flavios/Documentos/projetos/integrador-financeiro/src/main/java/integrador/nubank-2022-07.ofx");
-        fileImportRN.importarCartaoCredito(stream, new Date());
+        FileInputStream stream = new FileInputStream("C:\\Users\\caiocardoso\\Documents\\NU_970120221_01MAR2024_31MAR2024.ofx");
+        fileImportRN.importarExtratoBancario(stream);
         }catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-
-    public void teste(){
-
-        try {
-            FileInputStream stream = new FileInputStream("nubank-2020-02.ofx");
-            InputStreamReader reader = new InputStreamReader(stream);
-            BufferedReader br = new BufferedReader(reader);
-            String linha = br.readLine();
-            while(linha != null) {
-                String nome = linha.substring(0, linha.indexOf('|'));
-                String cidade = linha.substring(linha.indexOf('|') + 1, linha.lastIndexOf('|'));
-                String compras = linha.substring(linha.lastIndexOf('|') + 1, linha.length());
-                System.out.println(nome); System.out.println(cidade);
-                System.out.println(compras); linha = br.readLine();
-            }
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
- 
 
     public void importarCartaoCredito(InputStream inputStream, Date dataVencimentoFatura)
             throws IOException, OFXParseException {
@@ -69,16 +46,9 @@ public class ImportaArquivo {
         UtilFile.copyFileUsingStream(inputStream, fileSource);
         UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
 
-        // Verifica se há a indicação de timezone no arquivo
         if (!UtilFile.arquivoPossuiTexto(fileTarget, "[-3:BRT]")) {
             System.out.println("Não tem indicação de time zone");
-            // Alterar a time zone para o timezone zero, pois no arquivo não
-            // há indicação de timezone nas datas
-            // sem isso o ofx4j converte as datas com 3 horas a menos pois
-            // essa é a timezone do brasil (-3)
             TimeZone.setDefault(TimeZone.getTimeZone("BRT"));
-            // System.out.println("TIME ZONE DEFAULT:
-            // "+TimeZone.getDefault());
         }
 
         AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);

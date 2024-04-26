@@ -1,11 +1,10 @@
 package br.com.organomeno.despesas.services;
 
-import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasFiltroDTO;
 import br.com.organomeno.despesas.repository.DespesasRepository;
 import br.com.organomeno.despesas.entity.DespesasDTO;
 import br.com.organomeno.despesas.entity.DespesasMapper;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 import io.vertx.core.json.Json;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -44,7 +43,7 @@ public class DespesasServiceImpl implements DespesasService {
     }
 
     @Override
-    public List<Despesas> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO) {
-        return despesasRepository.filtrarDespesas(despesasFiltroDTO);
+    public List<DespesasDTO> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO) {
+        return despesasMapper.toListDTO(despesasRepository.filtrarDespesas(despesasFiltroDTO));
     }
 }

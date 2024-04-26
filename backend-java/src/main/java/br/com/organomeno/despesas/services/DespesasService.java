@@ -1,9 +1,8 @@
 package br.com.organomeno.despesas.services;
 
-import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasDTO;
 import br.com.organomeno.despesas.entity.DespesasFiltroDTO;
-import br.com.organomeno.notaFiscal.NotaFiscalDTO;
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
@@ -17,5 +16,5 @@ public interface DespesasService{
 
     Response inserirDespesa(DespesasDTO despesasDTO);
 
-    List<Despesas> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO);
+    List<DespesasDTO> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO);
 }
