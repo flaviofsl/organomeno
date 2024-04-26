@@ -50,13 +50,20 @@ public class UtilFile {
         }
     }
 
-    static public String lerOfxComoTexto(InputStream inputStream) {
+    //Cria uma string com o conteúdo do arquivo
+    public static String lerOfxComoTexto(String path) {
 
-        String arquivo = new BufferedReader(new InputStreamReader(inputStream))
-                .lines().collect(Collectors.joining("\n"));
+        String arquivo = "";
+        try {
+            arquivo = new BufferedReader(new FileReader(path)).lines().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return arquivo;
     }
+
+
 
     public static InputStream converterParaAscii(InputStream inputStream) throws IOException {
         InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);

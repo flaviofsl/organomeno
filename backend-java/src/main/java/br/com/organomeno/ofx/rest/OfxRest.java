@@ -3,17 +3,21 @@ package br.com.organomeno.ofx.rest;
 import br.com.organomeno.ofx.services.OfxService;
 import com.webcohesion.ofx4j.io.OFXParseException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import org.jboss.logging.Logger;
+import org.jboss.resteasy.reactive.MultipartForm;
+import org.jboss.resteasy.reactive.PartType;
+import org.jboss.resteasy.reactive.RestForm;
+import org.jboss.resteasy.reactive.multipart.FileUpload;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+
 
 @Path("/ofx")
 public class OfxRest {
@@ -21,57 +25,38 @@ public class OfxRest {
     @Inject
     OfxService ofxService;
 
+    private static final Logger LOG = Logger.getLogger(OfxRest.class.getName());
+
+
+    @GET
+    @Path("/")
+    public String hello() {
+        return "Hello RESTEasy Reactive";
+    }
+
     @POST
     @Path("/")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response upload(@MultipartForm MulitipleDocumentDetailsRequest documentDetailsRequests) {
 
-    public Response importarOFX(MultipartFormDataInput dataFormulario) throws IOException, OFXParseException {
-        try {
-            //FileInputStream streamFile = new FileInputStream("C:/Users/caiocardoso/Documents/NU_970120221_01MAR2024_31MAR2024.ofx");
+        documentDetailsRequests.getFileUpload().forEach(fileUpload -> {
+            LOG.info("File name: " + fileUpload.name());
 
-            //ofxService.fazerLeituraDeOFX(streamFile);
-            Map<String, List<InputPart>> formMap = dataFormulario.getFormDataMap();
-            formMap.forEach((name, value
-            ) -> {
-                if (name.contains("arquivo")) {
-                    MultipartManipulator.getParameter
-                            (formMap, "dataVencimentoAssinatura", String.class).strip();
-
-                }
-            });
-            return Response.ok().build();
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public class MultipartManipulator {
-        public static <T> T getParameter(Map<String, List<InputPart>>
-                                                 form
-                , String
-                                                 nome
-                , Class<? extends T>
-                                                 clazz
-        ) {
-            List<InputPart> inputPart =
-                    form
-                            .get(
-                                    nome
-                            );
-            if (inputPart == null || inputPart.isEmpty()) return null;
+            String arquivo = fileUpload.uploadedFile().toString();
             try {
-                return inputPart.get(0).getBody(
-                        clazz
-                        , null);
-            } catch (IOException
-                    e
-            ) {
-                e
-                        .printStackTrace();
-                throw new AssineOnlineException("Problemas para ler o inputpart");
+                FileInputStream streamFile = new FileInputStream(arquivo);
+                ofxService.fazerLeituraDeOFX(documentDetailsRequests);
+            }  catch (Exception e) {
+                throw new RuntimeException(e);
             }
-        }
+
+            LOG.info("getUsuario: " + documentDetailsRequests.getUsuario());
+        });
+
+        return Response.ok(documentDetailsRequests).build();
     }
+
 
 
 }

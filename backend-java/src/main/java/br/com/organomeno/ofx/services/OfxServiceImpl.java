@@ -4,6 +4,7 @@ import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasMapper;
 import br.com.organomeno.despesas.repository.DespesasRepository;
 import br.com.organomeno.ofx.leitura.LeitorDeOfx;
+import br.com.organomeno.ofx.rest.MulitipleDocumentDetailsRequest;
 import br.com.organomeno.receitas.entity.Receitas;
 import br.com.organomeno.receitas.entity.ReceitasMapper;
 import br.com.organomeno.receitas.repository.ReceitasRepository;
@@ -31,10 +32,10 @@ public class OfxServiceImpl implements OfxService {
     ReceitasMapper receitasMapper;
 
     @Override
-    public Response fazerLeituraDeOFX(InputStream inputStreamOFX) throws IOException, OFXParseException {
+    public Response fazerLeituraDeOFX(MulitipleDocumentDetailsRequest documentDetailsRequests) throws IOException, OFXParseException {
         try {
             LeitorDeOfx leitorDeOFX = new LeitorDeOfx();
-            LeitorDeOfx.ResultadoImportacao resultado = leitorDeOFX.importarOFX(inputStreamOFX);
+            LeitorDeOfx.ResultadoImportacao resultado = leitorDeOFX.importarOFX(documentDetailsRequests);
 
             List<Despesas> despesas = despesasMapper.toListEntity(resultado.getListaDespesas());
             despesasRepository.persist(despesas);
