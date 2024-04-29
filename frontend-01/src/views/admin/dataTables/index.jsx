@@ -21,18 +21,55 @@
 */
 
 // Chakra imports
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
 
 export default function Settings() {
-  // Chakra Color Mode
+  const [dataDespesas, setDataDespesa] = useState([])
+  const [dataReceitas, setDataReceitas] = useState([])
+  const [tipoDespesa, setTipoDespesa] = useState([])
+  const [tipoReceita, setTipoReceita] = useState([])
+
+  const valorNegativo = useColorModeValue("red.200", "red");
+  const valorPositivo = useColorModeValue("green.200", "green")
+
+  useEffect(() => {
+    const fetchData = async () => {      
+      try {
+        const response = await fetch("http://localhost:8080/api/despesas");
+        const jsonData = await response.json();
+        setTipoDespesa("Despesas")
+        setDataDespesa(jsonData);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {      
+      try {
+        const response = await fetch("http://localhost:8080/api/receitas");
+        const jsonData = await response.json();
+        setTipoReceita("Receitas")
+        setDataReceitas(jsonData);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
         mb='20px'
         columns={{ sm: 1, md: 1 }}
         spacing={{ base: "20px", xl: "20px" }}>        
-        <ColumnsTable/>
+        <ColumnsTable data={dataDespesas} tipo={tipoDespesa} corValor={valorNegativo} />
+        <ColumnsTable data={dataReceitas} tipo={tipoReceita} corValor={valorPositivo} />
       </SimpleGrid>
     </Box>
   );

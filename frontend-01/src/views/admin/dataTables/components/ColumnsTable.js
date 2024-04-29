@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import {
   Flex,
   Box,
@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import {
   useGlobalFilter,
-  usePagination,
   useSortBy,
   useTable,
 } from "react-table";
@@ -21,25 +20,7 @@ import {
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
-export default function ColumnsTable() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("http://localhost:8080/api/despesas");
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+export default function ColumnsTable({data, tipo, corValor}) {
 
   const columns = useMemo(
     () => [
@@ -86,9 +67,8 @@ export default function ColumnsTable() {
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-  const valorNegativo = useColorModeValue("red.200", "red");
+ 
 
-  if (loading) return <Text>Carregando...</Text>;
 
   return (
     <Card
@@ -104,7 +84,7 @@ export default function ColumnsTable() {
           fontWeight="700"
           lineHeight="100%"
         >
-          Todas as Despesas
+          {tipo}
         </Text>
         <Menu />
       </Flex>
@@ -182,7 +162,7 @@ export default function ColumnsTable() {
                       );
                     } else if (cell.column.Header === "VALOR BRUTO") {
                       data = (
-                        <Text color={valorNegativo} fontSize="sm" fontWeight="700">
+                        <Text color={corValor} fontSize="sm" fontWeight="700">
                           {new Intl.NumberFormat("pt-BR", {
                             style: "currency",
                             currency: "BRL",

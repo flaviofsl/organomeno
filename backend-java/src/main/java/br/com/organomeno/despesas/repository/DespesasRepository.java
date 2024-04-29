@@ -4,7 +4,6 @@ package br.com.organomeno.despesas.repository;
 import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasFiltroDTO;
 import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
-import br.com.organomeno.receitas.entity.Receitas;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Page;
@@ -44,6 +43,10 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
             return despesas.stream().toList();
         }
         return despesas.stream().toList();
+    }
+
+    public Despesas findByFitId(String fitId){
+        return find("fitId = ?1", fitId).firstResult();
     }
 
 }

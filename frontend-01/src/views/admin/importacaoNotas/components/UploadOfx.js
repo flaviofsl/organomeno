@@ -28,25 +28,26 @@ export default function UploadOfx(props) {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append("htmlFile", file); // Aqui está a modificação
+        formData.append("fileUpload", file);
+        formData.append("usuario", 123123123)
 
         try {
-            const response = await fetch("http://localhost:8080/api/notas", {
+            const response = await fetch("http://localhost:8080/api/ofx", {
                 method: "POST",
                 body: formData,
             });
 
             if (response.ok) {
-                alert("Nota Fiscal enviada com sucesso!");
+                alert("Extrato enviado com sucesso!");
                 setFile(null);
             } else {
                 alert(
-                    "Houve um problema ao enviar a Nota Fiscal. Por favor, tente novamente."
+                    "Houve um problema ao enviar o Extrato. Por favor, tente novamente."
                 );
             }
         } catch (error) {
-            console.error("Erro ao enviar a Nota Fiscal:", error);
-            alert("Houve um erro ao enviar a Nota Fiscal.");
+            console.error("Erro ao enviar o Extrato:", error);
+            alert("Houve um erro ao enviar o Extrato.");
         } finally {
             setLoading(false);
         }
