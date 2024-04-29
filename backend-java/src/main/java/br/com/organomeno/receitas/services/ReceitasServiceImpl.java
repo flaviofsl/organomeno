@@ -32,4 +32,10 @@ public class ReceitasServiceImpl implements ReceitasService{
         receitasRepository.persist(receitasMapper.toEntity(receitasDTO));
         return Response.ok(Json.encode("Receita inserida com sucesso")).build();
     }
+
+    @Override
+    public Response inserirNotaFiscal(List<ReceitasDTO> receitasDTO) {
+        receitasRepository.persist(receitasMapper.toEntityList(receitasDTO));
+        return Response.ok().build();
+    }
 }

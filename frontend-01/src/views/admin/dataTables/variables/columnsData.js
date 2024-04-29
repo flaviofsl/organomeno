@@ -38,20 +38,20 @@ export const columnsDataCheck = [
 
 export const columnsDataColumns = [
   {
-    Header: "NAME",
-    accessor: "name",
+    Header: "ID",
+    accessor: "id",
   },
   {
-    Header: "PROGRESS",
-    accessor: "progress",
+    Header: "CATEGORIA",
+    accessor: "categoria",
   },
   {
-    Header: "QUANTITY",
-    accessor: "quantity",
+    Header: "DATA PAGAMENTO",
+    accessor: "dtPagamento",
   },
   {
-    Header: "DATE",
-    accessor: "date",
+    Header: "VALOR BRUTO",
+    accessor: "valorBruto",
   },
 ];
 

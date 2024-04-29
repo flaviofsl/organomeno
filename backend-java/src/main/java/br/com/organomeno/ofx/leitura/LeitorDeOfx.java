@@ -1,6 +1,5 @@
 package br.com.organomeno.ofx.leitura;
 
-import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.despesas.entity.DespesasDTO;
 import br.com.organomeno.ofx.rest.MulitipleDocumentDetailsRequest;
 import br.com.organomeno.receitas.entity.ReceitasDTO;
@@ -33,24 +32,8 @@ public class LeitorDeOfx {
         AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
         try {
-            // Cria arquivos temporários
-            File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
-            File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
 
-            // Copia o InputStream para um arquivo temporário
-            UtilFile.copyFileUsingStream(inputStream, fileSource);
-
-            // Converte a codificação do arquivo temporário
-            UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
-
-            // Verifica se o arquivo possui indicação de time zone
-            if (!UtilFile.arquivoPossuiTexto(fileTarget, "[-3:BRT]")) {
-                System.out.println("Não tem indicação de time zone");
-                TimeZone.setDefault(TimeZone.getTimeZone("BRT"));
-            }
-
-            // Realiza o unmarshal no arquivo convertido
-            ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(new FileInputStream(fileTarget));
+            ResponseEnvelope re = (ResponseEnvelope) a.unmarshal(inputStream);
 
             ResponseMessageSet messageSet = re.getMessageSet(MessageSetType.banking);
 
@@ -80,20 +63,9 @@ public class LeitorDeOfx {
     public ResultadoImportacao importarCartaoCredito(InputStream inputStream)
             throws IOException, OFXParseException {
 
-        File fileSource = File.createTempFile("fileSourceOFX", ".ofx");
-        File fileTarget = File.createTempFile("fileTargetOFX", ".ofx");
-
-        UtilFile.copyFileUsingStream(inputStream, fileSource);
-        UtilFile.changeEncoding(fileSource, "ISO-8859-1", fileTarget, "UTF-8");
-
-        if (!UtilFile.arquivoPossuiTexto(fileTarget, "[-3:BRT]")) {
-            System.out.println("Não tem indicação de time zone");
-            TimeZone.setDefault(TimeZone.getTimeZone("BRT"));
-        }
-
         AggregateUnmarshaller<ResponseEnvelope> a = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
-        ResponseEnvelope envelope = (ResponseEnvelope) a.unmarshal(new FileInputStream(fileTarget));
+        ResponseEnvelope envelope = (ResponseEnvelope) a.unmarshal(inputStream);
 
         CreditCardResponseMessageSet messageSet = (CreditCardResponseMessageSet) envelope
                 .getMessageSet(MessageSetType.creditcard);
@@ -135,28 +107,25 @@ public class LeitorDeOfx {
     private void inserirTransacao(List<ReceitasDTO> listaReceita, List<DespesasDTO> listaDespesas, List<Transaction> transactions) {
         for (Transaction transaction : transactions) {
 
-            if (transaction.getAmount() < 0) {
+            if (String.valueOf(transaction.getAmount()).contains("-")) {
                 DespesasDTO despesa = new DespesasDTO();
-                ContasCategoriasDTO categoria = new ContasCategoriasDTO();
 
                 despesa.setDescricao(transaction.getMemo());
                 despesa.setValorBruto(transaction.getAmount());
                 despesa.setDataCadastro(transaction.getDatePosted());
-                categoria.setDescricao(transaction.getTransactionType().name());
-                despesa.setCategoria(categoria);
+                despesa.setCategoria(String.valueOf(transaction.getTransactionType()));
                 despesa.setFitId(transaction.getId());
                 listaDespesas.add(despesa);
+            } else {
+                ReceitasDTO receita = new ReceitasDTO();
+
+                receita.setDescricao(transaction.getMemo());
+                receita.setValorBruto(transaction.getAmount());
+                receita.setDataEntrada(transaction.getDatePosted());
+
+                receita.setFitId(transaction.getId());
+                listaReceita.add(receita);
             }
-
-            ReceitasDTO receita = new ReceitasDTO();
-            ContasCategoriasDTO categoria = new ContasCategoriasDTO();
-
-            receita.setDescricao(transaction.getMemo());
-            receita.setValorBruto(transaction.getAmount());
-            receita.setDataEntrada(transaction.getDatePosted());
-            categoria.setDescricao(transaction.getTransactionType().name());
-            receita.setFitId(transaction.getId());
-            listaReceita.add(receita);
         }
     }
 

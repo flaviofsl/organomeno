@@ -43,8 +43,24 @@ public class DespesasRest {
     @POST
     @Path("/")
     public Response inserirDespesa(DespesasDTO despesa){
-        return despesasService.inserirDespesa(despesa);
+        try{
+            despesasService.inserirDespesa(despesa);
+            return Response.ok(Json.encode("Despesa cadastrada, infelizmente.")).build();
+        } catch (Exception e){
+            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+        }
+
     }
 
+    @PUT
+    @Path("/vincular-nota")
+    public Response vincularNotaFiscal(List<DespesasDTO> despesasDTO){
+        try {
+            despesasService.vincularNotaFiscal(despesasDTO);
+            return Response.ok(Json.encode("Nota Fiscal Vinculada com Sucesso")).build();
+        } catch (Exception e) {
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
 
+    }
 }

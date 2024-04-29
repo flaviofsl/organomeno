@@ -12,6 +12,7 @@ import com.webcohesion.ofx4j.io.OFXParseException;
 import io.vertx.core.json.Json;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
 
@@ -32,6 +33,7 @@ public class OfxServiceImpl implements OfxService {
     ReceitasMapper receitasMapper;
 
     @Override
+    @Transactional
     public Response fazerLeituraDeOFX(MulitipleDocumentDetailsRequest documentDetailsRequests) throws IOException, OFXParseException {
         try {
             LeitorDeOfx leitorDeOFX = new LeitorDeOfx();

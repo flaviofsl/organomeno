@@ -17,4 +17,6 @@ public interface DespesasService{
     Response inserirDespesa(DespesasDTO despesasDTO);
 
     List<DespesasDTO> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO);
+
+    Response vincularNotaFiscal(List<DespesasDTO> despesasDTO);
 }

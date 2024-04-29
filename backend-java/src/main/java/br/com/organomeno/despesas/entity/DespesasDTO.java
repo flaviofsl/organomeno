@@ -1,12 +1,11 @@
 package br.com.organomeno.despesas.entity;
-import br.com.organomeno.contasCategorias.entity.ContasCategoriasDTO;
 import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
 import java.util.Date;
 
 public class DespesasDTO {
     private Integer id;
-    private ContasCategoriasDTO categoria;
+    private String categoria;
     private String descricao;
     private Double valorBruto;
     private NotaFiscalDTO notaFiscal;
@@ -29,11 +28,11 @@ public class DespesasDTO {
         this.id = id;
     }
 
-    public ContasCategoriasDTO getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(ContasCategoriasDTO categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 

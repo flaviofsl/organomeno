@@ -27,7 +27,7 @@ export default function UploadNotas(props) {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append("htmlFile", file); // Aqui está a modificação
+        formData.append("htmlFile", file);
 
         try {
             const response = await fetch("http://localhost:8080/api/notas", {
@@ -64,7 +64,7 @@ export default function UploadNotas(props) {
                 alignItems="center"
             >
                 <Dropzone
-                    w={{ base: "100%", "2xl": "268px" }}
+                    flex="1"
                     maxH={{ base: "60%", lg: "50%", "2xl": "100%" }}
                     minH={{ base: "60%", lg: "50%", "2xl": "100%" }}
                     onDrop={(acceptedFiles) => setFile(acceptedFiles[0])}
@@ -82,7 +82,7 @@ export default function UploadNotas(props) {
                         </Flex>
                     }
                 />
-                <Flex direction="column" justifyContent="center">
+                <Flex direction="column" justifyContent="center" w={{ base: "100%", "2xl": "50%" }}>
                     <Text
                         color={textColorSecondary}
                         fontSize="md"
@@ -94,7 +94,7 @@ export default function UploadNotas(props) {
                     </Text>
                     <Flex w="100%" justifyContent="center">
                         <Button
-                            mb="50px"
+                            mb={{ base: "20px", "2xl": "50px" }}
                             w="140px"
                             minW="140px"
                             mt={{ base: "20px", "2xl": "auto" }}
