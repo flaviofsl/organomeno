@@ -1,22 +1,15 @@
 package br.com.organomeno.ofx.rest;
 
 import br.com.organomeno.ofx.services.OfxService;
-import com.webcohesion.ofx4j.io.OFXParseException;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.MultipartForm;
-import org.jboss.resteasy.reactive.PartType;
-import org.jboss.resteasy.reactive.RestForm;
-import org.jboss.resteasy.reactive.multipart.FileUpload;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 
 
 @Path("/ofx")

@@ -18,11 +18,11 @@ public class NotaFiscalRepository implements PanacheRepositoryBase<NotaFiscal,In
 
     public List<NotaFiscal> filtrarNotasFiscais(NotaFiscalFiltroDTO notaFiscalFiltroDTO){
         StringJoiner query = new StringJoiner(" ");
-        query.add("SELECT NotaFiscal WHERE");
-        query.add("descricao IS NULL OR :descricao = descricao");
-        query.add("dataCadastro IS NULL OR :dataCadastro = dataCadastro");
-        query.add("valorBruto IS NULL OR :valorBruto = valorBruto");
-        query.add("ORDER BY dataCadastro DESC");
+        query.add("FROM NotaFiscal nf WHERE");
+        query.add("(:descricao IS NULL OR nf.descricao = :descricao)");
+        query.add("AND (:dataCadastro IS NULL OR nf.dataCadastro = :dataCadastro)");
+        query.add("AND (:valorBruto IS NULL OR nf.valorBruto = :valorBruto)");
+
 
         Map<String,Object> parametros = new HashMap<>();
         parametros.put("descricao",notaFiscalFiltroDTO.getDescricao());

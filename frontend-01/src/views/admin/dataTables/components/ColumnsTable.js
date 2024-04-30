@@ -37,7 +37,7 @@ export default function ColumnsTable({data, tipo, corValor}) {
         accessor: "categoria",
       },
       {
-        Header: "DATA PAGAMENTO",
+        Header: "DATA TRANSACAO",
         accessor: "dataCadastro",
       },
       {
@@ -154,7 +154,7 @@ export default function ColumnsTable({data, tipo, corValor}) {
                           </Text>
                         </Flex>
                       );
-                    } else if (cell.column.Header === "DATA PAGAMENTO") {
+                    } else if (cell.column.Header === "DATA TRANSACAO") {
                       data = (
                         <Text color={textColor} fontSize="sm" fontWeight="700">
                           {new Date(cell.value).toLocaleDateString("pt-BR")}

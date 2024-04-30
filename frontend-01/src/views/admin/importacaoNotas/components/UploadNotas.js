@@ -28,6 +28,7 @@ export default function UploadNotas(props) {
 
         const formData = new FormData();
         formData.append("htmlFile", file);
+        formData.append("nomeArquivo", file.name)
 
         try {
             const response = await fetch("http://localhost:8080/api/notas", {

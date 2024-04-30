@@ -53,8 +53,9 @@ public class DespesasRest {
     }
 
     @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
     @Path("/vincular-nota")
-    public Response vincularNotaFiscal(List<DespesasDTO> despesasDTO){
+    public Response vincularNotaFiscal(DespesasDTO despesasDTO){
         try {
             despesasService.vincularNotaFiscal(despesasDTO);
             return Response.ok(Json.encode("Nota Fiscal Vinculada com Sucesso")).build();

@@ -11,8 +11,8 @@ public class ReceitasFiltroDTO {
     private Double valorBruto;
     @QueryParam("valorLiquido")
     private Double valorLiquido;
-    @QueryParam("dataEntrada")
-    private Date dataEntrada;
+    @QueryParam("dataCadastro")
+    private Date dataCadastro;
     @QueryParam("notaFiscal")
     private Integer notaFiscal;
     @QueryParam("pageNum")
@@ -61,11 +61,11 @@ public class ReceitasFiltroDTO {
     }
 
     public Date getDataEntrada() {
-        return dataEntrada;
+        return dataCadastro;
     }
 
     public void setDataEntrada(Date dataEntrada) {
-        this.dataEntrada = dataEntrada;
+        this.dataCadastro = dataEntrada;
     }
 
     public Integer getNotaFiscal() {

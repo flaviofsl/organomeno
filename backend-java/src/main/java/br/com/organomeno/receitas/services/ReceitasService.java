@@ -12,5 +12,5 @@ public interface ReceitasService {
 
     Response inserirReceita(ReceitasDTO receitasDTO);
 
-    Response inserirNotaFiscal(List<ReceitasDTO> receitasDTO);
+    Response inserirNotaFiscal(ReceitasDTO receitasDTO);
 }

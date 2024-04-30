@@ -35,7 +35,7 @@ public class ReceitasRest {
 
     @PUT
     @Path("/vincular-nota")
-    public Response vincularNotaFiscal(List<ReceitasDTO> receitasDTO){
+    public Response vincularNotaFiscal(ReceitasDTO receitasDTO){
         try {
             receitasService.inserirNotaFiscal(receitasDTO);
             return Response.ok("Nota Fiscal Vinculada").build();

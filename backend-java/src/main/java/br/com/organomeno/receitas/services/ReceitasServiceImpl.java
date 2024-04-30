@@ -34,8 +34,8 @@ public class ReceitasServiceImpl implements ReceitasService{
     }
 
     @Override
-    public Response inserirNotaFiscal(List<ReceitasDTO> receitasDTO) {
-        receitasRepository.persist(receitasMapper.toEntityList(receitasDTO));
+    public Response inserirNotaFiscal(ReceitasDTO receitasDTO) {
+        receitasRepository.persist(receitasMapper.toEntity(receitasDTO));
         return Response.ok().build();
     }
 }

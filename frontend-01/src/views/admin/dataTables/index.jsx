@@ -24,18 +24,20 @@
 import { Box, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
+import FormVincularNota from "./components/FormVincularNota";
 
 export default function Settings() {
   const [dataDespesas, setDataDespesa] = useState([])
   const [dataReceitas, setDataReceitas] = useState([])
   const [tipoDespesa, setTipoDespesa] = useState([])
   const [tipoReceita, setTipoReceita] = useState([])
+  const [dataNotas, setDataNotas] = useState([])
 
   const valorNegativo = useColorModeValue("red.200", "red");
   const valorPositivo = useColorModeValue("green.200", "green")
 
   useEffect(() => {
-    const fetchData = async () => {      
+    const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/api/despesas");
         const jsonData = await response.json();
@@ -49,7 +51,7 @@ export default function Settings() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {      
+    const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:8080/api/receitas");
         const jsonData = await response.json();
@@ -62,14 +64,28 @@ export default function Settings() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/notas");
+        const jsonData = await response.json();
+        setDataNotas(jsonData)
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
         mb='20px'
         columns={{ sm: 1, md: 1 }}
-        spacing={{ base: "20px", xl: "20px" }}>        
+        spacing={{ base: "20px", xl: "20px" }}>
         <ColumnsTable data={dataDespesas} tipo={tipoDespesa} corValor={valorNegativo} />
         <ColumnsTable data={dataReceitas} tipo={tipoReceita} corValor={valorPositivo} />
+        <FormVincularNota despesas={dataDespesas} notasFiscais={dataNotas} />
       </SimpleGrid>
     </Box>
   );

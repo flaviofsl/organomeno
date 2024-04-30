@@ -25,13 +25,13 @@ public class ReceitasRepository implements PanacheRepositoryBase<Receitas, Integ
         query.add("FROM Receitas r WHERE");
         query.add(":descricao IS NULL OR descricao = :descricao");
         query.add("AND (:valorBruto IS NULL OR valorBruto = :valorBruto)");
-        query.add("AND (:dataEntrada IS NULL OR dataEntrada = :dataEntrada)");
+        query.add("AND (:dataCadastro IS NULL OR dataCadastro = :dataCadastro)");
         query.add("AND (:notaFiscal IS NULL OR notaFiscal.id = :notaFiscal)");
 
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("descricao", receitasFiltroDTO.getDescricao());
         parametros.put("valorBruto", receitasFiltroDTO.getValorBruto());
-        parametros.put("dataEntrada", receitasFiltroDTO.getDataEntrada());
+        parametros.put("dataCadastro", receitasFiltroDTO.getDataEntrada());
         parametros.put("notaFiscal", receitasFiltroDTO.getNotaFiscal());
 
         PanacheQuery<Receitas> receitas = find(query.toString(), parametros);

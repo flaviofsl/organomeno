@@ -49,8 +49,8 @@ public class DespesasServiceImpl implements DespesasService {
 
     @Override
     @Transactional
-    public Response vincularNotaFiscal(List<DespesasDTO> despesasDTO) {
-        despesasRepository.persist(despesasMapper.toListEntity(despesasDTO));
+    public Response vincularNotaFiscal(DespesasDTO despesasDTO) {
+        despesasRepository.persist(despesasMapper.toEntity(despesasDTO));
         return Response.ok().build();
     }
 }
