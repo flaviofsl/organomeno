@@ -12,7 +12,8 @@ import { React, useState } from "react";
 import { MdUpload } from "react-icons/md";
 import Dropzone from "views/admin/profile/components/Dropzone";
 
-export default function UploadNotas(props) {
+export default function UploadOfx(props) {
+
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -27,26 +28,26 @@ export default function UploadNotas(props) {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append("htmlFile", file);
-        formData.append("nomeArquivo", file.name)
+        formData.append("fileUpload", file);
+        formData.append("usuario", 123123123)
 
         try {
-            const response = await fetch("http://localhost:8080/api/notas", {
+            const response = await fetch("http://localhost:8080/api/ofx", {
                 method: "POST",
                 body: formData,
             });
 
             if (response.ok) {
-                alert("Nota Fiscal enviada com sucesso!");
+                alert("Extrato enviado com sucesso!");
                 setFile(null);
             } else {
                 alert(
-                    "Houve um problema ao enviar a Nota Fiscal. Por favor, tente novamente."
+                    "Houve um problema ao enviar o Extrato. Por favor, tente novamente."
                 );
             }
         } catch (error) {
-            console.error("Erro ao enviar a Nota Fiscal:", error);
-            alert("Houve um erro ao enviar a Nota Fiscal.");
+            console.error("Erro ao enviar o Extrato:", error);
+            alert("Houve um erro ao enviar o Extrato.");
         } finally {
             setLoading(false);
         }
@@ -55,6 +56,7 @@ export default function UploadNotas(props) {
 
     const brandColor = useColorModeValue("brand.500", "white");
     const textColorSecondary = "gray.400";
+
 
     return (
         <Card {...rest} mb="20px" align="center" p="20px" w="100%">
@@ -91,7 +93,7 @@ export default function UploadNotas(props) {
                         mx="auto"
                         textAlign="center"
                     >
-                        Insira a Nota Fiscal
+                        Insira o Extrato OFX
                     </Text>
                     <Flex w="100%" justifyContent="center">
                         <Button

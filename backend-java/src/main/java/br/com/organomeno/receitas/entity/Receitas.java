@@ -18,12 +18,12 @@ public class Receitas extends PanacheEntityBase {
     private String descricao;
     @Column(name = "RECEITA_VALOR_BRUTO")
     private Double valorBruto;
-    @Column(name = "RECEITA_DATA_ENTRADA")
-    private Date dataEntrada;
+    @Column(name = "DATA_CADASTRO")
+    private Date dataCadastro;
     @ManyToOne
     @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
-    @Column(name = "TRANSACAO_FITID")
+    @Column(name = "TRANSACAO_FITID", unique = true)
     private String fitId;
 
     public String getFitId() {
@@ -59,11 +59,11 @@ public class Receitas extends PanacheEntityBase {
     }
 
     public Date getDataEntrada() {
-        return dataEntrada;
+        return dataCadastro;
     }
 
     public void setDataEntrada(Date dataEntrada) {
-        this.dataEntrada = dataEntrada;
+        this.dataCadastro = dataEntrada;
     }
 
     public NotaFiscal getNotaFiscal() {

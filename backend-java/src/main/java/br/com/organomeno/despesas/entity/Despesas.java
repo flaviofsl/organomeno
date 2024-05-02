@@ -1,6 +1,5 @@
 package br.com.organomeno.despesas.entity;
 
-import br.com.organomeno.contasCategorias.entity.ContasCategorias;
 import br.com.organomeno.notaFiscal.entity.NotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -14,9 +13,8 @@ public class Despesas extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_DESPESAS")
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORIA_VINCULADA")
-    private ContasCategorias categoria;
+    @Column(name = "CATEGORIA")
+    private String categoria;
     @Column(name = "DESPESA_DESCRICAO")
     private String descricao;
     @Column(name = "DESPESA_VALOR_BRUTO")
@@ -26,7 +24,7 @@ public class Despesas extends PanacheEntityBase {
     private NotaFiscal notaFiscal;
     @Column(name = "DATA_CADASTRO")
     private Date dataCadastro;
-    @Column(name = "TRANSACAO_FITID")
+    @Column(name = "TRANSACAO_FITID", unique = true)
     private String fitId;
 
     public String getFitId() {
@@ -61,11 +59,11 @@ public class Despesas extends PanacheEntityBase {
         this.id = id;
     }
 
-    public ContasCategorias getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(ContasCategorias categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 

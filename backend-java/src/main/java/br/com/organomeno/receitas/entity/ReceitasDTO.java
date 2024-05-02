@@ -9,7 +9,7 @@ public class ReceitasDTO {
     private Integer id;
     private String descricao;
     private Double valorBruto;
-    private Date dataEntrada;
+    private Date dataCadastro;
     private NotaFiscalDTO notaFiscal;
     private String fitId;
 
@@ -46,11 +46,11 @@ public class ReceitasDTO {
     }
 
     public Date getDataEntrada() {
-        return dataEntrada;
+        return dataCadastro;
     }
 
     public void setDataEntrada(Date dataEntrada) {
-        this.dataEntrada = dataEntrada;
+        this.dataCadastro = dataEntrada;
     }
 
     public NotaFiscalDTO getNotaFiscal() {

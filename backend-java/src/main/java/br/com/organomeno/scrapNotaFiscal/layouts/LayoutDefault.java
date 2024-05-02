@@ -58,7 +58,6 @@ public class LayoutDefault {
         notaFiscal.setValorBruto(valorBrutoNota);
 
         notaFiscal.setDataCadastro(new Date());
-        notaFiscal.setDescricao("Descrição da Nota Fiscal");
 
         notaFiscal.setItensNotaFiscal(itens);
         return notaFiscal;

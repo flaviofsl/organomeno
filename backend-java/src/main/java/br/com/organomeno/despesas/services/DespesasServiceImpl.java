@@ -39,11 +39,18 @@ public class DespesasServiceImpl implements DespesasService {
     @Transactional
     public Response inserirDespesa(DespesasDTO despesasDTO) {
         despesasRepository.persist(despesasMapper.toEntity(despesasDTO));
-        return Response.ok(Json.encode("Despesa cadastrada, infelizmente.")).build();
+        return Response.ok().build();
     }
 
     @Override
     public List<DespesasDTO> filtrarDespesas(DespesasFiltroDTO despesasFiltroDTO) {
         return despesasMapper.toListDTO(despesasRepository.filtrarDespesas(despesasFiltroDTO));
+    }
+
+    @Override
+    @Transactional
+    public Response vincularNotaFiscal(DespesasDTO despesasDTO) {
+        despesasRepository.persist(despesasMapper.toEntity(despesasDTO));
+        return Response.ok().build();
     }
 }

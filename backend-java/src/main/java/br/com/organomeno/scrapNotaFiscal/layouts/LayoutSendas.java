@@ -60,7 +60,6 @@ public class LayoutSendas {
         notaFiscal.setValorBruto(valorBrutoNota);
 
         notaFiscal.setDataCadastro(new Date());
-        notaFiscal.setDescricao("Descrição da Nota Fiscal");
 
         notaFiscal.setItensNotaFiscal(itens);
         return notaFiscal;
