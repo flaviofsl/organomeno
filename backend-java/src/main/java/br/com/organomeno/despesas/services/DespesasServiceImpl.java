@@ -1,5 +1,6 @@
 package br.com.organomeno.despesas.services;
 
+import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasFiltroDTO;
 import br.com.organomeno.despesas.repository.DespesasRepository;
 import br.com.organomeno.despesas.entity.DespesasDTO;
@@ -50,7 +51,9 @@ public class DespesasServiceImpl implements DespesasService {
     @Override
     @Transactional
     public Response vincularNotaFiscal(DespesasDTO despesasDTO) {
-        despesasRepository.persist(despesasMapper.toEntity(despesasDTO));
+        Despesas despesas = despesasMapper.toEntity(despesasDTO);
+        despesas = despesasRepository.getEntityManager().merge(despesas);
+        despesasRepository.persist(despesas);
         return Response.ok().build();
     }
 }
