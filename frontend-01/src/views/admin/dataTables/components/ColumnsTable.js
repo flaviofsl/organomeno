@@ -20,7 +20,7 @@ import {
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
-export default function ColumnsTable({data, tipo, corValor}) {
+export default function ColumnsTable({ data, tipo, corValor }) {
 
   const columns = useMemo(
     () => [
@@ -51,10 +51,10 @@ export default function ColumnsTable({data, tipo, corValor}) {
   const tableInstance = useTable(
     {
       columns,
-      data,      
+      data,
     },
     useGlobalFilter,
-    useSortBy,    
+    useSortBy,
   );
 
   const {
@@ -67,7 +67,7 @@ export default function ColumnsTable({data, tipo, corValor}) {
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
- 
+
 
 
   return (
@@ -93,10 +93,10 @@ export default function ColumnsTable({data, tipo, corValor}) {
           {...getTableProps()}
           variant="simple"
           color="gray.500"
-          mb="24px"          
+          mb="24px"
         >
           <Thead>
-            {headerGroups.map((headerGroup, index) => (
+            {headerGroups?.map((headerGroup, index) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
                 {headerGroup.headers.map((column, index) => (
                   <Th
@@ -124,12 +124,12 @@ export default function ColumnsTable({data, tipo, corValor}) {
               return (
                 <Tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => {
-                    let data = cell.value;
+                    let data = cell.value ?? ''; // Verifica se cell.value é nulo
                     if (cell.column.Header === "ID") {
                       data = (
                         <Flex align="center">
                           <Text color={textColor} fontSize="sm" fontWeight="700">
-                            {cell.value}
+                            {data}
                           </Text>
                         </Flex>
                       );
@@ -137,7 +137,7 @@ export default function ColumnsTable({data, tipo, corValor}) {
                       data = (
                         <Flex>
                           <Text color={textColor} fontSize="sm" fontWeight="700">
-                            {cell.value.length > 20 ? `${cell.value.slice(0, 20)}...` : cell.value}
+                            {data.length > 20 ? `${data.slice(0, 20)}...` : data}
                           </Text>
                         </Flex>
                       );
@@ -150,23 +150,23 @@ export default function ColumnsTable({data, tipo, corValor}) {
                             fontSize="sm"
                             fontWeight="700"
                           >
-                            {cell.value}
+                            {data}
                           </Text>
                         </Flex>
                       );
                     } else if (cell.column.Header === "DATA TRANSACAO") {
                       data = (
                         <Text color={textColor} fontSize="sm" fontWeight="700">
-                          {new Date(cell.value).toLocaleDateString("pt-BR")}
+                          {data ? new Date(data).toLocaleDateString("pt-BR") : ''}
                         </Text>
                       );
                     } else if (cell.column.Header === "VALOR BRUTO") {
                       data = (
                         <Text color={corValor} fontSize="sm" fontWeight="700">
-                          {new Intl.NumberFormat("pt-BR", {
+                          {data ? new Intl.NumberFormat("pt-BR", {
                             style: "currency",
                             currency: "BRL",
-                          }).format(cell.value)}
+                          }).format(data) : ''}
                         </Text>
                       );
                     }

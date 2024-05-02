@@ -53,14 +53,14 @@ public class DespesasRest {
     }
 
     @PUT
-    @Consumes({MediaType.APPLICATION_JSON})
     @Path("/vincular-nota")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response vincularNotaFiscal(DespesasDTO despesasDTO){
         try {
             despesasService.vincularNotaFiscal(despesasDTO);
             return Response.ok(Json.encode("Nota Fiscal Vinculada com Sucesso")).build();
         } catch (Exception e) {
-            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+            throw e;
         }
 
     }
