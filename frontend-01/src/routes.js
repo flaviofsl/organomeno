@@ -6,7 +6,11 @@ import {
   MdPerson,
   MdHome,
   MdLock,
+  MdOutlinePeopleAlt,
+  MdCategory,
+  MdAccountBalance,
   MdOutlineShoppingCart,
+  MdOutline10K,
 } from "react-icons/md";
 
 // Admin Imports
@@ -14,6 +18,7 @@ import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import ImportacaoNotas from "views/admin/importacaoNotas";
+import Movimentacao from "views/admin/movimentacao";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
 
@@ -22,11 +27,54 @@ import SignInCentered from "views/auth/signIn";
 
 const routes = [
   {
-    name: "Main Dashboard",
+    name: "Home",
     layout: "/admin",
     path: "/default",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
+  },
+
+  {
+    name: "Clientes",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdOutlinePeopleAlt} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
+    name: "Categorias",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdCategory} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
+    name: "Contas",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdAccountBalance} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
+    name: "Receitas",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdOutline10K} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
+    name: "Despesas",
+    layout: "/admin",
+    path: "/default",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: MainDashboard,
+  },
+  {
+    name: "Movimentações",
+    layout: "/admin",
+    path: "/movimentacoes",
+    icon: <Icon as={MdHome  } width='20px' height='20px' color='inherit' />,
+    component: Movimentacao,
   },
   {
     name: "Importação de Notas",
