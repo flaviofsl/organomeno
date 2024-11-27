@@ -44,10 +44,6 @@
 
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-mssql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
         <dependency>
@@ -120,6 +116,11 @@
             <version>2.8.2</version>
         </dependency>
 
+<!-- Adiciona a dependencia do msyql-->
+        <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-jdbc-mysql</artifactId>
+        </dependency>
 
     </dependencies>
 
