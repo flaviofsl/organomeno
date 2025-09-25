@@ -38,7 +38,7 @@ public class DespesasRepository implements PanacheRepositoryBase<Despesas,Intege
 
         PanacheQuery<Despesas> despesas = find(query.toString(),parametros);
 
-        if (despesasFiltroDTO.getPageNum() != null || despesasFiltroDTO.getPageSize() != null) {
+        if (despesasFiltroDTO.getPageNum() != null && despesasFiltroDTO.getPageSize() != null) {
             despesas.page(Page.of(despesasFiltroDTO.getPageNum(), despesasFiltroDTO.getPageSize()));
             return despesas.stream().toList();
         }
