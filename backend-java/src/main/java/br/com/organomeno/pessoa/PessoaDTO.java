@@ -1,47 +1,17 @@
 package br.com.organomeno.pessoa;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
+public class PessoaDTO {
 
-import java.time.LocalDate;
-
-@Entity
-@Table(name = "PESSOAS")
-public class Pessoa extends PanacheEntityBase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PESSOA")
     private Long id;
-
-    @Column(name = "NOME", nullable = false)
     private String nome;
-
-    @Column(name = "DATA_NASCIMENTO")
-    private LocalDate dataNascimento;
-
-    @Column(name = "TIPO_PESSOA")
+    private String dataNascimento;
     private String tipo;
-
-    @Column(name = "CPF")
     private String cpf;
-
-    @Column(name = "RG")
     private String rg;
-
-    @Column(name = "SEXO")
     private String sexo;
-
-    @Column(name = "IRPF")
     private String irpf;
-
-    @Column(name = "CNPJ")
     private String cnpj;
-
-    @Column(name = "IE")
     private String ie;
-
-    @Column(name = "IRPJ")
     private String irpj;
 
     public Long getId() {
@@ -60,11 +30,11 @@ public class Pessoa extends PanacheEntityBase {
         this.nome = nome;
     }
 
-    public LocalDate getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

@@ -21,6 +21,7 @@ import ImportacaoNotas from "views/admin/importacaoNotas";
 import Movimentacao from "views/admin/movimentacao";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
+import Pessoas from "views/admin/pessoas";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
@@ -35,11 +36,11 @@ const routes = [
   },
 
   {
-    name: "Clientes",
+    name: "Pessoas",
     layout: "/admin",
-    path: "/default",
+    path: "/pessoas",
     icon: <Icon as={MdOutlinePeopleAlt} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    component: Pessoas,
   },
   {
     name: "Categorias",
