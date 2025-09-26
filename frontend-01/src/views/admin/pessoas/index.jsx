@@ -62,6 +62,8 @@ const Pessoas = () => {
   const [savingPessoa, setSavingPessoa] = useState(false);
   const [savingDependencia, setSavingDependencia] = useState(false);
   const [pessoaSelecionada, setPessoaSelecionada] = useState(null);
+  const [pagina, setPagina] = useState(1);
+  const ITENS_POR_PAGINA = 5;
 
   const dependentesDisponiveis = useMemo(() => {
     if (!dependenciaForm.responsavelId) {
@@ -77,6 +79,15 @@ const Pessoas = () => {
       (dep) => dep.responsavelId === pessoaSelecionada.id || dep.dependenteId === pessoaSelecionada.id
     );
   }, [pessoaSelecionada, dependencias]);
+
+  const totalPaginas = useMemo(() => {
+    return Math.max(1, Math.ceil(pessoas.length / ITENS_POR_PAGINA));
+  }, [pessoas.length]);
+
+  const pessoasPaginadas = useMemo(() => {
+    const inicio = (pagina - 1) * ITENS_POR_PAGINA;
+    return pessoas.slice(inicio, inicio + ITENS_POR_PAGINA);
+  }, [pessoas, pagina]);
 
   const buscarPessoas = useCallback(async () => {
     try {
@@ -120,6 +131,11 @@ const Pessoas = () => {
     buscarPessoas();
     buscarDependencias();
   }, [buscarPessoas, buscarDependencias]);
+
+  // Resetar para página 1 quando os dados mudarem
+  useEffect(() => {
+    setPagina(1);
+  }, [pessoas.length]);
 
   const handlePessoaChange = (event) => {
     const { name, value } = event.target;
@@ -242,29 +258,42 @@ const Pessoas = () => {
               Cadastrar pessoa
             </Button>
           </Flex>
-          <Table variant="simple">
+          <Table
+            variant="simple"
+            size="sm"
+            tableLayout="fixed"
+            width="100%"
+          >
+            <colgroup>
+              <col style={{ width: "40%" }} />
+              <col style={{ width: "12%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: "6%" }} />
+              <col style={{ width: "6%" }} />
+            </colgroup>
             <Thead>
               <Tr>
-                <Th>Nome</Th>
-                <Th>Tipo</Th>
-                <Th>Documento</Th>
-                <Th>Data de nascimento</Th>
-                <Th>Ver</Th>
-                <Th>Adicionar</Th>
+                <Th fontSize="md" py="8px">Nome</Th>
+                <Th fontSize="md" py="8px">Tipo</Th>
+                <Th fontSize="md" py="8px">Documento</Th>
+                <Th fontSize="md" py="8px">Data de nascimento</Th>
+                <Th fontSize="md" py="8px">Ver</Th>
+                <Th fontSize="md" py="8px">Adicionar</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {pessoas.map((pessoa) => (
+              {pessoasPaginadas.map((pessoa) => (
                 <Tr key={pessoa.id}>
-                  <Td>{pessoa.nome}</Td>
-                  <Td>{pessoa.tipo === "JURIDICA" ? "Jurídica" : "Física"}</Td>
-                  <Td>
+                  <Td fontSize="md" py="8px">{pessoa.nome}</Td>
+                  <Td fontSize="md" py="8px">{pessoa.tipo === "JURIDICA" ? "Jurídica" : "Física"}</Td>
+                  <Td fontSize="md" py="8px">
                     {pessoa.tipo === "JURIDICA"
                       ? pessoa.cnpj || "-"
                       : pessoa.cpf || "-"}
                   </Td>
-                  <Td>{pessoa.dataNascimento ? pessoa.dataNascimento : "-"}</Td>
-                  <Td>
+                  <Td fontSize="md" py="8px">{pessoa.dataNascimento ? pessoa.dataNascimento : "-"}</Td>
+                  <Td fontSize="md" py="8px">
                     <Button
                       size="sm"
                       colorScheme="brand"
@@ -274,7 +303,7 @@ const Pessoas = () => {
                       Ver dependências
                     </Button>
                   </Td>
-                  <Td>
+                  <Td fontSize="md" py="8px">
                     <Button
                       size="sm"
                       colorScheme="brand"
@@ -288,7 +317,7 @@ const Pessoas = () => {
               ))}
               {!pessoas.length && (
                 <Tr>
-                  <Td colSpan={6}>
+                  <Td colSpan={6} fontSize="md" py="8px">
                     <Text textAlign="center" color="gray.500">
                       Nenhuma pessoa cadastrada até o momento.
                     </Text>
@@ -297,6 +326,25 @@ const Pessoas = () => {
               )}
             </Tbody>
           </Table>
+          <Flex align="center" justify="space-between" mt="16px">
+            <Text fontSize="sm" color="gray.500">
+              Página {pagina} de {totalPaginas}
+            </Text>
+            <Flex gap="8px">
+              <Button size="sm" variant="outline" onClick={() => setPagina(1)} isDisabled={pagina === 1}>
+                « Primeiro
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setPagina((p) => Math.max(1, p - 1))} isDisabled={pagina === 1}>
+                ‹ Anterior
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))} isDisabled={pagina === totalPaginas}>
+                Próxima ›
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setPagina(totalPaginas)} isDisabled={pagina === totalPaginas}>
+                Último »
+              </Button>
+            </Flex>
+          </Flex>
         </Card>
       </SimpleGrid>
 
