@@ -182,7 +182,7 @@ const Pessoas = () => {
       });
       setPessoaForm(initialPessoaForm);
       await buscarPessoas();
-        onCloseAddPessoa();
+      onCloseAddPessoa();
     } catch (error) {
       toast({
         title: "Erro ao salvar",
@@ -246,10 +246,36 @@ const Pessoas = () => {
     }
   };
 
+  const renderPaginas = () => {
+    const limite = 5;
+    let inicio = Math.max(1, pagina - Math.floor(limite / 2));
+    let fim = inicio + limite - 1;
+    if (fim > totalPaginas) {
+      fim = totalPaginas;
+      inicio = Math.max(1, fim - limite + 1);
+    }
+    let retorno = [];
+    for (let i = inicio; i <= fim; i++) {
+      retorno.push(
+        <Button
+          key={i}
+          size="sm"
+          variant={pagina === i ? "solid" : "outline"}
+          onClick={() => setPagina(i)}
+          isDisabled={pagina === i}
+        >
+          {i}
+        </Button>
+      );
+    }
+    return retorno;
+  };
+
+
   return (
     <Box pt="80px">
       <SimpleGrid columns={1} gap="20px">
-      <Card w="100%" p="24px" overflowX="auto">
+        <Card w="100%" p="24px" overflowX="auto">
           <Flex align="center" justify="space-between" mb="12px">
             <Text fontSize="lg" fontWeight="bold">
               Pessoas cadastradas
@@ -331,6 +357,11 @@ const Pessoas = () => {
               Página {pagina} de {totalPaginas}
             </Text>
             <Flex gap="8px">
+
+              {
+                renderPaginas()
+              }
+{/*
               <Button size="sm" variant="outline" onClick={() => setPagina(1)} isDisabled={pagina === 1}>
                 « Primeiro
               </Button>
@@ -342,7 +373,7 @@ const Pessoas = () => {
               </Button>
               <Button size="sm" variant="outline" onClick={() => setPagina(totalPaginas)} isDisabled={pagina === totalPaginas}>
                 Último »
-              </Button>
+              </Button> */}
             </Flex>
           </Flex>
         </Card>
@@ -362,7 +393,7 @@ const Pessoas = () => {
                 {dependenciasDaPessoa.map((dep) => {
                   const responsavel = pessoas.find(p => p.id === dep.responsavelId);
                   const dependente = pessoas.find(p => p.id === dep.dependenteId);
-                  
+
                   return (
                     <Box key={dep.id} p={4} border="1px" borderColor="gray.200" borderRadius="md">
                       <Flex justify="space-between" align="center">
@@ -371,8 +402,8 @@ const Pessoas = () => {
                             {dep.responsavelId === pessoaSelecionada?.id ? "Responsável por:" : "Dependente de:"}
                           </Text>
                           <Text>
-                            {dep.responsavelId === pessoaSelecionada?.id 
-                              ? dependente?.nome 
+                            {dep.responsavelId === pessoaSelecionada?.id
+                              ? dependente?.nome
                               : responsavel?.nome}
                           </Text>
                         </Box>
@@ -466,13 +497,24 @@ const Pessoas = () => {
                     </FormControl>
                     <FormControl>
                       <FormLabel>IRPF</FormLabel>
-                      <Input
+                      <Select
                         name="irpf"
                         value={pessoaForm.irpf}
                         onChange={handlePessoaChange}
                         placeholder="Situação da declaração de IRPF"
-                      />
+                      >
+                        <option value="EM_PROCESSAMENTO">Em processamento</option>
+                        <option value="EM_FILA_DE_RESTITUICAO">Em fila de restituição</option>
+                        <option value="PROCESSADA">Processada</option>
+                        <option value="COM_PENDENCIAS">Com pendências</option>
+                        <option value="EM_ANALISE">Em análise</option>
+                        <option value="RETIFICADA">Retificada</option>
+                        <option value="CANCELADA">Cancelada</option>
+                        <option value="TRATAMENTO_MANUAL">Tratamento manual</option>
+                        <option value="NAO_DECLARADO">Não declarado</option>
+                      </Select>
                     </FormControl>
+
                   </Stack>
                 ) : (
                   <Stack spacing={4}>
