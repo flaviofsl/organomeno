@@ -22,6 +22,8 @@ import Movimentacao from "views/admin/movimentacao";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
 import Pessoas from "views/admin/pessoas";
+import Contas from "views/admin/contas";
+import CadastroConta from "views/admin/contas/CadastroConta";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
@@ -50,11 +52,24 @@ const routes = [
     component: MainDashboard,
   },
   {
+    name: "Nova Conta",
+    layout: "/admin",
+    path: "/contas/nova",
+    component: CadastroConta,
+  },
+  {
+    name: "Editar Conta",
+    layout: "/admin",
+    path: "/contas/editar/:id",
+    component: CadastroConta,
+  },
+  {
     name: "Contas",
     layout: "/admin",
-    path: "/default",
+    path: "/contas",
+    exact: true,
     icon: <Icon as={MdAccountBalance} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    component: Contas,
   },
   {
     name: "Receitas",

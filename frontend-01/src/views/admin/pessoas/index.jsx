@@ -287,7 +287,7 @@ const Pessoas = () => {
           <Table
             variant="simple"
             size="sm"
-            tableLayout="fixed"
+            style={{ tableLayout: "fixed" }}
             width="100%"
           >
             <colgroup>
