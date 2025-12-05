@@ -8,9 +8,15 @@ import java.util.List;
 
 public interface ReceitasService {
 
+    List<ReceitasDTO> buscarTodasAsReceitas();
+
+    ReceitasDTO buscarReceitaPorId(Integer id);
+
     Response filtrarReceitas(ReceitasFiltroDTO receitasFiltroDTO);
 
     Response inserirReceita(ReceitasDTO receitasDTO);
 
     Response inserirNotaFiscal(ReceitasDTO receitasDTO);
+
+    ReceitasDTO atualizarReceita(Integer id, ReceitasDTO receitasDTO);
 }

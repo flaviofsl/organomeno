@@ -6,6 +6,7 @@ import br.com.organomeno.receitas.services.ReceitasService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
 
 import java.util.List;
 
@@ -16,8 +17,20 @@ public class ReceitasRest {
     ReceitasService receitasService;
 
     @GET
+    @Path("/todos")
+    public List<ReceitasDTO> buscarTodasAsReceitas(){
+        return receitasService.buscarTodasAsReceitas();
+    }
+
+    @GET
+    @Path("/{id}")
+    public ReceitasDTO buscarReceitaPorId(@PathParam("id") Integer id){
+        return receitasService.buscarReceitaPorId(id);
+    }
+
+    @GET
     @Path("/")
-    public Response filtrarReceitas(ReceitasFiltroDTO receitasFiltroDTO){
+    public Response filtrarReceitas(@BeanParam ReceitasFiltroDTO receitasFiltroDTO){
         return receitasService.filtrarReceitas(receitasFiltroDTO);
     }
 
@@ -25,12 +38,27 @@ public class ReceitasRest {
     @Path("/")
     public Response inserirReceita(ReceitasDTO receitasDTO){
         try {
-            receitasService.inserirReceita(receitasDTO);
-            return Response.ok().build();
+            Response response = receitasService.inserirReceita(receitasDTO);
+            return response;
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         } catch (Exception e) {
-            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         }
 
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response atualizarReceita(@PathParam("id") Integer id, ReceitasDTO receitaDTO) {
+        try {
+            ReceitasDTO atualizada = receitasService.atualizarReceita(id, receitaDTO);
+            return Response.ok(atualizada).build();
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.NOT_FOUND);
+        } catch (Exception e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        }
     }
 
     @PUT

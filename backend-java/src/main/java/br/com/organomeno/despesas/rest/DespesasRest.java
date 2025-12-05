@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
 import net.bytebuddy.implementation.bytecode.Throw;
 
 import java.util.List;
@@ -44,10 +45,12 @@ public class DespesasRest {
     @Path("/")
     public Response inserirDespesa(DespesasDTO despesa){
         try{
-            despesasService.inserirDespesa(despesa);
-            return Response.ok(Json.encode("Despesa cadastrada, infelizmente.")).build();
+            Response response = despesasService.inserirDespesa(despesa);
+            return response;
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         } catch (Exception e){
-            throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
         }
 
     }
@@ -63,5 +66,18 @@ public class DespesasRest {
             throw e;
         }
 
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response atualizarDespesa(@PathParam("id") Integer id, DespesasDTO despesaDTO) {
+        try {
+            DespesasDTO atualizada = despesasService.atualizarDespesa(id, despesaDTO);
+            return Response.ok(atualizada).build();
+        } catch (IllegalArgumentException e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.NOT_FOUND);
+        } catch (Exception e) {
+            throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        }
     }
 }

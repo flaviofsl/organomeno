@@ -11,6 +11,8 @@ import {
   MdAccountBalance,
   MdOutlineShoppingCart,
   MdOutline10K,
+  MdAttachMoney,
+  MdSwapHoriz,
 } from "react-icons/md";
 
 // Admin Imports
@@ -24,6 +26,12 @@ import RTL from "views/admin/rtl";
 import Pessoas from "views/admin/pessoas";
 import Contas from "views/admin/contas";
 import CadastroConta from "views/admin/contas/CadastroConta";
+import Despesas from "views/admin/despesas";
+import CadastroDespesa from "views/admin/despesas/CadastroDespesa";
+import Receitas from "views/admin/receitas";
+import CadastroReceita from "views/admin/receitas/CadastroReceita";
+import Movimentacoes from "views/admin/movimentacoes";
+import CadastroMovimentacao from "views/admin/movimentacoes/CadastroMovimentacao";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
@@ -72,25 +80,64 @@ const routes = [
     component: Contas,
   },
   {
+    name: "Nova Receita",
+    layout: "/admin",
+    path: "/receitas/nova",
+    component: CadastroReceita,
+  },
+  {
+    name: "Editar Receita",
+    layout: "/admin",
+    path: "/receitas/editar/:id",
+    component: CadastroReceita,
+  },
+  {
     name: "Receitas",
     layout: "/admin",
-    path: "/default",
+    path: "/receitas",
+    exact: true,
     icon: <Icon as={MdOutline10K} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    component: Receitas,
+  },
+  {
+    name: "Nova Despesa",
+    layout: "/admin",
+    path: "/despesas/nova",
+    component: CadastroDespesa,
+  },
+  {
+    name: "Editar Despesa",
+    layout: "/admin",
+    path: "/despesas/editar/:id",
+    component: CadastroDespesa,
   },
   {
     name: "Despesas",
     layout: "/admin",
-    path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    path: "/despesas",
+    exact: true,
+    icon: <Icon as={MdAttachMoney} width='20px' height='20px' color='inherit' />,
+    component: Despesas,
+  },
+  {
+    name: "Nova Movimentação",
+    layout: "/admin",
+    path: "/movimentacoes/nova",
+    component: CadastroMovimentacao,
+  },
+  {
+    name: "Editar Movimentação",
+    layout: "/admin",
+    path: "/movimentacoes/editar/:id",
+    component: CadastroMovimentacao,
   },
   {
     name: "Movimentações",
     layout: "/admin",
     path: "/movimentacoes",
-    icon: <Icon as={MdHome  } width='20px' height='20px' color='inherit' />,
-    component: Movimentacao,
+    exact: true,
+    icon: <Icon as={MdSwapHoriz} width='20px' height='20px' color='inherit' />,
+    component: Movimentacoes,
   },
   {
     name: "Importação de Notas",

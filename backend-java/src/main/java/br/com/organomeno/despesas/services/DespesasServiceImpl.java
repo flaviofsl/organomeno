@@ -39,8 +39,11 @@ public class DespesasServiceImpl implements DespesasService {
     @Override
     @Transactional
     public Response inserirDespesa(DespesasDTO despesasDTO) {
-        despesasRepository.persist(despesasMapper.toEntity(despesasDTO));
-        return Response.ok().build();
+        Despesas despesa = despesasMapper.toEntity(despesasDTO);
+        despesasRepository.persist(despesa);
+        despesasRepository.flush();
+        DespesasDTO criada = despesasMapper.toDTO(despesa);
+        return Response.status(Response.Status.CREATED).entity(criada).build();
     }
 
     @Override
@@ -55,5 +58,34 @@ public class DespesasServiceImpl implements DespesasService {
         despesas = despesasRepository.getEntityManager().merge(despesas);
         despesasRepository.persist(despesas);
         return Response.ok().build();
+    }
+
+    @Override
+    @Transactional
+    public DespesasDTO atualizarDespesa(Integer id, DespesasDTO despesasDTO) {
+        Despesas despesa = despesasRepository.findById(id);
+        if (despesa == null) {
+            throw new IllegalArgumentException("Despesa não encontrada com o ID: " + id);
+        }
+        
+        if (despesasDTO.getCategoria() != null) {
+            despesa.setCategoria(despesasDTO.getCategoria());
+        }
+        if (despesasDTO.getDescricao() != null) {
+            despesa.setDescricao(despesasDTO.getDescricao());
+        }
+        if (despesasDTO.getValorBruto() != null) {
+            despesa.setValorBruto(despesasDTO.getValorBruto());
+        }
+        if (despesasDTO.getDataCadastro() != null) {
+            despesa.setDataCadastro(despesasDTO.getDataCadastro());
+        }
+        if (despesasDTO.getFitId() != null) {
+            despesa.setFitId(despesasDTO.getFitId());
+        }
+        
+        despesasRepository.persist(despesa);
+        despesasRepository.flush();
+        return despesasMapper.toDTO(despesa);
     }
 }
