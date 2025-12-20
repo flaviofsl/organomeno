@@ -14,6 +14,10 @@ public class Receitas extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RECEITA")
     private Integer id;
+
+    @Column(name = "CATEGORIA")
+    private String categoria;
+
     @Column(name = "RECEITA_DESCRICAO")
     private String descricao;
     @Column(name = "RECEITA_VALOR_BRUTO")

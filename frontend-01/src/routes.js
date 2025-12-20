@@ -32,6 +32,8 @@ import Receitas from "views/admin/receitas";
 import CadastroReceita from "views/admin/receitas/CadastroReceita";
 import Movimentacoes from "views/admin/movimentacoes";
 import CadastroMovimentacao from "views/admin/movimentacoes/CadastroMovimentacao";
+import Categorias from "views/admin/categorias";
+import CadastroCategoria from "views/admin/categorias/CadastroCategoria";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
@@ -53,11 +55,24 @@ const routes = [
     component: Pessoas,
   },
   {
+    name: "Nova Categoria",
+    layout: "/admin",
+    path: "/categorias/nova",
+    component: CadastroCategoria,
+  },
+  {
+    name: "Editar Categoria",
+    layout: "/admin",
+    path: "/categorias/editar/:id",
+    component: CadastroCategoria,
+  },
+  {
     name: "Categorias",
     layout: "/admin",
-    path: "/default",
+    path: "/categorias",
+    exact: true,
     icon: <Icon as={MdCategory} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    component: Categorias,
   },
   {
     name: "Nova Conta",

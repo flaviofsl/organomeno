@@ -7,7 +7,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.reactive.MultipartForm;
 import java.io.FileInputStream;
 
 
@@ -28,15 +27,14 @@ public class OfxRest {
     }
 
     @POST
-    @Path("/")
+    @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response upload(@MultipartForm MulitipleDocumentDetailsRequest documentDetailsRequests) {
+    public Response upload(MulitipleDocumentDetailsRequest documentDetailsRequests) {
 
-        documentDetailsRequests.getFileUpload().forEach(fileUpload -> {
-            LOG.info("File name: " + fileUpload.name());
+            LOG.info("File name: " + documentDetailsRequests.getFileUpload().get(0).fileName());
 
-            String arquivo = fileUpload.uploadedFile().toString();
+            String arquivo = documentDetailsRequests.getFileUpload().get(0).uploadedFile().toString();
             try {
                 FileInputStream streamFile = new FileInputStream(arquivo);
                 ofxService.fazerLeituraDeOFX(documentDetailsRequests);
@@ -45,7 +43,7 @@ public class OfxRest {
             }
 
             LOG.info("getUsuario: " + documentDetailsRequests.getUsuario());
-        });
+
 
         return Response.ok(documentDetailsRequests).build();
     }

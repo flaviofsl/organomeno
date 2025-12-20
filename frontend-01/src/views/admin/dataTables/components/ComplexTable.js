@@ -133,7 +133,7 @@ export default function ColumnsTable(props) {
                         <Text color={textColor} fontSize='sm' fontWeight='700'>
                           {cell.value}
                         </Text>
-                      </Flex>
+                      </Flex>cd
                     );
                   } else if (cell.column.Header === "DATE") {
                     data = (

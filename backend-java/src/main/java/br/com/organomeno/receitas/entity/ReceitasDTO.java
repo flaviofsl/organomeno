@@ -8,6 +8,7 @@ import java.util.Date;
 public class ReceitasDTO {
     private Integer id;
     private String descricao;
+    private String categoria;
     private Double valorBruto;
     private Date dataCadastro;
     private NotaFiscalDTO notaFiscal;
