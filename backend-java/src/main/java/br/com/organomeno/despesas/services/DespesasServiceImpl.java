@@ -40,6 +40,8 @@ public class DespesasServiceImpl implements DespesasService {
     @Transactional
     public Response inserirDespesa(DespesasDTO despesasDTO) {
         Despesas despesa = despesasMapper.toEntity(despesasDTO);
+        if(despesa.getFitId().equals(""))
+            despesa.setFitId(null);
         despesasRepository.persist(despesa);
         despesasRepository.flush();
         DespesasDTO criada = despesasMapper.toDTO(despesa);
@@ -83,7 +85,8 @@ public class DespesasServiceImpl implements DespesasService {
         if (despesasDTO.getFitId() != null) {
             despesa.setFitId(despesasDTO.getFitId());
         }
-        
+        if(despesa.getFitId().equals(""))
+            despesa.setFitId(null);
         despesasRepository.persist(despesa);
         despesasRepository.flush();
         return despesasMapper.toDTO(despesa);

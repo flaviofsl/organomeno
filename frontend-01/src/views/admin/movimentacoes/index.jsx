@@ -144,9 +144,14 @@ const Movimentacoes = () => {
             <Text fontSize="lg" fontWeight="bold">
               Lançamentos de movimentações
             </Text>
-            <Button colorScheme="brand" onClick={abrirCadastroMovimentacao}>
-              Cadastrar movimentação
-            </Button>
+            <Flex gap="8px">
+              <Button colorScheme="blue" onClick={() => history.push('/admin/movimentacoes/importar-ofx')}>
+                Importar OFX
+              </Button>
+              <Button colorScheme="brand" onClick={abrirCadastroMovimentacao}>
+                Cadastrar movimentação
+              </Button>
+            </Flex>
           </Flex>
           <Table
             variant="simple"

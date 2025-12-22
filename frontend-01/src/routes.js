@@ -32,6 +32,8 @@ import Receitas from "views/admin/receitas";
 import CadastroReceita from "views/admin/receitas/CadastroReceita";
 import Movimentacoes from "views/admin/movimentacoes";
 import CadastroMovimentacao from "views/admin/movimentacoes/CadastroMovimentacao";
+import ImportarOfx from "views/admin/movimentacoes/ImportarOfx";
+import DetalhesArquivoOfx from "views/admin/movimentacoes/DetalhesArquivoOfx";
 import Categorias from "views/admin/categorias";
 import CadastroCategoria from "views/admin/categorias/CadastroCategoria";
 
@@ -153,6 +155,18 @@ const routes = [
     exact: true,
     icon: <Icon as={MdSwapHoriz} width='20px' height='20px' color='inherit' />,
     component: Movimentacoes,
+  },
+  {
+    name: "Importar OFX",
+    layout: "/admin",
+    path: "/movimentacoes/importar-ofx",
+    component: ImportarOfx,
+  },
+  {
+    name: "Detalhes Arquivo OFX",
+    layout: "/admin",
+    path: "/movimentacoes/arquivo-ofx/:id",
+    component: DetalhesArquivoOfx,
   },
   {
     name: "Importação de Notas",

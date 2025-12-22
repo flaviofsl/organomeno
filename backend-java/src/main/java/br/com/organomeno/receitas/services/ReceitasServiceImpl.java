@@ -44,6 +44,9 @@ public class ReceitasServiceImpl implements ReceitasService{
     @Transactional
     public Response inserirReceita(ReceitasDTO receitasDTO) {
         Receitas receita = receitasMapper.toEntity(receitasDTO);
+        if(receita.getFitId().equals(""))
+            receita.setFitId(null);
+
         receitasRepository.persist(receita);
         receitasRepository.flush();
         ReceitasDTO criada = receitasMapper.toDTO(receita);
@@ -60,6 +63,7 @@ public class ReceitasServiceImpl implements ReceitasService{
     @Transactional
     public ReceitasDTO atualizarReceita(Integer id, ReceitasDTO receitasDTO) {
         Receitas receita = receitasRepository.findById(id);
+
         if (receita == null) {
             throw new IllegalArgumentException("Receita não encontrada com o ID: " + id);
         }
@@ -76,7 +80,8 @@ public class ReceitasServiceImpl implements ReceitasService{
         if (receitasDTO.getFitId() != null) {
             receita.setFitId(receitasDTO.getFitId());
         }
-        
+        if(receita.getFitId().equals(""))
+            receita.setFitId(null);
         receitasRepository.persist(receita);
         receitasRepository.flush();
         return receitasMapper.toDTO(receita);

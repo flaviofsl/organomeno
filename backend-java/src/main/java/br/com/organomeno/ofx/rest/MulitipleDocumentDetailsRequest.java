@@ -18,6 +18,9 @@ public class MulitipleDocumentDetailsRequest implements Serializable {
 	@RestForm("usuario")
 	private String usuario;
 
+	@RestForm("idConta")
+	private Long idConta;
+
 //	@RestForm("fileDetails")
 //	@PartType(MediaType.APPLICATION_JSON)
 //	private List<FileDetails> fileDetails;
@@ -35,5 +38,13 @@ public class MulitipleDocumentDetailsRequest implements Serializable {
 	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public Long getIdConta() {
+		return idConta;
+	}
+
+	public void setIdConta(Long idConta) {
+		this.idConta = idConta;
 	}
 }
