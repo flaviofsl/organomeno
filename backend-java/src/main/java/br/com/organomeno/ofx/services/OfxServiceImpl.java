@@ -6,6 +6,8 @@ import br.com.organomeno.despesas.entity.Despesas;
 import br.com.organomeno.despesas.entity.DespesasDTO;
 import br.com.organomeno.despesas.entity.DespesasMapper;
 import br.com.organomeno.despesas.repository.DespesasRepository;
+import br.com.organomeno.movimentacao.LivroMovimentacao;
+import br.com.organomeno.movimentacao.LivroMovimentacaoRepository;
 import br.com.organomeno.ofx.entity.ArquivoOfx;
 import br.com.organomeno.ofx.entity.ArquivoOfxTransacao;
 import br.com.organomeno.ofx.leitura.LeitorDeOfx;
@@ -26,6 +28,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +51,9 @@ public class OfxServiceImpl implements OfxService {
     @Inject
     ContaRepository contaRepository;
 
+    @Inject
+    LivroMovimentacaoRepository movimentacaoRepository;
+
     @Override
     @Transactional
     public Response fazerLeituraDeOFX(MulitipleDocumentDetailsRequest documentDetailsRequests) throws IOException, OFXParseException {
@@ -66,13 +72,15 @@ public class OfxServiceImpl implements OfxService {
 
             List<DespesasDTO> despesasDTOList = resultado.getListaDespesas();
             List<ReceitasDTO> receitasDTOList = resultado.getListaReceita();
+            
+            System.out.println("Resultado da importação - Despesas: " + despesasDTOList.size() + ", Receitas: " + receitasDTOList.size());
 
             List<DespesasDTO> despesasParaPersistir = despesasDTOList.stream()
-                    .filter(despesa -> despesasRepository.findByFitId(despesa.getFitId()) == null)
+                    //.filter(despesa -> despesasRepository.findByFitId(despesa.getFitId()) == null)
                     .collect(Collectors.toList());
 
             List<ReceitasDTO> receitasParaPersistir = receitasDTOList.stream()
-                    .filter(receita -> receitasRepository.findByFitId(receita.getFitId()) == null)
+                    //.filter(receita -> receitasRepository.findByFitId(receita.getFitId()) == null)
                     .collect(Collectors.toList());
 
             List<Despesas> despesas = despesasMapper.toListEntity(despesasParaPersistir);
@@ -108,9 +116,42 @@ public class OfxServiceImpl implements OfxService {
                 arquivoOfxTransacaoRepository.persist(transacao);
             }
 
+            //Grava as informações no livro de movimentação
+            gravarNoLivroDeMovimentacao(despesas, receitas, conta);
+
+
+
             return Response.ok(Json.encode("Receitas e Despesas foram inseridas com sucesso")).build();
         }catch (Exception e){
             throw new OFXParseException(e.getMessage());
         }
+    }
+
+    public void gravarNoLivroDeMovimentacao(List<Despesas> despesas, List<Receitas> receitas, Conta conta) {
+
+        //Começa a gravação no livro de movimentação pelas despesas
+        for( Despesas despesa : despesas){
+            LivroMovimentacao movimentacao = new LivroMovimentacao();
+            movimentacao.setConta(conta);
+            movimentacao.setDataMovimentacao(despesa.getDataCadastro());
+            movimentacao.setDescricao(despesa.getDescricao());
+            movimentacao.setTipoMovimentacao("SAIDA");
+            movimentacao.setValor(BigDecimal.valueOf(despesa.getValorBruto()));
+
+            movimentacaoRepository.persist(movimentacao);
+        }
+
+        //Agora grava as receitas
+        for( Receitas receita : receitas) {
+            LivroMovimentacao movimentacao = new LivroMovimentacao();
+            movimentacao.setConta(conta);
+            movimentacao.setDataMovimentacao(receita.getDataEntrada());
+            movimentacao.setDescricao(receita.getDescricao());
+            movimentacao.setTipoMovimentacao("ENTRADA");
+            movimentacao.setValor(BigDecimal.valueOf(receita.getValorBruto()));
+            movimentacaoRepository.persist(movimentacao);
+        }
+
+
     }
 }

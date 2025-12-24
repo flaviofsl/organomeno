@@ -173,6 +173,7 @@ const Movimentacoes = () => {
                 <Th fontSize="md" py="8px">Conta</Th>
                 <Th fontSize="md" py="8px">Receita</Th>
                 <Th fontSize="md" py="8px">Despesa</Th>
+                <Th fontSize="md" py="8px">Descrição</Th>
                 <Th fontSize="md" py="8px">Tipo</Th>
                 <Th fontSize="md" py="8px">Valor</Th>
                 <Th fontSize="md" py="8px">Data</Th>
@@ -186,6 +187,7 @@ const Movimentacoes = () => {
                     <Td fontSize="md" py="8px">{movimentacao.nomeConta || "-"}</Td>
                     <Td fontSize="md" py="8px">{movimentacao.descricaoReceita || "-"}</Td>
                     <Td fontSize="md" py="8px">{movimentacao.descricaoDespesa || "-"}</Td>
+                    <Td fontSize="md" py="8px">{movimentacao.descricao || "-"}</Td>
                     <Td fontSize="md" py="8px">{formatarTipoMovimentacao(movimentacao.tipoMovimentacao)}</Td>
                     <Td fontSize="md" py="8px">
                       <Text 
