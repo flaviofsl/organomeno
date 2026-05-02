@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dependents Planning - HarmonyFinance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "on-background": "#0b1c30",
+                      "on-primary-container": "#7c839b",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#131b2e",
+                      "surface-container": "#e5eeff",
+                      "surface": "#f8f9ff",
+                      "on-surface": "#0b1c30",
+                      "primary-fixed-dim": "#bec6e0",
+                      "background": "#f8f9ff",
+                      "tertiary-fixed": "#6ffbbe",
+                      "secondary-container": "#316bf3",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "inverse-primary": "#bec6e0",
+                      "on-surface-variant": "#45464d",
+                      "on-tertiary-fixed": "#002113",
+                      "secondary-fixed": "#dbe1ff",
+                      "inverse-surface": "#213145",
+                      "surface-container-low": "#eff4ff",
+                      "primary-fixed": "#dae2fd",
+                      "secondary": "#0051d5",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "on-primary-fixed": "#131b2e",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#c6c6cd",
+                      "surface-bright": "#f8f9ff",
+                      "primary": "#000000",
+                      "surface-dim": "#cbdbf5",
+                      "tertiary-container": "#002113",
+                      "surface-tint": "#565e74",
+                      "surface-container-high": "#dce9ff",
+                      "on-secondary-container": "#fefcff",
+                      "on-secondary-fixed": "#00174b",
+                      "surface-variant": "#d3e4fe",
+                      "surface-container-highest": "#d3e4fe",
+                      "outline": "#76777d",
+                      "tertiary": "#000000",
+                      "on-tertiary-container": "#009668",
+                      "tertiary-fixed-dim": "#4edea3",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "margin": "32px",
+                      "sm": "12px",
+                      "md": "24px",
+                      "xl": "64px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "lg": "40px"
+              },
+              "fontFamily": {
+                      "numeric-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "display-lg": ["Manrope"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Manrope"],
+                      "headline-lg": ["Manrope"]
+              },
+              "fontSize": {
+                      "numeric-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav aria-label="Sidebar Navigation" class="bg-slate-50 dark:bg-slate-950 h-screen w-64 fixed left-0 top-0 border-r border-r border-slate-200 dark:border-slate-800 flex flex-col h-full p-4 space-y-6 z-40 hidden md:flex">
+<!-- Header -->
+<div class="flex items-center space-x-3 px-2">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<img alt="Family crest logo" class="w-full h-full object-cover rounded-full mix-blend-multiply opacity-80" data-alt="A stylized, modern minimalist family crest logo featuring abstract geometric shapes in shades of deep navy blue and crisp white. The logo conveys a sense of reliability, transparency, and precision, suitable for a professional family office environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpJSUvbSIREl8SR_3pI4lhAulxA01Xu16QBueBJ8NhOfN05sM21UrRUSiucNYk-0SiStqvQZAQ2ni9_Gq5eaodEHcs5Gkj41jii4OZ0Ob7Ia8rVdFRY2vPWFwWWhcSgdIzdw8DJErRi_xKHFQ_H1_eIgv6dyx6Jx-waIzZwwStDMsDX69ENUESpwyNce8-BOnsxTSKE7UIv7zZY61VxLab_WIw6Aw9yl8gakywuT-MspctvXY8G-CagyMb4-PCR5oKAdr4gdZcAE0"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xl font-bold text-slate-900 dark:text-white font-headline-md">Family Office</span>
+<span class="text-xs text-slate-500 font-label-md uppercase tracking-wider">Reliable Oversight</span>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-2">
+<button class="w-full bg-secondary text-on-secondary font-label-md py-2 px-4 rounded-lg flex items-center justify-center space-x-2 translate-x-1 transition-transform duration-200 hover:bg-opacity-90">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Transaction</span>
+</button>
+</div>
+<!-- Tabs -->
+<ul class="flex-1 space-y-1 mt-6">
+<li>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span>Family Tree</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">supervisor_account</span>
+<span>Providers</span>
+</a>
+</li>
+<li>
+<a aria-current="page" class="flex items-center space-x-3 px-3 py-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-bold rounded-sm translate-x-1 transition-transform duration-200 font-manrope text-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">family_restroom</span>
+<span>Dependents</span>
+</a>
+</li>
+</ul>
+<!-- Footer Tabs -->
+<ul class="space-y-1 pb-4">
+<li>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Security</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all font-manrope text-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Log Out</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 relative">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 flat no shadows flex justify-between items-center w-full px-8 py-3 sticky top-0">
+<!-- Brand -->
+<div class="flex items-center">
+<span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white mr-8 hidden md:block">HarmonyFinance</span>
+</div>
+<!-- Actions & Profile -->
+<div class="flex items-center space-x-4 ml-auto">
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden ml-4 border border-outline-variant">
+<img alt="Primary provider profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged man with short hair, wearing a dark navy blazer over a light gray shirt. The background is a soft, out-of-focus modern office setting, brightly lit to convey a sense of calm reliability and financial competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA--nhXKSEfxNx9K4sRHXWwzauy0I2KrZf3fIPsePlPPyEIVTG7G7AE0yjfhHZxvh0bkaHHpc9-Ik2Thbu_uOJUT1PKI5hYz6cMLhmqOJTQ_WMoe7ghfm_k615Br6L4kH-TjflmAGuj-gQ23JbyqTXkysEzC5VN6BXlVAXLrTXqRSXekWuM5MTeXHUw14JYnOyP8WTAmhubDOjkMNhmphhBFY1B7ZWTLHlMEky0jqWdR2obwhtI3__H2ilphTlL6EuZHSRA6RKUhfY"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin bg-background">
+<div class="max-w-[1440px] mx-auto">
+<!-- Page Header -->
+<div class="mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-xs">Dependents Planning</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Monthly oversight and budget allocation for Carlos and Beatriz.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Beatriz Section (Education Focus) -->
+<div class="md:col-span-12 lg:col-span-7 flex flex-col gap-gutter">
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md flex items-start space-x-md">
+<div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border border-outline-variant">
+<img alt="Beatriz" class="w-full h-full object-cover" data-alt="A portrait of a young woman in her early twenties, smiling warmly. She is standing outdoors on a bright, sunny day, with a soft-focus background of modern university architecture, suggesting an academic environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGS7CyONuUeENPwuPX_gOT4pfW1U8pjmF2GlKVJt2aaYgB_w6YqUCIX38S5ptui8dUNnHwQD76spZuJXzWLz3fMgn5yBEZy2uK8EfUx3GEZGjYBfe_Y-cciMK0TCgKWWltzGOb2obyjnRJYY1R6hGOrKie_gBImQdhMFOSJB1KAQ2qor_YbGiCy56u_tEgBuhXcjSCZXyuBCGdbtFPu30m1ufmCNF6sWWHLsTrWCIcUr0FSHu-gTR5JtwLDbdUMjkjKXOxDA-KlCQ"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-xs">
+<h2 class="font-headline-md text-headline-md text-on-background">Beatriz</h2>
+<span class="bg-surface-container-low text-secondary font-label-md text-label-md px-2 py-1 rounded-full uppercase">University Student</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-sm">BSc Computer Science, Year 2</p>
+<!-- Education Fund Tracker -->
+<div class="mt-md bg-surface p-sm rounded-lg border border-outline-variant">
+<div class="flex justify-between items-end mb-xs">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Education Fund</span>
+<span class="font-numeric-md text-numeric-md text-on-background">$45,000 / $60,000</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex justify-between mt-xs font-body-sm text-body-sm text-on-surface-variant">
+<span>75% Funded</span>
+<span class="text-tertiary-container flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> On track</span>
+</div>
+</div>
+</div>
+</div>
+<!-- University Fees Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+<h3 class="font-headline-md text-headline-md text-on-background mb-md">Semester Costs Breakdown</h3>
+<div class="space-y-sm">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">school</span>
+</div>
+<span class="font-body-md text-body-md text-on-background">Tuition</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$12,500</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</div>
+<span class="font-body-md text-body-md text-on-background">Books &amp; Materials</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$850</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">apartment</span>
+</div>
+<span class="font-body-md text-body-md text-on-background">Dormitory</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$4,200</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Carlos Section (Living Expenses Focus) -->
+<div class="md:col-span-12 lg:col-span-5 flex flex-col gap-gutter">
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md flex items-start space-x-md">
+<div class="w-16 h-16 rounded-full overflow-hidden shrink-0 border border-outline-variant">
+<img alt="Carlos" class="w-full h-full object-cover" data-alt="A portrait of a young man in his late twenties, looking relaxed and confident. He is wearing a simple, clean white t-shirt and is positioned in a modern, brightly lit apartment setting, reflecting a sense of independent living." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdcmggcCqa2GVM1dIKzYeTVHWo_tOlw-IFKl4p5jdxCp5CExq4kqCzr3p4QeRtqM-84KBiQilaE0aqLLgIMhH_VgxYq6ecsP_X4TbnTR5WFYe2u6zPzmPTiyfJKtMpXHzRKheocvw28oLrMMYxU3cfdZtKYTc4KRGOI4fGzcxEtfKmSS3Ij3meN4iqXiOZr0V9zwLpZAh4VpA_rSaQIXTZ8kJ_QZfezt0YYx74skP3V8XZciykyexLBFW2EYC60sY94LkC64KzBUM"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-xs">
+<h2 class="font-headline-md text-headline-md text-on-background">Carlos</h2>
+<span class="bg-surface-container-low text-secondary font-label-md text-label-md px-2 py-1 rounded-full uppercase">Independent</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-sm">Living in Austin, TX</p>
+<!-- Monthly Allowance Summary -->
+<div class="mt-md bg-surface p-sm rounded-lg border border-outline-variant flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Monthly Support</span>
+<span class="font-headline-lg text-headline-lg text-on-background">$2,500<span class="font-body-sm text-body-sm text-on-surface-variant">/mo</span></span>
+</div>
+</div>
+</div>
+<!-- Living Expenses Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md flex-1">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md text-on-background">Living Expenses</h3>
+<button class="text-secondary hover:text-secondary-fixed-dim transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+<div class="space-y-sm">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-background">Rent Contribution</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Shared apartment</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$1,200</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-background">Groceries</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Estimated</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$600</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-background">Utilities &amp; Internet</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Fixed monthly</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$250</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/30 last:border-0">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-background">Miscellaneous</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Discretionary</span>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-background">$450</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Budget Allocation Tool (Spans Full Width) -->
+<div class="md:col-span-12">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-md">
+<div class="flex justify-between items-center mb-md pb-sm border-b border-outline-variant/30">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-background">Support Allocation Tool</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Adjust monthly distributions from the central family fund.</p>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase block">Total Available</span>
+<span class="font-headline-md text-headline-md text-primary">$8,000 / mo</span>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-lg items-center">
+<!-- Visual Allocation Bar -->
+<div class="flex-1 w-full">
+<div class="flex justify-between mb-xs font-label-md text-label-md text-on-surface-variant">
+<span>Beatriz (60%)</span>
+<span>Carlos (31%)</span>
+<span>Unallocated (9%)</span>
+</div>
+<div class="w-full h-8 flex rounded-md overflow-hidden bg-surface-variant border border-outline-variant">
+<div class="bg-secondary h-full flex items-center justify-center text-white font-numeric-md text-xs" style="width: 60%">$4,800</div>
+<div class="bg-primary-fixed-dim h-full flex items-center justify-center text-on-primary-fixed font-numeric-md text-xs border-l border-outline-variant" style="width: 31.25%">$2,500</div>
+<div class="h-full flex items-center justify-center text-on-surface-variant font-numeric-md text-xs" style="width: 8.75%">$700</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex space-x-sm shrink-0">
+<button class="px-6 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">Reset</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-opacity">Save Allocation</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

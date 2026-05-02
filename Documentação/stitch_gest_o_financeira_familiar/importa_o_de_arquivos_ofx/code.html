@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Family Wealth - Import OFX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#0051d5",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#316bf3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary-container": "#7c839b",
+                        "on-secondary-container": "#fefcff",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "primary": "#000000",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "outline-variant": "#c6c6cd",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#00174b",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e5eeff",
+                        "surface": "#f8f9ff",
+                        "tertiary-container": "#002113",
+                        "on-background": "#0b1c30",
+                        "on-tertiary-container": "#009668",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#d3e4fe",
+                        "primary-container": "#131b2e",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#76777d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "secondary-fixed": "#dbe1ff",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "12px",
+                        "margin": "32px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "numeric-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "numeric-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- TopNavBar (Mobile Only) -->
+<nav class="md:hidden fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-surface-container-lowest border-b border-outline-variant shadow-sm text-primary font-headline-md font-bold tracking-tight">
+<div>Harmony Finance</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined hover:bg-surface-container-low transition-colors rounded-full p-2" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined hover:bg-surface-container-low transition-colors rounded-full p-2" data-icon="help_outline">help_outline</span>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full flex-col pt-20 pb-6 w-64 z-40 bg-surface-container-lowest border-r border-outline-variant shadow-none">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img alt="Family Office Logo" class="w-10 h-10 rounded-full" data-alt="A sophisticated, minimalist logo for a family office or high-end wealth management firm. The logo should feature clean geometric lines, perhaps subtly incorporating a shield or crest motif. The color palette should be crisp white and deep royal blue, reflecting authority and precision. The overall aesthetic is strictly corporate, modern, and trustworthy, suitable for managing significant assets." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp1VYeFi819i39uz9vL7gxBxcEUt6Iw2GAePNU0u3YuQ-WjiSxI4bc8fLY6G4SfMDrnvWZYTZs3ueTsHCQyww8hSZNS7Xt2T8iRz7mj5JVkwlVlP5HRo0LeYTrahZuGyc_4naxt9O_clsacUSH588WJRcrtyVHkMG3uGM9bBBQyL6WYnzXTLmdXwR6hzh08soPgU4jIfFCu370WeJVHJZlGmPId0NKVcnc-IkIudAxMB9Rvk1XYP7Cl48EMIWeee1gnjhWGXJYQ4I"/>
+<div>
+<div class="font-headline-md text-secondary font-extrabold text-lg">Family Wealth</div>
+<div class="font-label-md text-on-surface-variant font-medium">Financial Oversight</div>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary text-on-primary py-3 rounded-DEFAULT font-label-md hover:bg-secondary-container transition-colors shadow-[0px_4px_12px_rgba(15,23,42,0.05)]">
+                New Transaction
+            </button>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-4 font-body-sm">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                Income
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                Expenses
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+                Accounts
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="label">label</span>
+                Categories
+            </a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-surface-container-lowest text-secondary font-semibold border-l-4 border-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                Import OFX
+            </a>
+</nav>
+<div class="px-4 mt-auto border-t border-outline-variant pt-4 flex flex-col gap-1 font-body-sm">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 pt-20 md:pt-12 px-6 md:px-margin pb-margin max-w-7xl mx-auto">
+<header class="mb-lg">
+<h1 class="font-headline-lg text-on-background mb-2">Import Bank Data</h1>
+<p class="font-body-md text-on-surface-variant">Securely upload OFX or QFX files to reconcile your family accounts.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Upload & Config Section -->
+<div class="lg:col-span-4 flex flex-col gap-md">
+<!-- Account Selection Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-md shadow-[0px_4px_12px_rgba(15,23,42,0.05)]">
+<h2 class="font-label-md text-on-surface-variant mb-4 border-b border-outline-variant pb-2">TARGET ACCOUNT</h2>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-on-surface-variant" for="account-select">Select Account</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-2.5 px-3 font-body-sm text-on-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer" id="account-select">
+<option disabled="" selected="" value="">Choose an account...</option>
+<option value="checking">Joint Checking - Chase (...4589)</option>
+<option value="savings">High Yield Savings - Ally (...1203)</option>
+<option value="credit">Amex Platinum (...8842)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant pointer-events-none" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Drag & Drop Upload Area -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT p-md shadow-[0px_4px_12px_rgba(15,23,42,0.05)] flex flex-col items-center justify-center text-center border-dashed border-2 hover:border-secondary hover:bg-surface-container-low transition-colors cursor-pointer h-64 group">
+<div class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<p class="font-headline-md text-on-background mb-1">Drag and drop file</p>
+<p class="font-body-sm text-on-surface-variant mb-4">or click to browse from your computer</p>
+<p class="font-label-md text-on-surface-variant px-3 py-1 bg-surface-container-low rounded-full">Supports .OFX, .QFX</p>
+</div>
+</div>
+<!-- Preview & Categorization Section -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT shadow-[0px_4px_12px_rgba(15,23,42,0.05)] flex flex-col h-full min-h-[600px]">
+<div class="p-md border-b border-outline-variant flex justify-between items-center">
+<div>
+<h2 class="font-label-md text-on-surface-variant">TRANSACTION PREVIEW</h2>
+<p class="font-body-sm text-on-background mt-1">Reviewing <span class="font-semibold">stmt_2023_10.ofx</span></p>
+</div>
+<button class="bg-secondary text-on-primary px-4 py-2 rounded-DEFAULT font-label-md hover:bg-secondary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            Finalize Import
+                        </button>
+</div>
+<div class="flex-1 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-bright">
+<th class="font-label-md text-on-surface-variant px-4 py-3 font-semibold">DATE</th>
+<th class="font-label-md text-on-surface-variant px-4 py-3 font-semibold">DESCRIPTION</th>
+<th class="font-label-md text-on-surface-variant px-4 py-3 font-semibold text-right">AMOUNT</th>
+<th class="font-label-md text-on-surface-variant px-4 py-3 font-semibold">CATEGORY</th>
+</tr>
+</thead>
+<tbody class="font-body-sm">
+<!-- Transaction Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-numeric-md text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-4 py-3 text-on-background font-medium">WHOLEFDS MKT 1024</td>
+<td class="px-4 py-3 font-numeric-md text-right text-on-background">-$142.50</td>
+<td class="px-4 py-3">
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-1.5 px-3 font-body-sm text-on-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer pr-8">
+<option>Groceries</option>
+<option>Dining Out</option>
+<option>Household</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-on-surface-variant text-sm pointer-events-none" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</td>
+</tr>
+<!-- Transaction Row 2 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-numeric-md text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-4 py-3 text-on-background font-medium">ACH DEPOSIT - TECH CORP</td>
+<td class="px-4 py-3 font-numeric-md text-right text-on-tertiary-container">+$4,250.00</td>
+<td class="px-4 py-3">
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-1.5 px-3 font-body-sm text-on-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer pr-8">
+<option>Salary</option>
+<option selected="">Primary Income</option>
+<option>Bonus</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-on-surface-variant text-sm pointer-events-none" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</td>
+</tr>
+<!-- Transaction Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-numeric-md text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-4 py-3 text-on-background font-medium">PG&amp;E UTILITY PAY</td>
+<td class="px-4 py-3 font-numeric-md text-right text-on-background">-$210.34</td>
+<td class="px-4 py-3">
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-1.5 px-3 font-body-sm text-on-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors cursor-pointer pr-8">
+<option selected="">Utilities</option>
+<option>Housing</option>
+<option>Misc</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 text-on-surface-variant text-sm pointer-events-none" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-bright flex justify-between items-center text-sm">
+<span class="font-body-sm text-on-surface-variant">Showing 3 of 42 transactions</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low disabled:opacity-50">Prev</button>
+<button class="px-3 py-1 border border-outline-variant rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

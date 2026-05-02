@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Family Tree Organogram - HarmonyFinance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-background": "#0b1c30",
+                        "on-primary-container": "#7c839b",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#131b2e",
+                        "surface-container": "#e5eeff",
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "primary-fixed-dim": "#bec6e0",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary-container": "#316bf3",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-primary": "#bec6e0",
+                        "on-surface-variant": "#45464d",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#dae2fd",
+                        "secondary": "#0051d5",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "surface-bright": "#f8f9ff",
+                        "primary": "#000000",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary-container": "#002113",
+                        "surface-tint": "#565e74",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline": "#76777d",
+                        "tertiary": "#000000",
+                        "on-tertiary-container": "#009668",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "margin": "32px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "xl": "64px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "lg": "40px"
+                    },
+                    "fontFamily": {
+                        "numeric-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "numeric-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .tree-line::before {
+            content: '';
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            width: 2px;
+            height: 24px;
+            background-color: #E2E8F0;
+        }
+        .tree-branch-h::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #E2E8F0;
+        }
+        .tree-branch-h-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background-color: #E2E8F0;
+        }
+        .tree-branch-h-right::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            width: 50%;
+            height: 2px;
+            background-color: #E2E8F0;
+        }
+        .tree-branch-v::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 24px;
+            background-color: #E2E8F0;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex text-body-md font-body-md">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col h-full p-sm space-y-md z-40 hidden md:flex">
+<div class="px-sm pt-sm pb-md border-b border-outline-variant">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-on-background">Family Office</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Reliable Oversight</p>
+</div>
+</div>
+</div>
+<button class="mx-sm bg-secondary text-on-secondary rounded-DEFAULT py-sm px-md flex items-center justify-center gap-xs text-label-md font-label-md hover:bg-on-secondary-fixed-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Add Transaction
+        </button>
+<div class="flex-1 overflow-y-auto py-sm px-xs space-y-xs">
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-sm font-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT bg-surface-container-high text-on-background font-bold transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="text-body-sm font-body-sm">Family Tree</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">supervisor_account</span>
+<span class="text-body-sm font-body-sm">Providers</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">family_restroom</span>
+<span class="text-body-sm font-body-sm">Dependents</span>
+</a>
+</div>
+<div class="border-t border-outline-variant pt-sm px-xs pb-sm space-y-xs">
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-body-sm font-body-sm">Security</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-body-sm font-body-sm">Log Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 relative min-h-screen">
+<!-- TopNavBar (Mobile only for full layout, but adapting as per instructions for destination screen) -->
+<header class="bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center w-full px-md py-sm sticky top-0 z-50">
+<div class="text-headline-md font-headline-md text-on-background tracking-tight">HarmonyFinance</div>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-secondary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">help</span>
+</button>
+<img alt="Primary provider profile" class="w-8 h-8 rounded-full border border-outline-variant ml-sm" data-alt="A professional headshot of a modern corporate professional in their late 40s. The lighting is soft and high-key, conveying a sense of reliability and trust. The background is a minimalist bright office environment, perfectly suited for a financial platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgmKMblPb4nwSa_g9wystAGilr2sIj3mlnK86I6pZUdXcjyNhyn-2K_n6WKwHosF3a9f3e7lCTfYa00fRr_1JcDz3vLFpgmdGMwEPglsDTs9fYRXCE0Vagzo3bWyhRvGJEgSrIWD_BQKfCaPdWZXaQpYriMJmK4-j4TJRZopKB0PEnS4yRnqw-slI3f8H_muQq0FnGKZi9jei1Bl3Ixf48gvRzBhYzwL-3Tbr-iC3bX3tTICE6t8RgXPlVn2a1R29jpMyN5BaPcRk"/>
+</div>
+</header>
+<div class="p-margin max-w-7xl mx-auto">
+<div class="mb-md">
+<h2 class="text-display-lg font-display-lg text-on-background">Family Structure</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-xs">Visualizing roles and financial contributions.</p>
+</div>
+<!-- Organogram Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg overflow-x-auto min-h-[600px] flex justify-center items-start pt-xl shadow-[0_4px_12px_rgba(15,23,42,0.02)]">
+<div class="flex flex-col items-center">
+<!-- Top Level: João and Maria -->
+<div class="flex gap-md relative z-10">
+<!-- João Node -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm w-64 shadow-[0_4px_12px_rgba(15,23,42,0.05)] relative z-20">
+<div class="flex items-center gap-sm mb-sm pb-sm border-b border-outline-variant/50">
+<img alt="João Profile" class="w-10 h-10 rounded-full" data-alt="A professional portrait of a mature male executive in his 50s. The image is bright and crisp, set against a clean white background. He exudes confidence and stability, aligning with a reliable corporate financial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL8bVrsgYbtUeS_hIQV939Tx36A3gGHsaLKHWSgpx_B18PMhSY073KVHlv9DMjFwbJErCMAvrGKO3mIjz8vEgKgysDzuZevboxbf3OMHCBka4LCDl7TFNVDSPJFpoWf2x19xmTAIiVYDIzeBciOtxu-WMK9LauHvFW3RqKF6Vk0b65IXVrRfKuJ-uhnRCBWlTptyIte7ZBfpAGvW0vRixnywSIeWwnbqWvA8wzJr7o4DZNu5Wfngj4v4rxssGYpwaOrOQZrd8U7x0"/>
+<div>
+<h3 class="text-numeric-md font-numeric-md text-on-background">João</h3>
+<span class="inline-block bg-tertiary-fixed-dim/20 text-tertiary-container text-[10px] font-label-md px-2 py-0.5 rounded-full mt-1">Provedor Principal</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Contribuição:</span>
+<span class="text-on-background font-medium">70%</span>
+</div>
+</div>
+</div>
+<!-- Maria Node -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm w-64 shadow-[0_4px_12px_rgba(15,23,42,0.05)] relative z-20">
+<div class="flex items-center gap-sm mb-sm pb-sm border-b border-outline-variant/50">
+<img alt="Maria Profile" class="w-10 h-10 rounded-full" data-alt="A professional portrait of a mature female executive in her 50s. The lighting is soft and studio-quality, emphasizing a bright, trustworthy appearance. The overall tone is modern, minimalist, and deeply professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMuNK7iaiNALqRrsB1hlqbuJ9GTKLCok3qNFk6FsJv5zuKJQGOjcmB4RlocgnDX-sjz5PlMT2yeAsQZoQZ1K5-lshZqiZd_NV0wRpv0CSUsUuVOwBq1PVlg_0zVGTv-JEMQUdmNXl_tNR7C9pBSOx1e4oS9x0PyR0c-WVv990cFNkPIQ0ww30Etld2BNKoZfCI_EqV3TjErBTpGZDUHuavh3-7r4HZ5gW3BZlQr98kQ5xHeM_yfRp6aBOb7gM4cvLV1XyIiUsBlCg"/>
+<div>
+<h3 class="text-numeric-md font-numeric-md text-on-background">Maria</h3>
+<span class="inline-block bg-tertiary-fixed-dim/20 text-tertiary-container text-[10px] font-label-md px-2 py-0.5 rounded-full mt-1">Provedora Principal</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Contribuição:</span>
+<span class="text-on-background font-medium">30%</span>
+</div>
+</div>
+</div>
+<!-- Connection Line between parents down to children -->
+<div class="absolute -bottom-6 left-1/2 w-px h-6 bg-outline-variant"></div>
+<div class="absolute top-1/2 left-[16rem] right-[16rem] h-px bg-outline-variant -z-10"></div>
+<div class="absolute -bottom-6 left-1/2 w-0 h-6 border-l border-outline-variant"></div>
+</div>
+<!-- Connective Vertical Line from Parents -->
+<div class="w-px h-md bg-outline-variant relative"></div>
+<!-- Horizontal Distribution Line -->
+<div class="w-[42rem] h-px bg-outline-variant relative">
+<!-- Downward connectors -->
+<div class="absolute top-0 left-0 w-px h-md bg-outline-variant"></div>
+<div class="absolute top-0 left-1/2 w-px h-md bg-outline-variant"></div>
+<div class="absolute top-0 right-0 w-px h-md bg-outline-variant"></div>
+</div>
+<!-- Second Level: Children -->
+<div class="flex gap-lg pt-md relative z-10 w-[42rem] justify-between">
+<!-- Ana & Pedro Group -->
+<div class="flex flex-col items-center relative">
+<div class="flex gap-xs bg-surface-container-lowest border border-outline-variant rounded-lg p-sm w-72 shadow-[0_4px_12px_rgba(15,23,42,0.05)] relative z-20">
+<div class="flex-1 pr-xs border-r border-outline-variant/50">
+<div class="flex flex-col items-center text-center">
+<img alt="Ana Profile" class="w-8 h-8 rounded-full mb-2" data-alt="A portrait of a young adult female professional in her late 20s. The image uses high-key lighting to maintain a bright, clean aesthetic consistent with a modern financial dashboard. She looks approachable yet serious." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlsGb2r4wHxDsZf-20KHkVhNS9dQxKrqEA8zeYGUp9ZgfNRY7DOUEpm06ZVxtPW3s2eCgeUu6RApsDQVKG2hocMnNFzeFHm1CKKy-gHtZZ-SLMnL6dtdd5jAYeq1QKuNatu6NHmNaVB6NQNI840yccDQfwi1D5QawjJmeS512efqN8dp4WSCVDcEWd56smIZ2XTqXdg-BnIEub2o6s6n7xrjfzADpOUAXR8ngI57JGMIfmuBAPec0dCz3xRgWSW3EmKKYOdTaXtR0"/>
+<h3 class="text-numeric-md font-numeric-md text-on-background leading-none">Ana</h3>
+<span class="text-[10px] text-on-surface-variant mt-1">Filha</span>
+</div>
+</div>
+<div class="flex-1 pl-xs">
+<div class="flex flex-col items-center text-center">
+<img alt="Pedro Profile" class="w-8 h-8 rounded-full mb-2" data-alt="A portrait of a young adult male professional in his late 20s. The background is pure white, creating a crisp and uncluttered visual. The lighting highlights a sense of transparency and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD389vNC4XtX8yrc9LblMSjE5OimTVuhJU7XRA9H5gMW5A4cofmhoreYmbR0iXJTtr9RcLWxNGn8s6Rnch5ECmubx6PpUs8KWLVoysgA96IFla5zImTWLPVi5zuez-yNp64-P_4l165SeVI9shi_A0_HzVQpplmrLAKGo2AOvk1quKE3rhim27wl3CbAzQIKD3loaidwEkjN8qE4PPZWtsQZ9Qk65J6Bg6Fgb4_foqPAQSkzP4IDJZcIqclvn-qJZkzXBAl7Id-p6c"/>
+<h3 class="text-numeric-md font-numeric-md text-on-background leading-none">Pedro</h3>
+<span class="text-[10px] text-on-surface-variant mt-1">Genro</span>
+</div>
+</div>
+</div>
+<div class="w-full text-center mt-2">
+<span class="inline-block bg-primary-fixed-dim/30 text-on-primary-fixed-variant text-[10px] font-label-md px-2 py-0.5 rounded-full">Contribuidores</span>
+<div class="text-label-md font-label-md text-on-surface-variant mt-1">Independente</div>
+</div>
+</div>
+<!-- Carlos Node -->
+<div class="flex flex-col items-center relative">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm w-56 shadow-[0_4px_12px_rgba(15,23,42,0.05)] relative z-20 flex flex-col items-center text-center">
+<img alt="Carlos Profile" class="w-10 h-10 rounded-full mb-2" data-alt="A portrait of a young male adult, mid-20s. The photography style is clean, corporate minimalism. Soft shadows and a neutral background ensure the subject looks clear and fits perfectly within a structured UI organogram." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4uMOLjdrMdxLfT4vwZVumumL2PNMZ_t_sk1RhbanC9gDGpFhUz9AzZp1Yor0DZtQ-yrA3Mb7MEbrB79Fu7Mfkqg2DNziJSTlNGE4yhP1KchSdpDLnCn0lETFBusXEWp1zTeqp7k2eE1KZsCb8GkCMIIWHtPA6zAJ0tcWpSQlO_Q82o9X4MQqJBgglEens9jU7Pvdm6b0ah6uOH_cCTrAUJMNwmKM9DHteI65LjN5aq5NoxL-9bkj4m3iYOpyoFhFoBZK43K4vy_s"/>
+<h3 class="text-numeric-md font-numeric-md text-on-background">Carlos</h3>
+<span class="inline-block bg-surface-variant text-on-surface-variant text-[10px] font-label-md px-2 py-0.5 rounded-full mt-2 mb-3">Dependente</span>
+<div class="w-full pt-2 border-t border-outline-variant/50 flex justify-between items-center text-label-md font-label-md">
+<span class="text-on-surface-variant">Custo Mensal:</span>
+<span class="text-error font-medium">R$ 2.500</span>
+</div>
+</div>
+</div>
+<!-- Beatriz Node -->
+<div class="flex flex-col items-center relative">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm w-56 shadow-[0_4px_12px_rgba(15,23,42,0.05)] relative z-20 flex flex-col items-center text-center">
+<img alt="Beatriz Profile" class="w-10 h-10 rounded-full mb-2" data-alt="A portrait of a young female student, early 20s. Captured in a bright, modern light-mode setting. The portrait is sharply focused and minimalist, conveying a sense of organized, reliable documentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtounm7fdgck-lHJX-yYnp3uxi5-LFKkdfTfpmkgKEXHTCMPWqH0nIfdcq65Arg4ni-cJJ6xnUcx3TNMOJgOMs73ZuzyO9iuU1fba7FDofcC_Ksi9hBjiqMC4ItH8PWZIarpiMTvjjxh8P5jTD9l3AiMroDaR5xr30LQZDmuUmC0A3WsIS7rU4k22j6lAAszGL09fDbrC3030YkfxTuXgzXAzIlAEDESnjO3-kBrqN04ikpHXPTAMOVRIQfRp6BaKdsGUASc4BUBY"/>
+<h3 class="text-numeric-md font-numeric-md text-on-background">Beatriz</h3>
+<span class="inline-block bg-surface-variant text-on-surface-variant text-[10px] font-label-md px-2 py-0.5 rounded-full mt-2 mb-1">Dependente</span>
+<span class="text-[10px] text-on-surface-variant mb-3 italic">Estudante</span>
+<div class="w-full pt-2 border-t border-outline-variant/50 flex justify-between items-center text-label-md font-label-md">
+<span class="text-on-surface-variant">Custo Mensal:</span>
+<span class="text-error font-medium">R$ 4.200</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

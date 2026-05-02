@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register Transaction - Harmony Finance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#0051d5",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-container": "#316bf3",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-fixed": "#002113",
+                        "on-primary-container": "#7c839b",
+                        "on-secondary-container": "#fefcff",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-fixed": "#6ffbbe",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "primary": "#000000",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "outline-variant": "#c6c6cd",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#00174b",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e5eeff",
+                        "surface": "#f8f9ff",
+                        "tertiary-container": "#002113",
+                        "on-background": "#0b1c30",
+                        "on-tertiary-container": "#009668",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#d3e4fe",
+                        "primary-container": "#131b2e",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface-dim": "#cbdbf5",
+                        "outline": "#76777d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "secondary-fixed": "#dbe1ff",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "12px",
+                        "margin": "32px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Inter"],
+                        "numeric-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "numeric-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-white dark:bg-slate-900 font-manrope text-sm font-medium border-b border-slate-200 dark:border-slate-800 shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Harmony Finance</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<input class="bg-surface-container-low border-none rounded-full py-1.5 pl-4 pr-10 text-body-sm font-body-sm focus:ring-1 focus:ring-secondary w-64 outline-none" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 text-on-surface-variant text-[20px]">search</span>
+</div>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-150">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-variant border border-outline-variant">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a confident individual against a clean, light studio background. The lighting is soft and flattering, highlighting modern, approachable corporate attire. The overall mood is trustworthy and reliable, fitting perfectly within a minimalist financial application interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsl5D2mst32iQT9hqg-VbsaNzPq-n85cXMVvHuj0bJulDoAm5VhTdjUqdY217jz05gdmGnYUjnLx57ezMXoIdQwHcuXF8eyL3ETMdRKnLmD2yjx7GPeyaAstsoN-AjBYmutw29I4EWAxZpykeRfvhkv1k7_11hOwZu_PSbBoRf0cVVq04vvmaMLs7tNk8nFWWET6tSX4JLb_6c7phDQLt4MlVgyIJAdpsa81dfMRNI4FG2cE1f0vM4uN720gukRX72kNLf-5WKhtY"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-slate-50 dark:bg-slate-950 font-manrope text-sm border-r border-slate-200 dark:border-slate-800 shadow-none fixed left-0 top-0 h-full flex flex-col pt-20 pb-6 w-64 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-surface-variant flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="Family Office Logo" class="w-full h-full object-cover" data-alt="A highly stylized, minimalist architectural logo featuring clean geometric lines representing a sturdy structure or home. The logo uses a monochromatic deep navy palette, set against a pristine white background. The lighting is bright and even, conveying a sense of transparency, heritage, and modern wealth management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOivAyKyezLeMGOZRJTwYXezf-biWgilPHtroOSuMQTO5iwW34ojjysApjeCXxEKd5nj6dLIB6JwbAYg8nawT-6OfrrgWPaFDWm3DwwhzoL-opf7m7NkJSfNHC8-9VZxmerA5tAYsfpyyBa1-bZaEzuAahq2COhA7twdfgffi5lmUGB8S-zGvtb7ImIKFe1AO3mtbRu9OLmACTSsDvLRIvkFrhO-eBTJ0GKGmpAWl1ZRO9-WZMUvfKIWNjRNHp73rJefYiqiksof8"/>
+</div>
+<div>
+<h2 class="text-lg font-extrabold text-blue-600">Family Wealth</h2>
+<p class="text-xs text-slate-500">Financial Oversight</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-blue-600 text-white rounded-lg py-2.5 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors shadow-sm scale-95 duration-75">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Transaction
+            </button>
+</div>
+<ul class="flex-1 px-3 space-y-1">
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Income</span>
+</a>
+</li>
+<li>
+<a class="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-semibold border-l-4 border-blue-600 flex items-center gap-3 px-3 py-2.5 rounded-r-lg shadow-sm" href="#">
+<span class="material-symbols-outlined icon-fill">receipt_long</span>
+<span>Expenses</span>
+</a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span>Accounts</span>
+</a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">label</span>
+<span>Categories</span>
+</a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span>Import OFX</span>
+</a>
+</li>
+</ul>
+<ul class="px-3 space-y-1 mt-auto border-t border-slate-200 dark:border-slate-800 pt-4">
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</li>
+<li>
+<a class="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center gap-3 px-3 py-2.5 rounded-lg scale-95 duration-75" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-margin pb-margin max-w-7xl mx-auto">
+<header class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-background">Register Entry</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Record a new income or expense manually into your ledger.</p>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Form Section -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0px_4px_12px_rgba(15,23,42,0.05)]">
+<!-- Type Toggle -->
+<div class="flex bg-surface-container-low rounded-lg p-1 w-full max-w-md mb-8">
+<button class="text-on-surface-variant py-2 px-4 flex-1 text-center font-label-md text-label-md hover:text-on-surface rounded-md transition-colors">
+                            Income
+                        </button>
+<button class="bg-surface-container-lowest shadow-sm rounded-md py-2 px-4 flex-1 text-center font-label-md text-label-md text-error transition-all">
+                            Expense
+                        </button>
+</div>
+<form class="space-y-6">
+<!-- Amount -->
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2 uppercase">Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-headline-md text-headline-md">$</span>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg pl-10 pr-4 py-4 font-headline-md text-headline-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" placeholder="0.00" type="number" value="125.50"/>
+</div>
+</div>
+<!-- Grid Fields -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2 uppercase">Date</label>
+<div class="relative">
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" type="date" value="2023-10-27"/>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2 uppercase">Account</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors appearance-none">
+<option>Joint Checking (...4092)</option>
+<option>Personal Savings (...1103)</option>
+<option>Corporate Card (...9921)</option>
+</select>
+</div>
+</div>
+<!-- Category & Description -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2 uppercase">Category</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors appearance-none">
+<option>Groceries &amp; Household</option>
+<option>Utilities</option>
+<option>Dining Out</option>
+<option>Transportation</option>
+</select>
+</div>
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant block mb-2 uppercase">Description / Vendor</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" placeholder="e.g. Whole Foods Market" type="text" value="Whole Foods Market"/>
+</div>
+</div>
+<hr class="border-outline-variant opacity-50 my-6"/>
+<!-- Options & Submit -->
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant text-secondary focus:ring-secondary" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface">Mark as recurring transaction</span>
+</label>
+<div class="flex gap-4">
+<button class="px-6 py-3 font-label-md text-label-md text-secondary hover:bg-surface-container-low rounded-lg transition-colors" type="button">
+                                    Cancel
+                                </button>
+<button class="px-6 py-3 font-label-md text-label-md bg-secondary text-on-secondary rounded-lg shadow-sm hover:bg-secondary-container transition-colors flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                                    Save Entry
+                                </button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<!-- Recent Transactions Sidebar -->
+<div class="col-span-12 lg:col-span-4">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 shadow-[0px_4px_12px_rgba(15,23,42,0.05)] h-full">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-variant pb-4">Recent Entries</h3>
+<div class="space-y-4">
+<!-- Entry 1 -->
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">local_dining</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Bistro Bella</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dining Out • Today</p>
+</div>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-surface font-medium">-$84.20</span>
+</div>
+<!-- Entry 2 -->
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim bg-opacity-20 flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Client Retainer</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Income • Yesterday</p>
+</div>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-tertiary-container font-medium">+$2,500.00</span>
+</div>
+<!-- Entry 3 -->
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">City Electric</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Utilities • Oct 25</p>
+</div>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-surface font-medium">-$142.00</span>
+</div>
+<!-- Entry 4 -->
+<div class="flex items-center justify-between py-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Target</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Household • Oct 24</p>
+</div>
+</div>
+<span class="font-numeric-md text-numeric-md text-on-surface font-medium">-$65.99</span>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-center font-label-md text-label-md text-secondary hover:bg-surface-container-low rounded-lg transition-colors border border-outline-variant border-opacity-50">
+                        View All History
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

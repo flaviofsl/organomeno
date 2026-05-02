@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#cbdbf5",
+                    "tertiary": "#000000",
+                    "background": "#f8f9ff",
+                    "outline-variant": "#c6c6cd",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#6ffbbe",
+                    "surface-container": "#e5eeff",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-tertiary-fixed": "#002113",
+                    "on-secondary-container": "#fefcff",
+                    "on-secondary-fixed": "#00174b",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-error-container": "#93000a",
+                    "on-background": "#0b1c30",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "tertiary-container": "#002113",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "outline": "#76777d",
+                    "on-primary-container": "#7c839b",
+                    "inverse-primary": "#bec6e0",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary-container": "#009668",
+                    "surface": "#f8f9ff",
+                    "secondary-container": "#316bf3",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "on-error": "#ffffff",
+                    "surface-tint": "#565e74",
+                    "primary-fixed": "#dae2fd",
+                    "primary-container": "#131b2e",
+                    "on-tertiary": "#ffffff",
+                    "secondary": "#0051d5",
+                    "on-surface-variant": "#45464d",
+                    "error": "#ba1a1a",
+                    "primary": "#000000",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-primary-fixed": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "12px",
+                    "base": "8px",
+                    "lg": "40px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "gutter": "24px",
+                    "xl": "64px",
+                    "margin": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "numeric-md": ["Inter"],
+                    "display-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "numeric-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .receipt-paper {
+            background-image: radial-gradient(circle at 10px 10px, transparent 10px, #ffffff 10px);
+            background-size: 20px 20px;
+        }
+        .zigzag-bottom {
+            background: linear-gradient(-45deg, transparent 10px, #ffffff 0), linear-gradient(45deg, transparent 10px, #ffffff 0);
+            background-position: left bottom;
+            background-repeat: repeat-x;
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+<div class="flex justify-between items-center h-16 w-full px-8 max-w-7xl mx-auto font-manrope antialiased tracking-tight">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined p-base text-slate-500 hover:bg-slate-100 rounded-sm">arrow_back</button>
+<span class="text-xl font-bold text-slate-900 dark:text-white">FinPrecision</span>
+</div>
+<nav class="hidden md:flex gap-lg">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Dashboard</a>
+<a class="text-blue-700 dark:text-blue-400 border-b-2 border-blue-700 dark:border-blue-400 pb-1" href="#">Transactions</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Accounts</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Budget</a>
+</nav>
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-slate-500 p-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 rounded-sm">notifications</span>
+<span class="material-symbols-outlined text-slate-500 p-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 rounded-sm">settings</span>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-slate-200" data-alt="Professional headshot of a smiling woman with brunette hair in a modern corporate setting. The lighting is soft and natural, emphasizing a friendly yet precise atmosphere consistent with a family finance application's reliability and trust themes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY_oAMDaIKxevWY3Yh3ODw9ZveNx_FWvMCdnhCVsthjOmJKCB1-QNSvOObnsQexFS0Wm_qe7To9E_Hg51F6EwmXZ4Rk19RwHGx76ungERq0pKGOK1_POLB_VUr1wDKIUjRopoJPQIlttbiP7QEH3-t3dyrqEYL4AYK8WNDLUGD1_c04gYdIDoEglXo2h8u2lMQna6Y79olwLTzr1WZ9kvaOZBGhnAU58O5DiI75K5HbmPwwrriQ-vC4uCajWzf30erftOrbx8tMmE"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin py-lg flex flex-col lg:flex-row gap-gutter">
+<!-- Left Column: Context & Actions -->
+<div class="w-full lg:w-1/3 space-y-gutter">
+<!-- Summary Card -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md shadow-sm">
+<div class="flex items-center justify-between mb-md">
+<span class="bg-on-tertiary-container/10 text-on-tertiary-container px-base py-xs rounded-full font-label-md text-label-md">Alimentação</span>
+<span class="text-on-surface-variant font-numeric-md">ID #99823</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg mb-xs">Detalhamento da Movimentação</h1>
+<p class="text-on-surface-variant font-body-sm mb-lg">Visualização digital do comprovante fiscal.</p>
+<div class="space-y-sm border-t border-slate-100 pt-md">
+<div class="flex items-center gap-sm">
+<img alt="Beatriz" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A portrait of a serene woman, Beatriz, with a professional and warm expression. She is the family financial manager, shown against a neutral, bright background that fits the corporate minimalist aesthetic. The image is crisp and clear, symbolizing transparency and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-FpnG7duBSeMcLA4_FQdM-9nqNs3PwYiywahRbWodCBlXqt5HSSMpd1H_WV92geKOi5f4n0Jnmj3j5OqiTrVFB1zlFVBFyCvEBe5WWbgh0h27tMtMbjOJqRj50Cqh0aprDau9-CxJmyCG1hNokYin96qrfuGu-3v4lrDp9B1vLCSvoenTZk46sgnEDibwbwJH4IMwpA_5PPghHfBCfvpCaAXLHZoBd_SZug_rRMK5NVcRQ7CQLBLlxvv-G-5i_u390BSTrxTzUBo"/>
+<div>
+<p class="font-label-md text-on-surface-variant">Comprado por</p>
+<p class="font-body-md font-semibold">Beatriz</p>
+</div>
+</div>
+<div class="flex items-center gap-sm pt-sm">
+<div class="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-700 rounded-lg">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Conta</p>
+<p class="font-body-md font-semibold text-secondary">Chase Premier</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-1 gap-sm">
+<button class="flex items-center justify-center gap-sm bg-secondary text-on-secondary py-md font-body-md font-bold transition-all hover:brightness-110 active:scale-95">
+<span class="material-symbols-outlined">download</span> Baixar PDF
+                </button>
+<button class="flex items-center justify-center gap-sm bg-surface-container-lowest border border-secondary text-secondary py-md font-body-md font-bold transition-all hover:bg-blue-50 active:scale-95">
+<span class="material-symbols-outlined">call_split</span> Dividir Despesa
+                </button>
+<button class="flex items-center justify-center gap-sm text-error font-body-md font-semibold py-md transition-all hover:bg-error-container/20">
+<span class="material-symbols-outlined">report</span> Contestar Transação
+                </button>
+</div>
+</div>
+<!-- Right Column: Digital Receipt -->
+<div class="w-full lg:w-2/3">
+<div class="bg-white shadow-xl relative overflow-hidden flex flex-col min-h-[700px]">
+<!-- Receipt Header -->
+<div class="p-lg border-b-2 border-dashed border-slate-200 text-center relative">
+<div class="w-20 h-20 bg-slate-900 mx-auto mb-md flex items-center justify-center overflow-hidden">
+<img alt="Supermercado Logo" class="w-full h-full object-cover opacity-80" data-alt="A clean and modern supermarket logo placeholder featuring stylized groceries in a flat, minimalist vector style. The color palette is composed of deep greens and blacks, conveying a fresh yet professional retail brand identity suitable for a high-end finance app receipt display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaqAGND_Iktz54P-AjU2rrqp-3D9R_aTUKpr2VFt74V0rt4bf79tpj5VEvZ20BkZEJjKlDUddnat1ghT0WZ_sxJHMX-RmQSmJNssUhFQOknMDkeZ7YeYbjMzV_Gi6u0QTDIGSu2TpVYHSJRlyUkEFSH9CztMLUrBsiU2r3FF_aQ7pMo4QlnUIok4K0t3AovL0YyZwmAqzaC1--Hg2_uOnAI2ownWJKKDaiZt7pATPSZE6nmQwf9l4dbQt9roJOHyru7bvOEGA2m8w"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-slate-900">Pão de Açúcar - Loja 1204</h2>
+<p class="text-slate-500 font-body-sm mt-xs">12 Mai 2024, 14:30</p>
+</div>
+<!-- Receipt Body -->
+<div class="p-lg flex-grow">
+<div class="flex justify-between items-center mb-md border-b border-slate-100 pb-sm">
+<span class="font-label-md text-slate-400">ITEM / DESCRIÇÃO</span>
+<span class="font-label-md text-slate-400">VALOR (R$)</span>
+</div>
+<div class="space-y-md">
+<!-- Item 1 -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-slate-800">Arroz Integral 5kg</span>
+<span class="text-slate-400 font-label-md">1 un</span>
+</div>
+<span class="font-numeric-md font-bold text-slate-900">25,90</span>
+</div>
+<!-- Item 2 -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-slate-800">Azeite Extra Virgem</span>
+<span class="text-slate-400 font-label-md">2 un x R$ 38,00</span>
+</div>
+<span class="font-numeric-md font-bold text-slate-900">76,00</span>
+</div>
+<!-- Item 3 -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-slate-800">Peito de Frango 1kg</span>
+<span class="text-slate-400 font-label-md">1.2 kg x R$ 22,00/kg</span>
+</div>
+<span class="font-numeric-md font-bold text-slate-900">26,40</span>
+</div>
+<!-- Item 4 -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-slate-800">Leite Desnatado 1L</span>
+<span class="text-slate-400 font-label-md">6 un x R$ 5,50</span>
+</div>
+<span class="font-numeric-md font-bold text-slate-900">33,00</span>
+</div>
+<!-- Item 5 -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-slate-800">Café Gourmet 500g</span>
+<span class="text-slate-400 font-label-md">2 un x R$ 19,45</span>
+</div>
+<span class="font-numeric-md font-bold text-slate-900">38,90</span>
+</div>
+</div>
+</div>
+<!-- Financial Summary -->
+<div class="px-lg pb-xl mt-lg bg-slate-50 border-t border-slate-100">
+<div class="py-md space-y-sm">
+<div class="flex justify-between text-slate-500">
+<span class="font-body-sm">Subtotal</span>
+<span class="font-numeric-md">200,20</span>
+</div>
+<div class="flex justify-between text-slate-500">
+<span class="font-body-sm">Taxas</span>
+<span class="font-numeric-md">0,00</span>
+</div>
+<div class="flex justify-between text-on-tertiary-container">
+<span class="font-body-sm">Descontos Clube</span>
+<span class="font-numeric-md">-15,00</span>
+</div>
+</div>
+<div class="pt-md border-t-2 border-slate-300 flex justify-between items-center">
+<span class="font-headline-md text-slate-900">TOTAL</span>
+<span class="font-display-lg text-secondary text-[40px]">R$ 185,20</span>
+</div>
+<div class="mt-lg pt-md flex items-center justify-between border-t border-dashed border-slate-300">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-slate-400">credit_card</span>
+<span class="text-slate-500 font-body-sm">Debit Card (**** 4589)</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-md" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-tertiary-container font-label-md uppercase">Confirmado</span>
+</div>
+</div>
+</div>
+<!-- Receipt Bottom Detail -->
+<div class="h-4 w-full bg-[radial-gradient(circle_at_10px_-10px,_transparent_12px,_#f8f9ff_13px)] bg-[length:20px_20px]"></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 pb-safe px-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-lg dark:shadow-none">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-manrope text-[10px] uppercase font-bold mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-700 dark:text-blue-400" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+<span class="font-manrope text-[10px] uppercase font-bold mt-1">Activity</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-manrope text-[10px] uppercase font-bold mt-1">Wallets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-manrope text-[10px] uppercase font-bold mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

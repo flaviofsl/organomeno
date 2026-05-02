@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cadastro - HarmonyFinance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary-container": "#002113",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary-container": "#009668",
+                        "outline": "#76777d",
+                        "on-primary-container": "#7c839b",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-surface": "#0b1c30",
+                        "primary-container": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#0051d5",
+                        "on-surface-variant": "#45464d",
+                        "error": "#ba1a1a",
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#316bf3",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "primary-fixed": "#dae2fd",
+                        "primary": "#000000",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c6c6cd",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container": "#e5eeff",
+                        "background": "#f8f9ff",
+                        "on-tertiary-fixed": "#002113",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary-fixed": "#00174b",
+                        "secondary-fixed": "#dbe1ff",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-background": "#0b1c30",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "40px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "gutter": "24px",
+                        "xl": "64px",
+                        "margin": "32px",
+                        "sm": "12px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "numeric-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "numeric-md": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Asymmetric Split Layout for High-End Feel -->
+<main class="flex w-full min-h-screen">
+<!-- Left Visual Anchor (Hidden on mobile) -->
+<div class="hidden lg:flex lg:w-[45%] relative bg-surface-container-high overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A serene, modern architectural interior bathed in soft, natural morning light, conveying a sense of calm and structure. The space features clean lines, high-quality materials like light wood and polished concrete, and subtle geometric patterns. The overall mood is trustworthy, professional, and tranquil, fitting for a premium family finance application. High-key lighting, corporate minimalist aesthetic with subtle blue and white tonal shifts." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-eosJAWVzRzHC9ik5iGuu8Fa4ZsDaGcWHkOIXFI5aWwrYsfU3LAcv1hNeH7GUIN5BzWlwpnVGoB-NeYU076gbvqn73_WcqmbmcMcM08j6DVu_MuvKFHqqfH-0CBgkQIqo3CxajRu1lGAdzrSFhpwVSwa2bdPoaL-Tb4GhlSucxo8g68elzvuhMM7r3-kBZD0aKh7crCm1brzQMA_BhsBt7X-eZtPmpGKQOaNR_b1-It4AULxEV4guPqy9bdoZEhMCHSsqu7Dc9-M');">
+</div>
+<!-- Overlay for text readability and brand tint -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary-container/90 via-primary-container/40 to-transparent mix-blend-multiply"></div>
+<!-- Branding Content -->
+<div class="relative z-10 flex flex-col justify-between p-xl h-full w-full">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-on-primary text-[32px]" data-icon="account_balance" data-weight="fill">account_balance</span>
+<span class="font-headline-md text-headline-md text-on-primary tracking-tight">HarmonyFinance</span>
+</div>
+<div class="max-w-md">
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-md">Gestão financeira familiar com precisão e clareza.</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim">Transforme dados complexos em harmonia doméstica. Uma plataforma desenhada para colaboração e transparência.</p>
+</div>
+</div>
+</div>
+<!-- Right Form Canvas -->
+<div class="w-full lg:w-[55%] flex items-center justify-center p-md md:p-xl bg-surface">
+<!-- Form Container (Level 1 Card on Surface) -->
+<div class="w-full max-w-[480px] bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<!-- Mobile Branding (Only visible when left side is hidden) -->
+<div class="flex lg:hidden items-center gap-base mb-xl justify-center">
+<span class="material-symbols-outlined text-secondary text-[28px]" data-icon="account_balance" data-weight="fill">account_balance</span>
+<span class="font-headline-md text-headline-md text-on-surface tracking-tight">HarmonyFinance</span>
+</div>
+<!-- Header -->
+<div class="mb-xl text-center lg:text-left">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Criar Conta</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Insira seus dados para começar a gerenciar.</p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-md">
+<!-- Full Name Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface uppercase tracking-wider" for="fullName">Nome Completo</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant pointer-events-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+</span>
+<input class="w-full pl-lg pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all duration-200 placeholder:text-outline" id="fullName" name="fullName" placeholder="Ex: Maria Silva" required="" type="text"/>
+</div>
+</div>
+<!-- Email Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface uppercase tracking-wider" for="email">E-mail</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant pointer-events-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+</span>
+<input class="w-full pl-lg pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all duration-200 placeholder:text-outline" id="email" name="email" placeholder="seu@email.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface uppercase tracking-wider" for="password">Senha</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant pointer-events-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="lock">lock</span>
+</span>
+<input class="w-full pl-lg pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all duration-200 placeholder:text-outline" id="password" name="password" placeholder="Mínimo de 8 caracteres" required="" type="password"/>
+</div>
+</div>
+<!-- Confirm Password Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface uppercase tracking-wider" for="confirmPassword">Confirmar Senha</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant pointer-events-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="lock_reset">lock_reset</span>
+</span>
+<input class="w-full pl-lg pr-sm py-sm rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all duration-200 placeholder:text-outline" id="confirmPassword" name="confirmPassword" placeholder="Repita sua senha" required="" type="password"/>
+</div>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-sm mt-xs">
+<div class="flex items-center h-5">
+<input class="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary bg-surface-container-lowest transition-colors cursor-pointer" id="terms" name="terms" required="" type="checkbox"/>
+</div>
+<label class="font-body-sm text-body-sm text-on-surface-variant cursor-pointer select-none" for="terms">
+                            Concordo com os <a class="text-secondary hover:text-on-secondary-fixed-variant underline transition-colors" href="#">Termos de Serviço</a> e a <a class="text-secondary hover:text-on-secondary-fixed-variant underline transition-colors" href="#">Política de Privacidade</a>.
+                        </label>
+</div>
+<!-- Submit Action -->
+<div class="pt-sm">
+<button class="w-full py-sm px-md bg-secondary text-on-secondary rounded-lg font-label-md text-label-md tracking-widest uppercase hover:bg-on-secondary-fixed-variant hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-surface" type="submit">
+                            Cadastrar
+                        </button>
+</div>
+</form>
+<!-- Alternative Action -->
+<div class="mt-lg text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Já tem uma conta? 
+                        <a class="font-label-md text-label-md text-secondary hover:text-on-secondary-fixed-variant transition-colors ml-xs" href="#">Entrar</a>
+</p>
+</div>
+</div>
+<!-- Simple Minimalist Footer for Canvas -->
+<div class="absolute bottom-md text-center w-full lg:w-[55%] pointer-events-none opacity-60">
+<p class="font-body-sm text-body-sm text-outline">© 2024 HarmonyFinance. Confiança &amp; Precisão.</p>
+</div>
+</div>
+</main>
+</body></html>
