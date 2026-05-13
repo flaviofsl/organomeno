@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-brand-blue: #0047FF;
+  --color-brand-light: #F0F4FF;
+  --color-harmony-gray: #FAFAFB;
+  --color-border-subtle: #E8E8EC;
+  
+  --radius-harmony: 12px;
+}
+
+@layer base {
+  body {
+    @apply bg-harmony-gray text-slate-900 font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+}
+
+.harmony-card {
+  @apply bg-white border border-border-subtle rounded-[--radius-harmony] shadow-sm overflow-hidden;
+}
+
+.harmony-btn-primary {
+  @apply bg-brand-blue text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-all active:scale-95 disabled:bg-slate-300;
+}
+
+.harmony-btn-secondary {
+  @apply bg-white border border-border-subtle text-slate-700 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 transition-all active:scale-95;
+}
+
+.movement-row {
+  @apply border-b border-border-subtle hover:bg-slate-50 transition-colors last:border-b-0;
+}
+
+.input-field {
+  @apply w-full px-3 py-2 border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all bg-harmony-gray/50;
+}

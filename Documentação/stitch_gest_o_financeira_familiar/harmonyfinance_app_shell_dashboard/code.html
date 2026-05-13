@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#000000",
+                    "surface-dim": "#cbdbf5",
+                    "tertiary-fixed": "#6ffbbe",
+                    "surface-container": "#e5eeff",
+                    "error-container": "#ffdad6",
+                    "outline-variant": "#c6c6cd",
+                    "background": "#f8f9ff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-fixed": "#002113",
+                    "on-secondary-container": "#fefcff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "tertiary-container": "#002113",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-container": "#009668",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "outline": "#76777d",
+                    "on-primary-container": "#7c839b",
+                    "inverse-primary": "#bec6e0",
+                    "secondary": "#0051d5",
+                    "on-surface-variant": "#45464d",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#131b2e",
+                    "surface-tint": "#565e74",
+                    "primary-fixed": "#dae2fd",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#316bf3",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "surface": "#f8f9ff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-primary-fixed": "#131b2e",
+                    "primary": "#000000"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "64px",
+                    "margin": "32px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "gutter": "24px",
+                    "lg": "40px",
+                    "sm": "12px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "numeric-md": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "numeric-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col py-6 px-4 z-50 bg-white border-r border-slate-200">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-white" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-slate-900 leading-tight">HarmonyFinance</h1>
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Family Oversight</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-blue-600 bg-slate-50 border-r-2 border-blue-600 font-semibold transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-manrope text-sm">Family Tree</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-manrope text-sm">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-manrope text-sm">Accounts</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="font-manrope text-sm">Providers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-manrope text-sm">Categories</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1 border-t border-slate-100 pt-6">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span class="font-manrope text-sm">OFX Import</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope text-sm">Settings</span>
+</a>
+<button class="w-full mt-4 bg-secondary text-white font-manrope text-sm font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Register Movement
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-64 h-16 flex items-center justify-between px-8 z-40 bg-slate-50/80 backdrop-blur-md border-b border-slate-200">
+<div class="flex items-center">
+<h2 class="font-headline-md text-slate-900">Dashboard</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="w-64 bg-white border border-slate-200 rounded-full px-4 py-1.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all" placeholder="Search family data..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-1"></div>
+<button class="flex items-center gap-3 group">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-900">Julian Sterling</p>
+<p class="text-[10px] text-slate-500">Head of Office</p>
+</div>
+<img alt="User profile settings" class="w-9 h-9 rounded-full object-cover border border-slate-200" data-alt="A professional portrait of a middle-aged executive man with a friendly expression. He is wearing a tailored navy blazer over a crisp white shirt. The background is a softly blurred modern office interior with warm natural lighting coming from a large window, creating a clean, high-end corporate aesthetic that radiates reliability and transparency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMdDihEHX2TfuEOIwfIsngAtRLZh6ZhA8-RpOfAJHa0pPZ5-FJ42Bb57rrQ9j1n9_D5w-oaksBrswHLpnjX6dqh-7pABMYTsQhvVj0uD4vh5x21byeR1AeGdy9Sy5SPk-nvnZHbEJW4hPl4R9oOO_OdfIReOXBsz2PdgwN1Qvv7pFoCKq8-kNt0BrgqD8WbxnD57rjdSGdEJvDg5ptjMH2ytgSv5XyWUmqHI7Kd1R5-buu4YIS8ptKlGnDFGN47TW_nVgK2cQmqq0"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="pt-24 px-margin pb-margin">
+<!-- Hero Stats Bento -->
+<div class="bento-grid mb-gutter">
+<!-- Main Balance Card -->
+<div class="col-span-12 lg:col-span-5 bg-white p-lg rounded-xl border border-slate-200 relative overflow-hidden">
+<div class="relative z-10">
+<p class="font-label-md text-on-primary-container mb-1">AGGREGATE FAMILY NET WORTH</p>
+<h3 class="font-display-lg text-primary mb-6">$4,285,910.00</h3>
+<div class="flex gap-4">
+<div class="bg-on-tertiary-container/10 px-3 py-1.5 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-on-tertiary-container" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold text-on-tertiary-container">+2.4% this month</span>
+</div>
+<div class="bg-slate-100 px-3 py-1.5 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-slate-500" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-bold text-slate-600">Updated 2m ago</span>
+</div>
+</div>
+</div>
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Family Liquidity -->
+<div class="col-span-6 lg:col-span-3 bg-white p-lg rounded-xl border border-slate-200">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-fixed text-on-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_horiz">more_horiz</span>
+</div>
+<p class="font-label-md text-slate-500 mb-1">TOTAL LIQUIDITY</p>
+<p class="font-headline-md text-slate-900">$842,000</p>
+<div class="mt-4 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-2/3"></div>
+</div>
+</div>
+<!-- Monthly Spend -->
+<div class="col-span-6 lg:col-span-4 bg-white p-lg rounded-xl border border-slate-200 flex flex-col justify-between">
+<div class="flex justify-between items-center">
+<p class="font-label-md text-slate-500">MONTHLY EXPENSE QUOTA</p>
+<span class="text-xs font-bold text-error">92% USED</span>
+</div>
+<div class="mt-4">
+<p class="font-headline-md text-slate-900">$42,300.00</p>
+<p class="text-xs text-slate-400 mt-1">vs $45,000.00 budgeted</p>
+</div>
+<div class="mt-6 flex -space-x-2">
+<img alt="Family member" class="w-8 h-8 rounded-full border-2 border-white" data-alt="A portrait of a smiling young woman with auburn hair in a professional white blouse. The lighting is bright and airy, set against a soft-focus minimalist background of a modern living space. The image conveys a sense of domestic harmony and collaborative family financial planning within a crisp, modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx1h-YlGISHJso7ruSbGJi8PsJzqGYvCu7vZW0zzbueDcaVTDfL7Qa8nEM1dzyXAiGlpdbgrhK2fJo_TAuhRWM7NscVTJyMP2pU8sHYYxQvogQ4ZPA6JYxxlOB6NrvBXW_7mBuqoisGba9_lrFUD39yXH0z_2jCt9EGBzPWPT4yk-P5pcMj4zwU5tdyE0-6TlYRpziO0nKcF6ddsPdw006Kr-pnOd3NOYEMQEzzj7G9BW2sVdXOyR2qniXzDnVL2b5HKIzDpQI0ig"/>
+<img alt="Family member" class="w-8 h-8 rounded-full border-2 border-white" data-alt="A close-up portrait of a professional man with short dark hair and a friendly demeanor. He is wearing a grey cashmere sweater. The environment is a bright, high-ceilinged modern home office with clean lines and soft daylight, representing transparency and precise financial oversight in a calm, controlled setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjF32iP7Qqip12_yoeXhoB3MJ52MoImL6GckmKGWJrhTR5XKRPg5CktWw-7eJ2gBg-gMMRItK8mHkxBKQgAOSo6wRgtuGjV4RWJiJxdsENvjpb5rQ6bs6wkndKQNT3feQciqFWOZ-WrHlsC_MqZB493klrHEdejkB8fevri5UBaZDPz8BdYCic_-De1fRG-jEx43exgo_i9x-4kOHYUGvls9EJdjgSm8Rvhl8M4r_lI6WxW0I6F27N5c2iZ5HFnus-OZ5fxuSh5k4"/>
+<img alt="Family member" class="w-8 h-8 rounded-full border-2 border-white" data-alt="A portrait of an elderly woman with silver hair and elegant features, wearing a classic dark blazer. She is smiling warmly in a bright, modern library setting with clean white shelves. The visual style is sophisticated and minimalist, focusing on trust and multigenerational family fiscal integrity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA37XXneWg98dEFwqe9x41v0DVyPghScK0N9X0UPvDeOczM8606Qzaif203SNbkp992DTHERm_LtMiUzHx9wN-xCuuuXfRA_67QYY56glY-fou-vx8UUYcIR3pv5kPbmS3NfIQoCQxj8vVOhnEN_ACWhJD1K9kba5zZ5o6TZdYUVpeiAKcw6rVp1NSGdldtzYVrviV_w-YmQtf4ObR4ps5LNRvxwTtVDkGMl9szs9lcDS38rOpakZsIDNuEP1yZZ3pPxqS2ttvUHzM"/>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">+2</div>
+</div>
+</div>
+</div>
+<!-- Main Content Split -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Recent Activity Table -->
+<div class="col-span-12 lg:col-span-8 bg-white rounded-xl border border-slate-200 flex flex-col">
+<div class="px-lg py-md border-b border-slate-100 flex justify-between items-center">
+<h4 class="font-headline-md text-slate-900 text-lg">Recent Ledger Activity</h4>
+<button class="text-blue-600 font-label-md flex items-center gap-1 hover:underline">
+                            VIEW FULL HISTORY
+                            <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="text-left border-b border-slate-50">
+<th class="px-lg py-4 font-label-md text-slate-400">PROVIDER</th>
+<th class="px-lg py-4 font-label-md text-slate-400">CATEGORY</th>
+<th class="px-lg py-4 font-label-md text-slate-400">DATE</th>
+<th class="px-lg py-4 font-label-md text-slate-400 text-right">AMOUNT</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-sm" data-icon="electric_bolt">electric_bolt</span>
+</div>
+<span class="font-body-md font-semibold text-slate-900">National Grid</span>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-2.5 py-1 bg-surface-container rounded-full text-xs font-bold text-secondary">UTILITIES</span>
+</td>
+<td class="px-lg py-4 font-body-sm text-slate-500">Oct 24, 2023</td>
+<td class="px-lg py-4 text-right font-numeric-md text-error">-$245.50</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-sm" data-icon="shopping_cart">shopping_cart</span>
+</div>
+<span class="font-body-md font-semibold text-slate-900">Whole Foods Market</span>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-2.5 py-1 bg-surface-container rounded-full text-xs font-bold text-secondary">GROCERIES</span>
+</td>
+<td class="px-lg py-4 font-body-sm text-slate-500">Oct 23, 2023</td>
+<td class="px-lg py-4 text-right font-numeric-md text-error">-$182.10</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-sm" data-icon="work">work</span>
+</div>
+<span class="font-body-md font-semibold text-slate-900">Sterling Consulting</span>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-2.5 py-1 bg-on-tertiary-container/10 rounded-full text-xs font-bold text-on-tertiary-container">INCOME</span>
+</td>
+<td class="px-lg py-4 font-body-sm text-slate-500">Oct 22, 2023</td>
+<td class="px-lg py-4 text-right font-numeric-md text-on-tertiary-container">+$12,500.00</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-lg py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-sm" data-icon="school">school</span>
+</div>
+<span class="font-body-md font-semibold text-slate-900">Bright Horizon Academy</span>
+</div>
+</td>
+<td class="px-lg py-4">
+<span class="px-2.5 py-1 bg-surface-container rounded-full text-xs font-bold text-secondary">EDUCATION</span>
+</td>
+<td class="px-lg py-4 font-body-sm text-slate-500">Oct 20, 2023</td>
+<td class="px-lg py-4 text-right font-numeric-md text-error">-$2,100.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Quick Actions & Charts -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Family Tree Node Preview -->
+<div class="bg-white rounded-xl border border-slate-200 p-lg">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-lg text-slate-900">Family Structure</h4>
+<span class="material-symbols-outlined text-slate-400" data-icon="account_tree">account_tree</span>
+</div>
+<div class="space-y-4">
+<!-- Node -->
+<div class="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+<img alt="Julian Sterling" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a middle-aged man with dark hair, looking confident and reliable. He is wearing a subtle patterned dress shirt. The lighting is high-key and professional, set in a clean corporate environment that reflects precision and financial authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpBUjQ0xt-S-vZauAa3lo77eNvUfYQheZwVneumsp2Rbt0bbEErVSrQUYby-wRZj7Nqz9s6owLK7IbDc3Jqi1dU4SXCJNHLXJ8T0xZp96N55U8NpYuOrQnFAQ80gBY1IsIt3hLLVXHjYb3wxiIq9UvD_yHbyMVA8wB1sdINWZ6z87PdXY6k4kW4MmAhcgd5aEQM3WR5eeq6j9RLZD26GKTx6Aq73NDkXr7CSCkIkxdpairYs0ve1uuXcKYOEKSkCFmNLOSdTRnIpg"/>
+<div>
+<p class="text-sm font-bold text-slate-900">Julian Sterling</p>
+<p class="text-[10px] uppercase font-bold text-slate-400">Managing Director</p>
+</div>
+<div class="ml-auto w-2 h-2 bg-on-tertiary-container rounded-full"></div>
+</div>
+<!-- Connection Line -->
+<div class="ml-8 w-px h-4 bg-slate-200"></div>
+<!-- Node -->
+<div class="flex items-center gap-4 p-3 border border-slate-100 rounded-lg">
+<img alt="Elena Sterling" class="w-10 h-10 rounded-full object-cover" data-alt="A portrait of a serene woman with kind eyes and reddish-brown hair. She is wearing a soft beige turtleneck. The background is a clean, bright minimalist studio with soft natural lighting, conveying a sense of family collaboration and transparent communication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnBrS9dOshZ3mVCNIK91KZWnvyuJXv88L0xUf-XCocnbhWBXPVwYc03gWJcRQa3ylCrsLgxiKhQPu9cxqv5qFebk_-yutTnpY7OYwbJUWSgFXYX68CVFPVu2KpuEKmH2T0lX2msR8iclUd7ioKEvwxf-LULh5qwNVGj1VPG7IvnK2wpHFcKtTU0ye-900GBdTE4g8APzilj5kSl18f-y5hwYfKwfkv95-xRCmzc1t1eWeIO8JosrBKlBsiirc_9Af5KfaOIOYuzlc"/>
+<div>
+<p class="text-sm font-bold text-slate-900">Elena Sterling</p>
+<p class="text-[10px] uppercase font-bold text-slate-400">Co-Manager</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors border border-dashed border-slate-200 rounded-lg">
+                            + Add Family Member
+                        </button>
+</div>
+<!-- Asset Distribution Chart Placeholder -->
+<div class="bg-primary-container text-white rounded-xl p-lg relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline-md text-lg mb-2">Asset Allocation</h4>
+<p class="text-slate-400 text-xs mb-6">Diversification across asset classes</p>
+<div class="space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>EQUITIES</span>
+<span>62%</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full">
+<div class="h-full bg-secondary w-[62%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>REAL ESTATE</span>
+<span>24%</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full">
+<div class="h-full bg-tertiary-fixed-dim w-[24%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>CASH</span>
+<span>14%</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full">
+<div class="h-full bg-white w-[14%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Background Detail -->
+<div class="absolute right-[-20%] top-[-20%] w-48 h-48 border-[1px] border-white/10 rounded-full"></div>
+<div class="absolute right-[-10%] top-[-10%] w-48 h-48 border-[1px] border-white/5 rounded-full scale-125"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Suppressed on Dashboard as per instructions if it doesn't align, but "Register Movement" is provided in JSON and aligns with financial entry task) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary text-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50 md:hidden">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>
