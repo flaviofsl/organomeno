@@ -42,7 +42,7 @@ export function RegisterUser({ onNavigate }: RegisterUserProps) {
             </div>
             <div className="space-y-1">
               <h1 className="text-3xl font-display font-black text-slate-900 tracking-tight">Criar Conta</h1>
-              <p className="text-slate-500 font-medium">Junte-se à HarmonyFinance para gerir o seu futuro financeiro.</p>
+              <p className="text-slate-500 font-medium">Junte-se à Organomeno para gerir o seu futuro financeiro.</p>
             </div>
           </div>
 

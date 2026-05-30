@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sidebar, Topbar } from './components/Navigation';
 import { cn } from './lib/utils';
@@ -31,9 +31,28 @@ import { RegisterUser } from './components/RegisterUser';
 import { Login } from './components/Login';
 import { ForgotPassword } from './components/ForgotPassword';
 import { Screen } from './types';
+import { pathToScreen, screenToPath } from './lib/routing';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('dashboard');
+  const [currentScreen, setCurrentScreen] = useState<Screen>(() =>
+    pathToScreen(window.location.pathname)
+  );
+
+  const navigateTo = useCallback((screen: Screen) => {
+    setCurrentScreen(screen);
+    const path = screenToPath(screen);
+    if (window.location.pathname !== path) {
+      window.history.pushState({ screen }, '', path);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      setCurrentScreen(pathToScreen(window.location.pathname));
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -44,59 +63,59 @@ export default function App() {
       case 'register':
         return <RegisterEntry />;
       case 'accounts':
-        return <Accounts onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <Accounts onNavigate={navigateTo} />;
       case 'family':
-        return <FamilyHub onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <FamilyHub onNavigate={navigateTo} />;
       case 'family_structure':
-        return <FamilyStructure onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <FamilyStructure onNavigate={navigateTo} />;
       case 'providers':
-        return <Providers onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <Providers onNavigate={navigateTo} />;
       case 'dependents':
         return <Dependents />;
       case 'categories':
-        return <Categories onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <Categories onNavigate={navigateTo} />;
       case 'register_category':
-        return <RegisterCategory onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <RegisterCategory onNavigate={navigateTo} />;
       case 'register_account':
-        return <RegisterAccount onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <RegisterAccount onNavigate={navigateTo} />;
       case 'ledger_print_preview':
-        return <LedgerPrintPreview onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <LedgerPrintPreview onNavigate={navigateTo} />;
       case 'maintain_transaction':
-        return <MaintainTransaction onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <MaintainTransaction onNavigate={navigateTo} />;
       case 'add_family_member':
-        return <AddFamilyMember onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <AddFamilyMember onNavigate={navigateTo} />;
       case 'notification_settings':
-        return <NotificationSettings onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <NotificationSettings onNavigate={navigateTo} />;
       case 'general_settings':
-        return <GeneralSettings onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <GeneralSettings onNavigate={navigateTo} />;
       case 'entities':
-        return <PeopleEntities onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <PeopleEntities onNavigate={navigateTo} />;
       case 'category_list':
-        return <CategoryList onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <CategoryList onNavigate={navigateTo} />;
       case 'category_form':
-        return <RegisterCategory onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <RegisterCategory onNavigate={navigateTo} />;
       case 'account_list':
-        return <AccountList onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <AccountList onNavigate={navigateTo} />;
       case 'account_form':
-        return <RegisterAccount onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <RegisterAccount onNavigate={navigateTo} />;
       case 'import_invoice':
-        return <ImportInvoice onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <ImportInvoice onNavigate={navigateTo} />;
       case 'income_list':
-        return <IncomeList onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <IncomeList onNavigate={navigateTo} />;
       case 'expense_list':
-        return <ExpenseList onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <ExpenseList onNavigate={navigateTo} />;
       case 'ledger_book':
-        return <LedgerBook onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <LedgerBook onNavigate={navigateTo} />;
       case 'transaction_detail':
-        return <TransactionDetail onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <TransactionDetail onNavigate={navigateTo} />;
       case 'import_ofx':
         return <ImportOFX />;
       case 'register_user':
-        return <RegisterUser onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <RegisterUser onNavigate={navigateTo} />;
       case 'login':
-        return <Login onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <Login onNavigate={navigateTo} />;
       case 'forgot_password':
-        return <ForgotPassword onNavigate={(s: Screen) => setCurrentScreen(s)} />;
+        return <ForgotPassword onNavigate={navigateTo} />;
       default:
         return <Dashboard />;
     }
@@ -107,11 +126,11 @@ export default function App() {
   return (
     <div className="flex h-screen w-full bg-harmony-gray overflow-hidden">
       {/* Sidebar - Fixed */}
-      {!isAuthScreen && <Sidebar currentScreen={currentScreen} onScreenChange={setCurrentScreen} />}
+      {!isAuthScreen && <Sidebar currentScreen={currentScreen} onScreenChange={navigateTo} />}
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 relative h-full">
-        {!isAuthScreen && <Topbar currentScreen={currentScreen} onScreenChange={setCurrentScreen} />}
+        {!isAuthScreen && <Topbar currentScreen={currentScreen} onScreenChange={navigateTo} />}
         
         <main className={cn("flex-1 overflow-y-auto custom-scrollbar", !isAuthScreen ? "p-8" : "p-4 flex items-center justify-center")}>
           <div className={cn("w-full mx-auto", !isAuthScreen ? "max-w-6xl" : "max-w-4xl")}>

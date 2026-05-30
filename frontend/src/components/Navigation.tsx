@@ -61,8 +61,8 @@ export function Sidebar({ currentScreen, onScreenChange }: SidebarProps) {
           <Landmark size={24} strokeWidth={2.5} />
         </div>
         <div>
-          <h1 className="text-xl font-display font-extrabold tracking-tight text-slate-900">HarmonyFinance</h1>
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">Family Oversight</p>
+          <h1 className="text-xl font-display font-extrabold tracking-tight text-slate-900">Organomeno</h1>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none"> Financeiro</p>
         </div>
       </div>
 
@@ -138,7 +138,7 @@ export function Topbar({ currentScreen, onScreenChange }: TopbarProps) {
               <ArrowLeft size={20} />
             </button>
           )}
-          <h2 className="text-lg font-display font-black text-slate-900 tracking-tight">HarmonyFinance</h2>
+          <h2 className="text-lg font-display font-black text-slate-900 tracking-tight">Organomeno</h2>
         </div>
         
         {!isDetailView && (

@@ -143,7 +143,7 @@ export function Accounts({ onNavigate }: AccountsProps) {
                 <TrendingUp size={16} />
               </div>
               <p className="text-xs font-medium text-slate-600 leading-relaxed">
-                Manter suas contas sincronizadas ajuda a HarmonyFinance a gerar relatórios mais precisos sobre sua evolução patrimonial.
+                Manter suas contas sincronizadas ajuda a Organomeno a gerar relatórios mais precisos sobre sua evolução patrimonial.
               </p>
             </div>
           </div>

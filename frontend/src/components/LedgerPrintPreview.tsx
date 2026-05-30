@@ -81,7 +81,7 @@ export function LedgerPrintPreview({ onNavigate }: LedgerPrintPreviewProps) {
                 <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white">
                   <FileText size={24} />
                 </div>
-                <h1 className="text-2xl font-display font-black text-slate-900 tracking-tighter">HarmonyFinance</h1>
+                <h1 className="text-2xl font-display font-black text-slate-900 tracking-tighter">Organomeno</h1>
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Relatório de Movimentação</p>
@@ -178,7 +178,7 @@ export function LedgerPrintPreview({ onNavigate }: LedgerPrintPreviewProps) {
                 </div>
               </div>
               <p className="text-[10px] text-slate-400 font-medium leading-relaxed italic">
-                Documento gerado automaticamente pelo sistema HarmonyFinance. O conteúdo deste relatório é de uso confidencial e restrito.
+                Documento gerado automaticamente pelo sistema Organomeno. O conteúdo deste relatório é de uso confidencial e restrito.
               </p>
             </div>
           </div>

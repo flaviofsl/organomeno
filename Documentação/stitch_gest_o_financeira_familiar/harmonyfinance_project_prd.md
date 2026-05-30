@@ -1,4 +1,4 @@
-# HarmonyFinance - Financial Management System
+# Organomeno - Financial Management System
 
 ## Project Overview
 A ReactJS-based family financial management application designed for clarity, transparency, and collaboration.
