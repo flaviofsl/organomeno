@@ -27,7 +27,8 @@ import {
   Heart,
   FileText,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  ArrowLeftRight
 } from 'lucide-react';
 import { Screen } from '../types';
 import { cn } from '../lib/utils';
@@ -44,6 +45,7 @@ export function Sidebar({ currentScreen, onScreenChange }: SidebarProps) {
     { id: 'entities', label: 'Pessoas', icon: Users },
     { id: 'category_list', label: 'Categorias', icon: Tag },
     { id: 'account_list', label: 'Contas', icon: Landmark },
+    { id: 'transfer_list', label: 'Transferências', icon: ArrowLeftRight },
     { id: 'income_list', label: 'Receitas', icon: TrendingUp },
     { id: 'expense_list', label: 'Despesas', icon: TrendingDown },
     { id: 'family', label: 'Family Hub', icon: Heart },

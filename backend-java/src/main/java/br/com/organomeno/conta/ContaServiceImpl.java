@@ -14,8 +14,12 @@ public class ContaServiceImpl implements ContaService {
     ContaRepository contaRepository;
 
     @Override
-    public List<ContaDTO> listarContas() {
-        return contaRepository.listAll().stream()
+    public List<ContaDTO> listarContas(Boolean ativa) {
+        List<Conta> contas = ativa == null
+                ? contaRepository.listAll()
+                : contaRepository.list("ativa", ativa);
+
+        return contas.stream()
                 .map(ContaMapper::toDTO)
                 .collect(Collectors.toList());
     }

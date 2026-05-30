@@ -41,6 +41,8 @@ export interface CategorizedSpending {
   color: string;
 }
 
+export type NavigateFn = (screen: Screen, query?: Record<string, string>) => void;
+
 export type Screen = 
   | 'dashboard' 
   | 'ledger' 
@@ -69,6 +71,8 @@ export type Screen =
   | 'category_form'
   | 'account_list'
   | 'account_form'
+  | 'transfer_list'
+  | 'transfer_form'
   | 'import_invoice'
   | 'income_list'
   | 'expense_list'

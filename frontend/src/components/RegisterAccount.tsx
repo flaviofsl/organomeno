@@ -32,7 +32,7 @@ const POPULAR_BANKS = [
 ];
 
 export function RegisterAccount({ onNavigate }: RegisterAccountProps) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBank, setSelectedBank] = useState<string | null>(null);
 

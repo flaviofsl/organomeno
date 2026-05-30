@@ -1,17 +1,13 @@
 package br.com.organomeno.ofx.rest;
 
-import br.com.organomeno.ofx.rest.MulitipleDocumentDetailsRequest;
 import br.com.organomeno.ofx.services.ArquivoOfxService;
 import br.com.organomeno.ofx.services.OfxService;
-
+import com.webcohesion.ofx4j.io.OFXParseException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
-import java.io.FileInputStream;
-
-
 
 @Path("/ofx")
 public class OfxRest {
@@ -24,7 +20,6 @@ public class OfxRest {
 
     private static final Logger LOG = Logger.getLogger(OfxRest.class.getName());
 
-
     @GET
     @Path("/")
     public String hello() {
@@ -32,22 +27,45 @@ public class OfxRest {
     }
 
     @POST
+    @Path("/preview")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response preview(MulitipleDocumentDetailsRequest documentDetailsRequests) {
+        try {
+            return Response.ok(ofxService.previewOfx(documentDetailsRequests)).build();
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Requisição inválida para preview OFX", e);
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (OFXParseException e) {
+            LOG.error("Erro ao processar arquivo OFX", e);
+            return Response.status(Response.Status.BAD_REQUEST).entity("Erro ao processar arquivo OFX: " + e.getMessage()).build();
+        } catch (Exception e) {
+            LOG.error("Erro inesperado ao processar preview OFX", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro ao processar arquivo OFX: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @POST
     @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public Response upload(MulitipleDocumentDetailsRequest documentDetailsRequests) {
-
-            LOG.info("File name: " + documentDetailsRequests.getFileUpload().get(0).fileName());
-            LOG.info("Id Conta: " + documentDetailsRequests.getIdConta());
-
-            String arquivo = documentDetailsRequests.getFileUpload().get(0).uploadedFile().toString();
-            try {
-                FileInputStream streamFile = new FileInputStream(arquivo);
-                return ofxService.fazerLeituraDeOFX(documentDetailsRequests);
-            }  catch (Exception e) {
-                LOG.error("Erro ao processar arquivo OFX", e);
-                throw new RuntimeException(e);
-            }
+        try {
+            return Response.ok(ofxService.importarOfx(documentDetailsRequests)).build();
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Requisição inválida para importação OFX", e);
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (OFXParseException e) {
+            LOG.error("Erro ao importar arquivo OFX", e);
+            return Response.status(Response.Status.BAD_REQUEST).entity("Erro ao importar arquivo OFX: " + e.getMessage()).build();
+        } catch (Exception e) {
+            LOG.error("Erro inesperado ao importar OFX", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro ao importar arquivo OFX: " + e.getMessage())
+                    .build();
+        }
     }
 
     @GET
@@ -82,5 +100,4 @@ public class OfxRest {
                     .build();
         }
     }
-
 }

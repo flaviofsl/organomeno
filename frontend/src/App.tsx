@@ -24,24 +24,38 @@ import { GeneralSettings } from './components/GeneralSettings';
 import { PeopleEntities } from './components/PeopleEntities';
 import { CategoryList } from './components/CategoryList';
 import { AccountList } from './components/AccountList';
+import { AccountForm } from './components/AccountForm';
+import { TransferList } from './components/TransferList';
+import { TransferForm } from './components/TransferForm';
 import { ImportInvoice } from './components/ImportInvoice';
 import { IncomeList } from './components/IncomeList';
 import { ExpenseList } from './components/ExpenseList';
 import { RegisterUser } from './components/RegisterUser';
 import { Login } from './components/Login';
 import { ForgotPassword } from './components/ForgotPassword';
-import { Screen } from './types';
+import { NavigateFn, Screen } from './types';
 import { pathToScreen, screenToPath } from './lib/routing';
+
+function idFromUrl(): number | undefined {
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) return undefined;
+  const parsed = Number(id);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>(() =>
     pathToScreen(window.location.pathname)
   );
 
-  const navigateTo = useCallback((screen: Screen) => {
+  const navigateTo = useCallback<NavigateFn>((screen, query) => {
     setCurrentScreen(screen);
-    const path = screenToPath(screen);
-    if (window.location.pathname !== path) {
+    let path = screenToPath(screen);
+    if (query && Object.keys(query).length > 0) {
+      path += `?${new URLSearchParams(query).toString()}`;
+    }
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (current !== path) {
       window.history.pushState({ screen }, '', path);
     }
   }, []);
@@ -97,7 +111,11 @@ export default function App() {
       case 'account_list':
         return <AccountList onNavigate={navigateTo} />;
       case 'account_form':
-        return <RegisterAccount onNavigate={navigateTo} />;
+        return <AccountForm onNavigate={navigateTo} contaId={idFromUrl()} />;
+      case 'transfer_list':
+        return <TransferList onNavigate={navigateTo} />;
+      case 'transfer_form':
+        return <TransferForm onNavigate={navigateTo} transferenciaId={idFromUrl()} />;
       case 'import_invoice':
         return <ImportInvoice onNavigate={navigateTo} />;
       case 'income_list':

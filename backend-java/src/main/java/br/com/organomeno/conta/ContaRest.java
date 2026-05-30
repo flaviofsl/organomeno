@@ -16,8 +16,8 @@ public class ContaRest {
 
     @GET
     @Path("/")
-    public Response listarContas() {
-        return Response.ok(contaService.listarContas()).build();
+    public Response listarContas(@QueryParam("ativa") Boolean ativa) {
+        return Response.ok(contaService.listarContas(ativa)).build();
     }
 
     @GET

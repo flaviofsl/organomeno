@@ -28,6 +28,8 @@ const VALID_SCREENS = new Set<Screen>([
   'category_form',
   'account_list',
   'account_form',
+  'transfer_list',
+  'transfer_form',
   'import_invoice',
   'income_list',
   'expense_list',

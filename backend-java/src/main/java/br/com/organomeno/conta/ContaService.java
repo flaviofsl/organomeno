@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ContaService {
 
-    List<ContaDTO> listarContas();
+    List<ContaDTO> listarContas(Boolean ativa);
 
     ContaDTO criarConta(ContaDTO contaDTO);
 
