@@ -37,6 +37,9 @@ public class LivroMovimentacao extends PanacheEntityBase {
     @Column(name = "VALOR", precision = 19, scale = 2, nullable = false)
     private BigDecimal valor;
 
+    @Column(name = "NOME")
+    private String nome;
+
     @Column(name = "DESCRICAO")
     private String descricao;
 
@@ -117,6 +120,14 @@ public class LivroMovimentacao extends PanacheEntityBase {
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
 

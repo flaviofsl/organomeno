@@ -6,81 +6,57 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import java.util.Date;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "DESPESAS", schema = "dbo")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA needs a no-arg constructor (protected is ok)
+@AllArgsConstructor
+@ToString(exclude = "notaFiscal") // evita problemas com lazy-loading
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Despesas extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_DESPESAS")
+    @EqualsAndHashCode.Include
     private Integer id;
-    @Column(name = "CATEGORIA")
-    private String categoria;
+
+    @Column(name = "ID_CATEGORIA")
+    private Integer idCategoria;
+
+    @Column(name = "DESPESA_NOME")
+    private String nome;
+
     @Column(name = "DESPESA_DESCRICAO")
     private String descricao;
+
     @Column(name = "DESPESA_VALOR_BRUTO")
     private Double valorBruto;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NOTA_FISCAL_VINCULADA")
     private NotaFiscal notaFiscal;
+
     @Column(name = "DATA_CADASTRO")
     private Date dataCadastro;
+
     @Column(name = "TRANSACAO_FITID")
     private String fitId;
 
-    public String getFitId() {
-        return fitId;
-    }
+    @Column(name = "ID_CONTA")
+    private Integer idConta;
 
-    public void setFitId(String fitId) {
-        this.fitId = fitId;
-    }
+    @Column(name = "ID_OPERADOR")
+    private Integer idOperador;
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public NotaFiscal getNotaFiscal() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscal(NotaFiscal notaFiscal) {
-        this.notaFiscal = notaFiscal;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getValorBruto() {
-        return valorBruto;
-    }
-
-    public void setValorBruto(Double valorBruto) {
-        this.valorBruto = valorBruto;
-    }
-
+    @Column(name = "DATA_TRANSACAO")
+    private Date dataTransacao;
 }

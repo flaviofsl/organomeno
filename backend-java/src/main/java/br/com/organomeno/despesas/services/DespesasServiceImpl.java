@@ -70,8 +70,8 @@ public class DespesasServiceImpl implements DespesasService {
             throw new IllegalArgumentException("Despesa não encontrada com o ID: " + id);
         }
         
-        if (despesasDTO.getCategoria() != null) {
-            despesa.setCategoria(despesasDTO.getCategoria());
+        if (despesasDTO.getIdCategoria() != null) {
+            despesa.setIdCategoria(despesasDTO.getIdCategoria());
         }
         if (despesasDTO.getDescricao() != null) {
             despesa.setDescricao(despesasDTO.getDescricao());

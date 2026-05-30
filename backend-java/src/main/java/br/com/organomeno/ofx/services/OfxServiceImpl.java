@@ -145,7 +145,7 @@ public class OfxServiceImpl implements OfxService {
         for( Receitas receita : receitas) {
             LivroMovimentacao movimentacao = new LivroMovimentacao();
             movimentacao.setConta(conta);
-            movimentacao.setDataMovimentacao(receita.getDataEntrada());
+            movimentacao.setDataMovimentacao(receita.getDataCadastro());
             movimentacao.setDescricao(receita.getDescricao());
             movimentacao.setTipoMovimentacao("ENTRADA");
             movimentacao.setValor(BigDecimal.valueOf(receita.getValorBruto()));

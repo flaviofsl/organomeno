@@ -1,70 +1,33 @@
 package br.com.organomeno.despesas.entity;
-import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 
+import br.com.organomeno.notaFiscal.entity.NotaFiscalDTO;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "notaFiscal")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class DespesasDTO {
+    @EqualsAndHashCode.Include
     private Integer id;
-    private String categoria;
+    private Integer idCategoria;
+
+    private String nome;
     private String descricao;
     private Double valorBruto;
     private NotaFiscalDTO notaFiscal;
     private Date dataCadastro;
+    private Date dataTransacao;
     private String fitId;
-
-    public String getFitId() {
-        return fitId;
-    }
-
-    public void setFitId(String fitId) {
-        this.fitId = fitId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getValorBruto() {
-        return valorBruto;
-    }
-
-    public void setValorBruto(Double valorBruto) {
-        this.valorBruto = valorBruto;
-    }
-
-    public NotaFiscalDTO getNotaFiscal() {
-        return notaFiscal;
-    }
-
-    public void setNotaFiscal(NotaFiscalDTO notaFiscal) {
-        this.notaFiscal = notaFiscal;
-    }
-
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
+    private Integer idConta;
+    private Integer idOperador;
 }

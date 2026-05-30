@@ -12,6 +12,7 @@ public class LivroMovimentacaoDTO {
     private String dataMovimentacao;
     private String valor;
     private String descricao;
+    private String nome;
     private String tipoMovimentacao;
     private String dataCadastro;
 
@@ -109,6 +110,14 @@ public class LivroMovimentacaoDTO {
 
     public void setDataCadastro(String dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
 

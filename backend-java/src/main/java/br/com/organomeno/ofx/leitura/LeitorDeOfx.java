@@ -189,7 +189,7 @@ public class LeitorDeOfx {
                 despesa.setDescricao(transaction.getMemo());
                 despesa.setValorBruto(transaction.getAmount());
                 despesa.setDataCadastro(transaction.getDatePosted());
-                despesa.setCategoria(String.valueOf(transaction.getTransactionType()));
+                // despesa.setCategoria(String.valueOf(transaction.getTransactionType()));
                 despesa.setFitId(transaction.getId());
                 listaDespesas.add(despesa);
             } else {
@@ -197,7 +197,7 @@ public class LeitorDeOfx {
 
                 receita.setDescricao(transaction.getMemo());
                 receita.setValorBruto(transaction.getAmount());
-                receita.setDataEntrada(transaction.getDatePosted());
+                receita.setDataCadastro(transaction.getDatePosted());
 
                 receita.setFitId(transaction.getId());
                 listaReceita.add(receita);
