@@ -74,8 +74,8 @@ public class ReceitasServiceImpl implements ReceitasService{
         if (receitasDTO.getValorBruto() != null) {
             receita.setValorBruto(receitasDTO.getValorBruto());
         }
-        if (receitasDTO.getDataEntrada() != null) {
-            receita.setDataEntrada(receitasDTO.getDataEntrada());
+        if (receitasDTO.getDataCadastro() != null) {
+            receita.setDataCadastro(receitasDTO.getDataCadastro());;
         }
         if (receitasDTO.getFitId() != null) {
             receita.setFitId(receitasDTO.getFitId());
