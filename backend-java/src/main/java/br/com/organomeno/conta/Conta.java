@@ -1,5 +1,7 @@
 package br.com.organomeno.conta;
 
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
+import br.com.organomeno.membro.MembroFamilia;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
@@ -13,6 +15,14 @@ public class Conta extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CONTA")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_MEMBRO_RESPONSAVEL")
+    private MembroFamilia membroResponsavel;
 
     @Column(name = "NOME", nullable = false)
     private String nome;
@@ -44,6 +54,22 @@ public class Conta extends PanacheEntityBase {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public GrupoFamiliar getGrupoFamiliar() {
+        return grupoFamiliar;
+    }
+
+    public void setGrupoFamiliar(GrupoFamiliar grupoFamiliar) {
+        this.grupoFamiliar = grupoFamiliar;
+    }
+
+    public MembroFamilia getMembroResponsavel() {
+        return membroResponsavel;
+    }
+
+    public void setMembroResponsavel(MembroFamilia membroResponsavel) {
+        this.membroResponsavel = membroResponsavel;
     }
 
     public String getNome() {

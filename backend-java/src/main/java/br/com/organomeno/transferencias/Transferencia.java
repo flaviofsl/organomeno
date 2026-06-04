@@ -1,5 +1,7 @@
 package br.com.organomeno.transferencias;
 
+import br.com.organomeno.autenticacao.Usuario;
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import br.com.organomeno.conta.Conta;
@@ -14,6 +16,14 @@ public class Transferencia extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TRANSFERENCIA")
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO_CRIADOR")
+    private Usuario usuarioCriador;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CONTA_ORIGEM", nullable = false)
@@ -41,6 +51,22 @@ public class Transferencia extends PanacheEntityBase {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public GrupoFamiliar getGrupoFamiliar() {
+        return grupoFamiliar;
+    }
+
+    public void setGrupoFamiliar(GrupoFamiliar grupoFamiliar) {
+        this.grupoFamiliar = grupoFamiliar;
+    }
+
+    public Usuario getUsuarioCriador() {
+        return usuarioCriador;
+    }
+
+    public void setUsuarioCriador(Usuario usuarioCriador) {
+        this.usuarioCriador = usuarioCriador;
     }
 
     public Conta getContaOrigem() {

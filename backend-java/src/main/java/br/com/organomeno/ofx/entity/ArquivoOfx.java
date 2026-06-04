@@ -1,6 +1,8 @@
 package br.com.organomeno.ofx.entity;
 
+import br.com.organomeno.autenticacao.Usuario;
 import br.com.organomeno.conta.Conta;
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
@@ -15,6 +17,10 @@ public class ArquivoOfx extends PanacheEntityBase {
     @Column(name = "ID_ARQUIVO_OFX")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
     @Column(name = "NOME_ARQUIVO", nullable = false)
     private String nomeArquivo;
 
@@ -25,58 +31,38 @@ public class ArquivoOfx extends PanacheEntityBase {
     @JoinColumn(name = "ID_CONTA", nullable = false)
     private Conta conta;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO_IMPORTADOR")
+    private Usuario usuarioImportador;
+
     @Column(name = "QUANTIDADE_RECEITAS")
     private Integer quantidadeReceitas;
 
     @Column(name = "QUANTIDADE_DESPESAS")
     private Integer quantidadeDespesas;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public GrupoFamiliar getGrupoFamiliar() { return grupoFamiliar; }
+    public void setGrupoFamiliar(GrupoFamiliar grupoFamiliar) { this.grupoFamiliar = grupoFamiliar; }
 
-    public String getNomeArquivo() {
-        return nomeArquivo;
-    }
+    public String getNomeArquivo() { return nomeArquivo; }
+    public void setNomeArquivo(String nomeArquivo) { this.nomeArquivo = nomeArquivo; }
 
-    public void setNomeArquivo(String nomeArquivo) {
-        this.nomeArquivo = nomeArquivo;
-    }
+    public LocalDateTime getDataImportacao() { return dataImportacao; }
+    public void setDataImportacao(LocalDateTime dataImportacao) { this.dataImportacao = dataImportacao; }
 
-    public LocalDateTime getDataImportacao() {
-        return dataImportacao;
-    }
+    public Conta getConta() { return conta; }
+    public void setConta(Conta conta) { this.conta = conta; }
 
-    public void setDataImportacao(LocalDateTime dataImportacao) {
-        this.dataImportacao = dataImportacao;
-    }
+    public Usuario getUsuarioImportador() { return usuarioImportador; }
+    public void setUsuarioImportador(Usuario usuarioImportador) { this.usuarioImportador = usuarioImportador; }
 
-    public Conta getConta() {
-        return conta;
-    }
+    public Integer getQuantidadeReceitas() { return quantidadeReceitas; }
+    public void setQuantidadeReceitas(Integer quantidadeReceitas) { this.quantidadeReceitas = quantidadeReceitas; }
 
-    public void setConta(Conta conta) {
-        this.conta = conta;
-    }
-
-    public Integer getQuantidadeReceitas() {
-        return quantidadeReceitas;
-    }
-
-    public void setQuantidadeReceitas(Integer quantidadeReceitas) {
-        this.quantidadeReceitas = quantidadeReceitas;
-    }
-
-    public Integer getQuantidadeDespesas() {
-        return quantidadeDespesas;
-    }
-
-    public void setQuantidadeDespesas(Integer quantidadeDespesas) {
-        this.quantidadeDespesas = quantidadeDespesas;
-    }
+    public Integer getQuantidadeDespesas() { return quantidadeDespesas; }
+    public void setQuantidadeDespesas(Integer quantidadeDespesas) { this.quantidadeDespesas = quantidadeDespesas; }
 }
 

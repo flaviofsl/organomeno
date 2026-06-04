@@ -1,11 +1,18 @@
 package br.com.organomeno.recorrencia;
 
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
+import br.com.organomeno.lancamento.Lancamento;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+/**
+ * Controla lançamentos recorrentes (mensais, anuais, semanais, diários).
+ * Referencia o lançamento-pai que originou a recorrência.
+ */
 @Entity
 @Table(name = "RECORRENCIAS", schema = "dbo")
 @Getter
@@ -18,13 +25,16 @@ public class Recorrencia extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RECORRENCIA")
+    @EqualsAndHashCode.Include
     private Integer id;
 
-    /**
-     * Indica se a recorrência é sobre uma DESPESA ou uma RECEITA
-     */
-    @Column(name = "TIPO")
-    private String tipo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_LANCAMENTO_ORIGEM")
+    private Lancamento lancamentoOrigem;
 
     @Column(name = "NOME")
     private String nome;
@@ -33,22 +43,20 @@ public class Recorrencia extends PanacheEntityBase {
     private Date dataCadastro;
 
     /**
-     * Tipo de recorrência (ex: MENSAL, ANUAL, SEMANAL, DIARIO, etc.)
+     * MENSAL | ANUAL | SEMANAL | DIARIO
      */
     @Column(name = "TIPO_RECORRENCIA")
     private String tipoRecorrencia;
 
-    /**
-     * Se a recorrência estiver ligada a uma despesa, armazenamos o id da despesa
-     */
-    @Column(name = "ID_DESPESA")
-    private Integer idDespesa;
+    @Column(name = "TOTAL_PARCELAS")
+    private Integer totalParcelas;
 
-    /**
-     * Se a recorrência estiver ligada a uma receita, armazenamos o id da receita
-     */
-    @Column(name = "ID_RECEITA")
-    private Integer idReceita;
+    @Column(name = "PARCELA_ATUAL")
+    private Integer parcelaAtual;
 
+    @Column(name = "PROXIMA_DATA")
+    private LocalDate proximaData;
+
+    @Column(name = "ATIVO")
+    private Boolean ativo = true;
 }
-

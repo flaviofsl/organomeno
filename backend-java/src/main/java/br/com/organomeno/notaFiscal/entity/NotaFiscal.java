@@ -1,5 +1,7 @@
 package br.com.organomeno.notaFiscal.entity;
 
+import br.com.organomeno.autenticacao.Usuario;
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
 import br.com.organomeno.notaFiscal.itensNotaFiscal.ItensNotaFiscal;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -14,6 +16,15 @@ public class NotaFiscal extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NOTA_ID")
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_USUARIO_IMPORTADOR")
+    private Usuario usuarioImportador;
+
     @Column(name = "NOTA_DESCRICAO")
     private String descricao;
     @Column(name = "NOTA_DATA_CADASTRO")
@@ -23,43 +34,24 @@ public class NotaFiscal extends PanacheEntityBase {
     @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL)
     private List<ItensNotaFiscal> itensNotaFiscal;
 
-    public List<ItensNotaFiscal> getItensNotaFiscal() {
-        return itensNotaFiscal;
-    }
+    public GrupoFamiliar getGrupoFamiliar() { return grupoFamiliar; }
+    public void setGrupoFamiliar(GrupoFamiliar grupoFamiliar) { this.grupoFamiliar = grupoFamiliar; }
 
-    public void setItensNotaFiscal(List<ItensNotaFiscal> itensNotaFiscal) {
-        this.itensNotaFiscal = itensNotaFiscal;
-    }
+    public Usuario getUsuarioImportador() { return usuarioImportador; }
+    public void setUsuarioImportador(Usuario usuarioImportador) { this.usuarioImportador = usuarioImportador; }
 
-    public Integer getId() {
-        return id;
-    }
+    public List<ItensNotaFiscal> getItensNotaFiscal() { return itensNotaFiscal; }
+    public void setItensNotaFiscal(List<ItensNotaFiscal> itensNotaFiscal) { this.itensNotaFiscal = itensNotaFiscal; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public Date getDataCadastro() { return dataCadastro; }
+    public void setDataCadastro(Date dataCadastro) { this.dataCadastro = dataCadastro; }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public Double getValorBruto() {
-        return valorBruto;
-    }
-
-    public void setValorBruto(Double valorBruto) {
-        this.valorBruto = valorBruto;
-    }
+    public Double getValorBruto() { return valorBruto; }
+    public void setValorBruto(Double valorBruto) { this.valorBruto = valorBruto; }
 }

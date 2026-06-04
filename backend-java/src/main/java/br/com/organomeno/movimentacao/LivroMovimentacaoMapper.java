@@ -2,10 +2,8 @@ package br.com.organomeno.movimentacao;
 
 import br.com.organomeno.conta.Conta;
 import br.com.organomeno.conta.ContaRepository;
-import br.com.organomeno.despesas.entity.Despesas;
-import br.com.organomeno.despesas.repository.DespesasRepository;
-import br.com.organomeno.receitas.entity.Receitas;
-import br.com.organomeno.receitas.repository.ReceitasRepository;
+import br.com.organomeno.lancamento.Lancamento;
+import br.com.organomeno.lancamento.LancamentoRepository;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -19,14 +17,12 @@ public final class LivroMovimentacaoMapper {
     private LivroMovimentacaoMapper() {
     }
 
-    public static LivroMovimentacao toEntity(LivroMovimentacaoDTO dto, 
+    public static LivroMovimentacao toEntity(LivroMovimentacaoDTO dto,
                                              ContaRepository contaRepository,
-                                             ReceitasRepository receitasRepository,
-                                             DespesasRepository despesasRepository) {
+                                             LancamentoRepository lancamentoRepository) {
         LivroMovimentacao movimentacao = new LivroMovimentacao();
         movimentacao.setId(dto.getId());
 
-        // Conta é obrigatória
         if (dto.getIdConta() != null) {
             Conta conta = contaRepository.findById(dto.getIdConta());
             if (conta == null) {
@@ -35,25 +31,14 @@ public final class LivroMovimentacaoMapper {
             movimentacao.setConta(conta);
         }
 
-        // Receita (opcional)
-        if (dto.getIdReceita() != null) {
-            Receitas receita = receitasRepository.findById(dto.getIdReceita());
-            if (receita == null) {
-                throw new IllegalArgumentException("Receita não encontrada com o ID: " + dto.getIdReceita());
+        if (dto.getIdLancamento() != null) {
+            Lancamento lancamento = lancamentoRepository.findById(dto.getIdLancamento());
+            if (lancamento == null) {
+                throw new IllegalArgumentException("Lançamento não encontrado com o ID: " + dto.getIdLancamento());
             }
-            movimentacao.setReceita(receita);
+            movimentacao.setLancamento(lancamento);
         }
 
-        // Despesa (opcional)
-        if (dto.getIdDespesa() != null) {
-            Despesas despesa = despesasRepository.findById(dto.getIdDespesa());
-            if (despesa == null) {
-                throw new IllegalArgumentException("Despesa não encontrada com o ID: " + dto.getIdDespesa());
-            }
-            movimentacao.setDespesa(despesa);
-        }
-
-        // Data da movimentação
         if (dto.getDataMovimentacao() != null && !dto.getDataMovimentacao().isBlank()) {
             try {
                 movimentacao.setDataMovimentacao(dateFormat.parse(dto.getDataMovimentacao()));
@@ -64,7 +49,6 @@ public final class LivroMovimentacaoMapper {
             movimentacao.setDataMovimentacao(new Date());
         }
 
-        // Valor
         if (dto.getValor() != null && !dto.getValor().isBlank()) {
             try {
                 movimentacao.setValor(new BigDecimal(dto.getValor().replace(",", ".")));
@@ -76,9 +60,9 @@ public final class LivroMovimentacaoMapper {
         }
 
         movimentacao.setDescricao(dto.getDescricao());
+        movimentacao.setNome(dto.getNome());
         movimentacao.setTipoMovimentacao(dto.getTipoMovimentacao() != null ? dto.getTipoMovimentacao() : "ENTRADA");
 
-        // Data de cadastro
         if (movimentacao.getId() == null) {
             movimentacao.setDataCadastro(new Date());
         }
@@ -90,19 +74,19 @@ public final class LivroMovimentacaoMapper {
         LivroMovimentacaoDTO dto = new LivroMovimentacaoDTO();
         dto.setId(movimentacao.getId());
 
+        if (movimentacao.getGrupoFamiliar() != null) {
+            dto.setIdGrupoFamiliar(movimentacao.getGrupoFamiliar().getId());
+        }
+
         if (movimentacao.getConta() != null) {
             dto.setIdConta(movimentacao.getConta().getId());
             dto.setNomeConta(movimentacao.getConta().getNome());
         }
 
-        if (movimentacao.getReceita() != null) {
-            dto.setIdReceita(movimentacao.getReceita().getId());
-            dto.setDescricaoReceita(movimentacao.getReceita().getDescricao());
-        }
-
-        if (movimentacao.getDespesa() != null) {
-            dto.setIdDespesa(movimentacao.getDespesa().getId());
-            dto.setDescricaoDespesa(movimentacao.getDespesa().getDescricao());
+        if (movimentacao.getLancamento() != null) {
+            dto.setIdLancamento(movimentacao.getLancamento().getId());
+            dto.setDescricaoLancamento(movimentacao.getLancamento().getDescricao());
+            dto.setTipoLancamento(movimentacao.getLancamento().getTipo());
         }
 
         if (movimentacao.getDataMovimentacao() != null) {
@@ -114,6 +98,7 @@ public final class LivroMovimentacaoMapper {
         }
 
         dto.setDescricao(movimentacao.getDescricao());
+        dto.setNome(movimentacao.getNome());
         dto.setTipoMovimentacao(movimentacao.getTipoMovimentacao());
 
         if (movimentacao.getDataCadastro() != null) {
@@ -123,4 +108,3 @@ public final class LivroMovimentacaoMapper {
         return dto;
     }
 }
-

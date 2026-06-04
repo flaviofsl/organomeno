@@ -16,6 +16,7 @@ public final class ContaMapper {
         conta.setNumeroConta(dto.getNumeroConta());
         conta.setTipoConta(dto.getTipoConta());
         conta.setAtiva(dto.getAtiva() != null ? dto.getAtiva() : true);
+        // grupoFamiliar e membroResponsavel são resolvidos no Service
 
         if (dto.getSaldoInicial() != null && !dto.getSaldoInicial().isBlank()) {
             try {
@@ -27,7 +28,6 @@ public final class ContaMapper {
             conta.setSaldoInicial(BigDecimal.ZERO);
         }
 
-        // Saldo atual inicialmente é igual ao saldo inicial
         if (dto.getSaldoAtual() != null && !dto.getSaldoAtual().isBlank()) {
             try {
                 conta.setSaldoAtual(new BigDecimal(dto.getSaldoAtual().replace(",", ".")));
@@ -35,7 +35,6 @@ public final class ContaMapper {
                 throw new IllegalArgumentException("Saldo atual inválido. Utilize um valor numérico.");
             }
         } else {
-            // Se não informado, usa o saldo inicial
             conta.setSaldoAtual(conta.getSaldoInicial());
         }
 
@@ -51,16 +50,18 @@ public final class ContaMapper {
         dto.setNumeroConta(conta.getNumeroConta());
         dto.setTipoConta(conta.getTipoConta());
         dto.setAtiva(conta.getAtiva());
-
+        if (conta.getGrupoFamiliar() != null) {
+            dto.setIdGrupoFamiliar(conta.getGrupoFamiliar().getId());
+        }
+        if (conta.getMembroResponsavel() != null) {
+            dto.setIdMembroResponsavel(conta.getMembroResponsavel().getId());
+        }
         if (conta.getSaldoInicial() != null) {
             dto.setSaldoInicial(conta.getSaldoInicial().toString());
         }
-
         if (conta.getSaldoAtual() != null) {
             dto.setSaldoAtual(conta.getSaldoAtual().toString());
         }
-
         return dto;
     }
 }
-

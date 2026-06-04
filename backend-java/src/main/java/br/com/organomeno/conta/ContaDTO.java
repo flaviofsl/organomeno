@@ -3,6 +3,8 @@ package br.com.organomeno.conta;
 public class ContaDTO {
 
     private Long id;
+    private Long idGrupoFamiliar;
+    private Long idMembroResponsavel;
     private String nome;
     private String banco;
     private String agencia;
@@ -12,76 +14,37 @@ public class ContaDTO {
     private String saldoAtual;
     private Boolean ativa;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getIdGrupoFamiliar() { return idGrupoFamiliar; }
+    public void setIdGrupoFamiliar(Long idGrupoFamiliar) { this.idGrupoFamiliar = idGrupoFamiliar; }
 
-    public String getNome() {
-        return nome;
-    }
+    public Long getIdMembroResponsavel() { return idMembroResponsavel; }
+    public void setIdMembroResponsavel(Long idMembroResponsavel) { this.idMembroResponsavel = idMembroResponsavel; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getBanco() {
-        return banco;
-    }
+    public String getBanco() { return banco; }
+    public void setBanco(String banco) { this.banco = banco; }
 
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
+    public String getAgencia() { return agencia; }
+    public void setAgencia(String agencia) { this.agencia = agencia; }
 
-    public String getAgencia() {
-        return agencia;
-    }
+    public String getNumeroConta() { return numeroConta; }
+    public void setNumeroConta(String numeroConta) { this.numeroConta = numeroConta; }
 
-    public void setAgencia(String agencia) {
-        this.agencia = agencia;
-    }
+    public String getTipoConta() { return tipoConta; }
+    public void setTipoConta(String tipoConta) { this.tipoConta = tipoConta; }
 
-    public String getNumeroConta() {
-        return numeroConta;
-    }
+    public String getSaldoInicial() { return saldoInicial; }
+    public void setSaldoInicial(String saldoInicial) { this.saldoInicial = saldoInicial; }
 
-    public void setNumeroConta(String numeroConta) {
-        this.numeroConta = numeroConta;
-    }
+    public String getSaldoAtual() { return saldoAtual; }
+    public void setSaldoAtual(String saldoAtual) { this.saldoAtual = saldoAtual; }
 
-    public String getTipoConta() {
-        return tipoConta;
-    }
-
-    public void setTipoConta(String tipoConta) {
-        this.tipoConta = tipoConta;
-    }
-
-    public String getSaldoInicial() {
-        return saldoInicial;
-    }
-
-    public void setSaldoInicial(String saldoInicial) {
-        this.saldoInicial = saldoInicial;
-    }
-
-    public String getSaldoAtual() {
-        return saldoAtual;
-    }
-
-    public void setSaldoAtual(String saldoAtual) {
-        this.saldoAtual = saldoAtual;
-    }
-
-    public Boolean getAtiva() {
-        return ativa;
-    }
-
-    public void setAtiva(Boolean ativa) {
-        this.ativa = ativa;
-    }
+    public Boolean getAtiva() { return ativa; }
+    public void setAtiva(Boolean ativa) { this.ativa = ativa; }
 }
 

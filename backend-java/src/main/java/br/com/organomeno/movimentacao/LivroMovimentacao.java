@@ -1,8 +1,9 @@
 package br.com.organomeno.movimentacao;
 
+import br.com.organomeno.autenticacao.Usuario;
 import br.com.organomeno.conta.Conta;
-import br.com.organomeno.despesas.entity.Despesas;
-import br.com.organomeno.receitas.entity.Receitas;
+import br.com.organomeno.grupofamiliar.GrupoFamiliar;
+import br.com.organomeno.lancamento.Lancamento;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
@@ -19,16 +20,20 @@ public class LivroMovimentacao extends PanacheEntityBase {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GRUPO_FAMILIAR")
+    private GrupoFamiliar grupoFamiliar;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CONTA")
     private Conta conta;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_RECEITA")
-    private Receitas receita;
+    @JoinColumn(name = "ID_LANCAMENTO")
+    private Lancamento lancamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_DESPESAS")
-    private Despesas despesa;
+    @JoinColumn(name = "ID_USUARIO_CRIADOR")
+    private Usuario usuarioCriador;
 
     @Column(name = "DATA_MOVIMENTACAO", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -50,84 +55,36 @@ public class LivroMovimentacao extends PanacheEntityBase {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public GrupoFamiliar getGrupoFamiliar() { return grupoFamiliar; }
+    public void setGrupoFamiliar(GrupoFamiliar grupoFamiliar) { this.grupoFamiliar = grupoFamiliar; }
 
-    public Conta getConta() {
-        return conta;
-    }
+    public Conta getConta() { return conta; }
+    public void setConta(Conta conta) { this.conta = conta; }
 
-    public void setConta(Conta conta) {
-        this.conta = conta;
-    }
+    public Lancamento getLancamento() { return lancamento; }
+    public void setLancamento(Lancamento lancamento) { this.lancamento = lancamento; }
 
-    public Receitas getReceita() {
-        return receita;
-    }
+    public Usuario getUsuarioCriador() { return usuarioCriador; }
+    public void setUsuarioCriador(Usuario usuarioCriador) { this.usuarioCriador = usuarioCriador; }
 
-    public void setReceita(Receitas receita) {
-        this.receita = receita;
-    }
+    public Date getDataMovimentacao() { return dataMovimentacao; }
+    public void setDataMovimentacao(Date dataMovimentacao) { this.dataMovimentacao = dataMovimentacao; }
 
-    public Despesas getDespesa() {
-        return despesa;
-    }
+    public BigDecimal getValor() { return valor; }
+    public void setValor(BigDecimal valor) { this.valor = valor; }
 
-    public void setDespesa(Despesas despesa) {
-        this.despesa = despesa;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public Date getDataMovimentacao() {
-        return dataMovimentacao;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setDataMovimentacao(Date dataMovimentacao) {
-        this.dataMovimentacao = dataMovimentacao;
-    }
+    public String getTipoMovimentacao() { return tipoMovimentacao; }
+    public void setTipoMovimentacao(String tipoMovimentacao) { this.tipoMovimentacao = tipoMovimentacao; }
 
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getTipoMovimentacao() {
-        return tipoMovimentacao;
-    }
-
-    public void setTipoMovimentacao(String tipoMovimentacao) {
-        this.tipoMovimentacao = tipoMovimentacao;
-    }
-
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public Date getDataCadastro() { return dataCadastro; }
+    public void setDataCadastro(Date dataCadastro) { this.dataCadastro = dataCadastro; }
 }
-

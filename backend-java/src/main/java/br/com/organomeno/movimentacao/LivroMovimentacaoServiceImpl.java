@@ -1,8 +1,7 @@
 package br.com.organomeno.movimentacao;
 
 import br.com.organomeno.conta.ContaRepository;
-import br.com.organomeno.despesas.repository.DespesasRepository;
-import br.com.organomeno.receitas.repository.ReceitasRepository;
+import br.com.organomeno.lancamento.LancamentoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -20,10 +19,7 @@ public class LivroMovimentacaoServiceImpl implements LivroMovimentacaoService {
     ContaRepository contaRepository;
 
     @Inject
-    ReceitasRepository receitasRepository;
-
-    @Inject
-    DespesasRepository despesasRepository;
+    LancamentoRepository lancamentoRepository;
 
     @Override
     public List<LivroMovimentacaoDTO> listarMovimentacoes() {
@@ -34,22 +30,15 @@ public class LivroMovimentacaoServiceImpl implements LivroMovimentacaoService {
 
     @Override
     @Transactional
-    public LivroMovimentacaoDTO criarMovimentacao(LivroMovimentacaoDTO movimentacaoDTO) {
-        if (movimentacaoDTO.getIdConta() == null) {
+    public LivroMovimentacaoDTO criarMovimentacao(LivroMovimentacaoDTO dto) {
+        if (dto.getIdConta() == null) {
             throw new IllegalArgumentException("A conta é obrigatória.");
         }
-
-        if (movimentacaoDTO.getTipoMovimentacao() == null || movimentacaoDTO.getTipoMovimentacao().isBlank()) {
+        if (dto.getTipoMovimentacao() == null || dto.getTipoMovimentacao().isBlank()) {
             throw new IllegalArgumentException("O tipo de movimentação é obrigatório (ENTRADA ou SAIDA).");
         }
 
-        LivroMovimentacao movimentacao = LivroMovimentacaoMapper.toEntity(
-                movimentacaoDTO, 
-                contaRepository, 
-                receitasRepository, 
-                despesasRepository
-        );
-
+        LivroMovimentacao movimentacao = LivroMovimentacaoMapper.toEntity(dto, contaRepository, lancamentoRepository);
         movimentacaoRepository.persist(movimentacao);
         movimentacaoRepository.flush();
         return LivroMovimentacaoMapper.toDTO(movimentacao);
@@ -66,76 +55,55 @@ public class LivroMovimentacaoServiceImpl implements LivroMovimentacaoService {
 
     @Override
     @Transactional
-    public LivroMovimentacaoDTO atualizarMovimentacao(Long id, LivroMovimentacaoDTO movimentacaoDTO) {
+    public LivroMovimentacaoDTO atualizarMovimentacao(Long id, LivroMovimentacaoDTO dto) {
         LivroMovimentacao movimentacao = movimentacaoRepository.findById(id);
         if (movimentacao == null) {
             throw new IllegalArgumentException("Movimentação não encontrada com o ID: " + id);
         }
-
-        if (movimentacaoDTO.getIdConta() == null) {
+        if (dto.getIdConta() == null) {
             throw new IllegalArgumentException("A conta é obrigatória.");
         }
-
-        if (movimentacaoDTO.getTipoMovimentacao() == null || movimentacaoDTO.getTipoMovimentacao().isBlank()) {
+        if (dto.getTipoMovimentacao() == null || dto.getTipoMovimentacao().isBlank()) {
             throw new IllegalArgumentException("O tipo de movimentação é obrigatório (ENTRADA ou SAIDA).");
         }
 
-        // Atualizar conta
-        if (movimentacaoDTO.getIdConta() != null) {
-            var conta = contaRepository.findById(movimentacaoDTO.getIdConta());
-            if (conta == null) {
-                throw new IllegalArgumentException("Conta não encontrada com o ID: " + movimentacaoDTO.getIdConta());
-            }
+        if (dto.getIdConta() != null) {
+            var conta = contaRepository.findById(dto.getIdConta());
+            if (conta == null) throw new IllegalArgumentException("Conta não encontrada com o ID: " + dto.getIdConta());
             movimentacao.setConta(conta);
         }
 
-        // Atualizar receita
-        if (movimentacaoDTO.getIdReceita() != null) {
-            var receita = receitasRepository.findById(movimentacaoDTO.getIdReceita());
-            if (receita == null) {
-                throw new IllegalArgumentException("Receita não encontrada com o ID: " + movimentacaoDTO.getIdReceita());
-            }
-            movimentacao.setReceita(receita);
+        if (dto.getIdLancamento() != null) {
+            var lancamento = lancamentoRepository.findById(dto.getIdLancamento());
+            if (lancamento == null) throw new IllegalArgumentException("Lançamento não encontrado com o ID: " + dto.getIdLancamento());
+            movimentacao.setLancamento(lancamento);
         } else {
-            movimentacao.setReceita(null);
+            movimentacao.setLancamento(null);
         }
 
-        // Atualizar despesa
-        if (movimentacaoDTO.getIdDespesa() != null) {
-            var despesa = despesasRepository.findById(movimentacaoDTO.getIdDespesa());
-            if (despesa == null) {
-                throw new IllegalArgumentException("Despesa não encontrada com o ID: " + movimentacaoDTO.getIdDespesa());
-            }
-            movimentacao.setDespesa(despesa);
-        } else {
-            movimentacao.setDespesa(null);
-        }
-
-        // Atualizar data da movimentação
-        if (movimentacaoDTO.getDataMovimentacao() != null && !movimentacaoDTO.getDataMovimentacao().isBlank()) {
+        if (dto.getDataMovimentacao() != null && !dto.getDataMovimentacao().isBlank()) {
             try {
-                java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
-                movimentacao.setDataMovimentacao(dateFormat.parse(movimentacaoDTO.getDataMovimentacao()));
+                java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                movimentacao.setDataMovimentacao(df.parse(dto.getDataMovimentacao()));
             } catch (Exception e) {
                 throw new IllegalArgumentException("Data de movimentação inválida. Use o formato yyyy-MM-dd.");
             }
         }
 
-        // Atualizar valor
-        if (movimentacaoDTO.getValor() != null && !movimentacaoDTO.getValor().isBlank()) {
+        if (dto.getValor() != null && !dto.getValor().isBlank()) {
             try {
-                movimentacao.setValor(new java.math.BigDecimal(movimentacaoDTO.getValor().replace(",", ".")));
+                movimentacao.setValor(new java.math.BigDecimal(dto.getValor().replace(",", ".")));
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Valor inválido. Utilize um valor numérico.");
             }
         }
 
-        movimentacao.setDescricao(movimentacaoDTO.getDescricao());
-        movimentacao.setTipoMovimentacao(movimentacaoDTO.getTipoMovimentacao());
+        movimentacao.setDescricao(dto.getDescricao());
+        movimentacao.setNome(dto.getNome());
+        movimentacao.setTipoMovimentacao(dto.getTipoMovimentacao());
 
         movimentacaoRepository.persist(movimentacao);
         movimentacaoRepository.flush();
         return LivroMovimentacaoMapper.toDTO(movimentacao);
     }
 }
-
