@@ -89,7 +89,7 @@ export default function App() {
       case 'categories':
         return <Categories onNavigate={navigateTo} />;
       case 'register_category':
-        return <RegisterCategory onNavigate={navigateTo} />;
+        return <RegisterCategory onNavigate={navigateTo} categoriaId={idFromUrl()} />;
       case 'register_account':
         return <RegisterAccount onNavigate={navigateTo} />;
       case 'ledger_print_preview':
@@ -107,7 +107,7 @@ export default function App() {
       case 'category_list':
         return <CategoryList onNavigate={navigateTo} />;
       case 'category_form':
-        return <RegisterCategory onNavigate={navigateTo} />;
+        return <RegisterCategory onNavigate={navigateTo} categoriaId={idFromUrl()} />;
       case 'account_list':
         return <AccountList onNavigate={navigateTo} />;
       case 'account_form':

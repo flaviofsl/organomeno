@@ -162,6 +162,47 @@ export async function deletarCategoria(id: number): Promise<void> {
   }
 }
 
+export type CategoriaPayload = Omit<Categoria, 'id'>;
+
+export async function buscarCategoriaPorId(id: number): Promise<Categoria> {
+  const response = await fetch(`${API_BASE_URL}/categorias/${id}`);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Categoria não encontrada.'));
+  }
+
+  return response.json();
+}
+
+export async function criarCategoria(categoria: CategoriaPayload): Promise<Categoria> {
+  const response = await fetch(`${API_BASE_URL}/categorias/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(categoria),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível cadastrar a categoria.'));
+  }
+
+  return response.json();
+}
+
+export async function atualizarCategoria(id: number, categoria: CategoriaPayload): Promise<Categoria> {
+  const response = await fetch(`${API_BASE_URL}/categorias/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(categoria),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível atualizar a categoria.'));
+  }
+
+  return response.json();
+}
+
+
 export async function previewOfx(file: File, idConta: number): Promise<PreviewOfx> {
   const response = await fetch(`${API_BASE_URL}/ofx/preview`, {
     method: 'POST',

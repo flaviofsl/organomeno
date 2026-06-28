@@ -43,7 +43,7 @@ export function Sidebar({ currentScreen, onScreenChange }: SidebarProps) {
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'ledger_book', label: 'Razão', icon: BookOpen },
     { id: 'entities', label: 'Pessoas', icon: Users },
-    { id: 'category_list', label: 'Categorias', icon: Tag },
+    { id: 'categories', label: 'Categorias', icon: Tag },
     { id: 'account_list', label: 'Contas', icon: Landmark },
     { id: 'transfer_list', label: 'Transferências', icon: ArrowLeftRight },
     { id: 'income_list', label: 'Receitas', icon: TrendingUp },

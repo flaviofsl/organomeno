@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Plus, 
   ArrowRight, 
@@ -19,13 +19,17 @@ import {
   Briefcase,
   TrendingUp,
   Landmark,
-  Hammer
+  Hammer,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Screen } from '../types';
+import { criarCategoria, atualizarCategoria, buscarCategoriaPorId } from '../lib/api';
 
 interface RegisterCategoryProps {
   onNavigate: (screen: Screen) => void;
+  categoriaId?: number;
 }
 
 const ICONS = [
@@ -54,7 +58,7 @@ const COLORS = [
   { id: 'purple', value: '#a855f7', bg: 'bg-purple-500', text: 'text-purple-500', light: 'bg-purple-50' },
 ];
 
-export function RegisterCategory({ onNavigate }: RegisterCategoryProps) {
+export function RegisterCategory({ onNavigate, categoriaId }: RegisterCategoryProps) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -63,15 +67,78 @@ export function RegisterCategory({ onNavigate }: RegisterCategoryProps) {
     icon: 'house',
     color: 'blue'
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!categoriaId) return;
+
+    async function loadCategory() {
+      setLoading(true);
+      setError(null);
+      try {
+        const cat = await buscarCategoriaPorId(categoriaId);
+        setFormData({
+          name: cat.nome,
+          description: cat.descricao || '',
+          type: cat.tipo === 'RECEITA' ? 'income' : 'expense',
+          parentCategory: '',
+          icon: cat.icone || 'house',
+          color: cat.cor || 'blue'
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Erro ao carregar categoria.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCategory();
+  }, [categoriaId]);
 
   const selectedColor = COLORS.find(c => c.id === formData.color) || COLORS[0];
   const SelectedIcon = ICONS.find(i => i.id === formData.icon)?.icon || Home;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Categoria criada com sucesso!');
-    onNavigate('categories');
+    if (!formData.name.trim()) return;
+
+    setSaving(true);
+    setError(null);
+    try {
+      const payload = {
+        nome: formData.name,
+        tipo: formData.type === 'income' ? 'RECEITA' : 'DESPESA' as 'RECEITA' | 'DESPESA',
+        icone: formData.icon,
+        cor: formData.color,
+        ativa: true,
+        descricao: formData.description
+      };
+
+      if (categoriaId) {
+        await atualizarCategoria(categoriaId, payload);
+        alert('Categoria atualizada com sucesso!');
+      } else {
+        await criarCategoria(payload);
+        alert('Categoria criada com sucesso!');
+      }
+      onNavigate('categories');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao salvar categoria.');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-400">
+        <Loader2 size={36} className="animate-spin" />
+        <p className="text-sm font-bold">Carregando dados da categoria...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12 font-sans">
@@ -85,8 +152,12 @@ export function RegisterCategory({ onNavigate }: RegisterCategoryProps) {
             <ChevronLeft size={24} />
           </button>
           <div>
-            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Nova Categoria</h2>
-            <p className="text-sm font-medium text-slate-500">Defina como suas transações serão classificadas.</p>
+            <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">
+              {categoriaId ? 'Editar Categoria' : 'Nova Categoria'}
+            </h2>
+            <p className="text-sm font-medium text-slate-500">
+              {categoriaId ? 'Atualize as informações da sua categoria.' : 'Defina como suas transações serão classificadas.'}
+            </p>
           </div>
         </div>
       </div>
@@ -96,6 +167,12 @@ export function RegisterCategory({ onNavigate }: RegisterCategoryProps) {
         <div className="lg:col-span-8">
           <div className="harmony-card bg-white p-8 border border-slate-100 shadow-sm relative overflow-hidden">
             <form onSubmit={handleSubmit} className="space-y-8">
+              {error && (
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600">
+                  <AlertCircle size={20} />
+                  <p className="text-sm font-bold">{error}</p>
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Name */}
                 <div className="space-y-2 md:col-span-2">
@@ -222,17 +299,28 @@ export function RegisterCategory({ onNavigate }: RegisterCategoryProps) {
               <div className="pt-8 border-t border-slate-100 flex items-center justify-between">
                 <button 
                   type="button" 
+                  disabled={saving}
                   onClick={() => onNavigate('categories')}
-                  className="text-sm font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors"
+                  className="text-sm font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors disabled:opacity-50"
                 >
                   Cancelar
                 </button>
                 <button 
                   type="submit" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-95 uppercase tracking-wider"
+                  disabled={saving}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-10 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-95 uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span>CRIAR CATEGORIA</span>
-                  <ArrowRight size={20} />
+                  {saving ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      <span>Salvando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{categoriaId ? 'SALVAR ALTERAÇÕES' : 'CRIAR CATEGORIA'}</span>
+                      <ArrowRight size={20} />
+                    </>
+                  )}
                 </button>
               </div>
             </form>

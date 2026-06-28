@@ -172,7 +172,7 @@ export function CategoryList({ onNavigate }: CategoryListProps) {
                 <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <button 
-                      onClick={() => onNavigate('category_form')}
+                      onClick={() => onNavigate('category_form', { id: category.id })}
                       className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                       title="Editar"
                     >
