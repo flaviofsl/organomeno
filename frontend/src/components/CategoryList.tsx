@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Tag, 
   Plus, 
@@ -6,12 +6,12 @@ import {
   Edit2, 
   Trash2, 
   ChevronRight,
-  MoreVertical,
-  CheckCircle2,
-  XCircle
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Screen } from '../types';
+import { Categoria, listarCategorias, deletarCategoria } from '../lib/api';
 
 interface Category {
   id: string;
@@ -27,17 +27,53 @@ interface CategoryListProps {
 
 export function CategoryList({ onNavigate }: CategoryListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const [categories, setCategories] = useState<Category[]>([
-    { id: '1', nome: 'Supermercado', descricao: 'Compras mensais e pequenas idas ao mercado.', ativa: true, type: 'expense' },
-    { id: '2', nome: 'Aluguel', descricao: 'Pagamento mensal da residência.', ativa: true, type: 'expense' },
-    { id: '3', nome: 'Salário', descricao: 'Recebimento fixo mensal.', ativa: true, type: 'income' },
-    { id: '4', nome: 'Lazer', descricao: 'Cinema, jantares e passeios.', ativa: false, type: 'expense' },
-  ]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await listarCategorias();
+        if (!cancelled) {
+          const mapped: Category[] = data.map((c) => ({
+            id: String(c.id),
+            nome: c.nome,
+            descricao: c.descricao || '',
+            ativa: c.ativa !== false,
+            type: c.tipo === 'RECEITA' ? 'income' : 'expense',
+          }));
+          setCategories(mapped);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Erro ao carregar categorias.');
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir esta categoria?')) {
-      setCategories(categories.filter(c => c.id !== id));
+      try {
+        await deletarCategoria(Number(id));
+        setCategories(prev => prev.filter(c => c.id !== id));
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Erro ao excluir categoria.');
+      }
     }
   };
 
@@ -74,59 +110,88 @@ export function CategoryList({ onNavigate }: CategoryListProps) {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCategories.map((category) => (
-            <div key={category.id} className="harmony-card bg-white border border-slate-100 p-6 flex flex-col justify-between hover:border-blue-100 hover:shadow-lg transition-all group">
-              <div className="space-y-4">
-                <div className="flex items-start justify-between">
-                  <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-all">
-                    <Tag size={24} />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className={cn(
-                      "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded",
-                      category.ativa ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
-                    )}>
-                      {category.ativa ? 'Ativa' : 'Inativa'}
-                    </span>
-                    <span className={cn(
-                      "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded text-white font-sans",
-                      category.type === 'income' ? "bg-emerald-500" : "bg-rose-500"
-                    )}>
-                      {category.type === 'income' ? 'R' : 'D'}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-xl font-display font-black text-slate-900 leading-tight truncate">{category.nome}</h4>
-                  <p className="text-xs font-medium text-slate-500 mt-2 line-clamp-2 leading-relaxed">
-                    {category.description || category.descricao}
-                  </p>
-                </div>
-              </div>
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-400">
+            <Loader2 size={36} className="animate-spin" />
+            <p className="text-sm font-bold">Carregando categorias...</p>
+          </div>
+        )}
 
-              <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => onNavigate('category_form')}
-                    className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                    title="Editar"
-                  >
-                    <Edit2 size={16} />
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(category.id)}
-                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
-                    title="Excluir"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+        {error && !loading && (
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600">
+            <AlertCircle size={20} />
+            <p className="text-sm font-bold">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && filteredCategories.length === 0 && (
+          <div className="text-center py-16 text-slate-400">
+            <p className="text-sm font-bold">Nenhuma categoria cadastrada.</p>
+            <button
+              type="button"
+              onClick={() => onNavigate('category_form')}
+              className="mt-4 text-blue-600 font-black text-xs uppercase tracking-widest hover:underline"
+            >
+              Cadastrar primeira categoria
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && filteredCategories.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCategories.map((category) => (
+              <div key={category.id} className="harmony-card bg-white border border-slate-100 p-6 flex flex-col justify-between hover:border-blue-100 hover:shadow-lg transition-all group">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-blue-50 group-hover:text-blue-600 transition-all">
+                      <Tag size={24} />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={cn(
+                        "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded",
+                        category.ativa ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
+                      )}>
+                        {category.ativa ? 'Ativa' : 'Inativa'}
+                      </span>
+                      <span className={cn(
+                        "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded text-white font-sans",
+                        category.type === 'income' ? "bg-emerald-500" : "bg-rose-500"
+                      )}>
+                        {category.type === 'income' ? 'R' : 'D'}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-display font-black text-slate-900 leading-tight truncate">{category.nome}</h4>
+                    <p className="text-xs font-medium text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                      {category.description || category.descricao}
+                    </p>
+                  </div>
                 </div>
-                <ChevronRight size={18} className="text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+
+                <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => onNavigate('category_form')}
+                      className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                      title="Editar"
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(category.id)}
+                      className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                      title="Excluir"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                  <ChevronRight size={18} className="text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

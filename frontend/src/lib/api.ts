@@ -34,6 +34,10 @@ export interface Categoria {
   nome: string;
   descricao?: string;
   ativa?: boolean;
+  tipo?: 'RECEITA' | 'DESPESA' | 'AMBOS';
+  icone?: string;
+  cor?: string;
+  idGrupoFamiliar?: number;
 }
 
 export interface TransacaoOfxPreview {
@@ -146,6 +150,16 @@ export async function listarCategorias(): Promise<Categoria[]> {
   }
 
   return response.json();
+}
+
+export async function deletarCategoria(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/categorias/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível excluir a categoria.'));
+  }
 }
 
 export async function previewOfx(file: File, idConta: number): Promise<PreviewOfx> {
