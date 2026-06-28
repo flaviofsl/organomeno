@@ -351,3 +351,167 @@ export function formatTransferenciaData(iso?: string): string {
     minute: '2-digit',
   }).format(d);
 }
+
+export interface MembroFamilia {
+  id?: number;
+  idGrupoFamiliar: number;
+  idUsuario?: number;
+  nome: string;
+  papelFinanceiro: string; // 'PROVEDOR_PRINCIPAL' | 'CO_PROVEDOR' | 'DEPENDENTE'
+  rendaMensal?: number;
+  orcamentoMensal?: number;
+  dataNascimento?: string;
+  tipoPessoa?: string;
+  cpf?: string;
+  cnpj?: string;
+  ativo?: boolean;
+}
+
+export interface Lancamento {
+  id?: number;
+  idGrupoFamiliar: number;
+  idUsuarioCriador?: number;
+  idConta: number;
+  nomeConta?: string;
+  idCategoria: number;
+  nomeCategoria?: string;
+  idMembro?: number;
+  nomeMembro?: string;
+  idEntidadeExterna?: number;
+  nomeEntidadeExterna?: string;
+  idNotaFiscal?: number;
+  tipo: 'RECEITA' | 'DESPESA';
+  descricao: string;
+  valorBruto: number;
+  valorLiquido: number;
+  dataTransacao: string;
+  dataCadastro?: string;
+  fitId?: string;
+  status?: string; // 'PENDENTE' | 'CONFIRMADO' | 'CANCELADO' | 'CONCILIADO'
+  recorrente?: boolean;
+}
+
+export const DEFAULT_FAMILY_GROUP_ID = 1;
+
+export async function listarMembros(idGrupo: number): Promise<MembroFamilia[]> {
+  const response = await fetch(`${API_BASE_URL}/membros?idGrupo=${idGrupo}`);
+
+  if (!response.ok) {
+    throw new Error('Não foi possível carregar os membros da família.');
+  }
+
+  return response.json();
+}
+
+export async function buscarMembroPorId(id: number): Promise<MembroFamilia> {
+  const response = await fetch(`${API_BASE_URL}/membros/${id}`);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Membro não encontrado.'));
+  }
+
+  return response.json();
+}
+
+export async function criarMembro(membro: Omit<MembroFamilia, 'id'>): Promise<MembroFamilia> {
+  const response = await fetch(`${API_BASE_URL}/membros`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(membro),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível cadastrar o membro.'));
+  }
+
+  return response.json();
+}
+
+export async function atualizarMembro(id: number, membro: Omit<MembroFamilia, 'id'>): Promise<MembroFamilia> {
+  const response = await fetch(`${API_BASE_URL}/membros/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(membro),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível atualizar o membro.'));
+  }
+
+  return response.json();
+}
+
+export async function deletarMembro(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/membros/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível desativar o membro.'));
+  }
+}
+
+export async function listarLancamentos(idGrupo: number, tipo?: 'RECEITA' | 'DESPESA'): Promise<Lancamento[]> {
+  const url = new URL(`${API_BASE_URL}/lancamentos`);
+  url.searchParams.set('idGrupo', String(idGrupo));
+  if (tipo) {
+    url.searchParams.set('tipo', tipo);
+  }
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error('Não foi possível carregar os lançamentos.');
+  }
+
+  return response.json();
+}
+
+export async function buscarLancamentoPorId(id: number): Promise<Lancamento> {
+  const response = await fetch(`${API_BASE_URL}/lancamentos/${id}`);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Lançamento não encontrado.'));
+  }
+
+  return response.json();
+}
+
+export async function criarLancamento(lancamento: Omit<Lancamento, 'id'>): Promise<Lancamento> {
+  const response = await fetch(`${API_BASE_URL}/lancamentos`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(lancamento),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível cadastrar o lançamento.'));
+  }
+
+  return response.json();
+}
+
+export async function atualizarLancamento(id: number, lancamento: Omit<Lancamento, 'id'>): Promise<Lancamento> {
+  const response = await fetch(`${API_BASE_URL}/lancamentos/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(lancamento),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível atualizar o lançamento.'));
+  }
+
+  return response.json();
+}
+
+export async function deletarLancamento(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/lancamentos/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível excluir o lançamento.'));
+  }
+}
+

@@ -75,7 +75,7 @@ export default function App() {
       case 'ledger':
         return <Ledger />;
       case 'register':
-        return <RegisterEntry />;
+        return <RegisterEntry onNavigate={navigateTo} />;
       case 'accounts':
         return <Accounts onNavigate={navigateTo} />;
       case 'family':
@@ -122,6 +122,10 @@ export default function App() {
         return <IncomeList onNavigate={navigateTo} />;
       case 'expense_list':
         return <ExpenseList onNavigate={navigateTo} />;
+      case 'register_income':
+        return <RegisterEntry onNavigate={navigateTo} defaultType="income" />;
+      case 'register_expense':
+        return <RegisterEntry onNavigate={navigateTo} defaultType="expense" />;
       case 'ledger_book':
         return <LedgerBook onNavigate={navigateTo} />;
       case 'transaction_detail':

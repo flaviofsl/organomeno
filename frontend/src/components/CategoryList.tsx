@@ -10,7 +10,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { Screen } from '../types';
+import { Screen, NavigateFn } from '../types';
 import { Categoria, listarCategorias, deletarCategoria } from '../lib/api';
 
 interface Category {
@@ -22,7 +22,7 @@ interface Category {
 }
 
 interface CategoryListProps {
-  onNavigate: (screen: Screen) => void;
+  onNavigate: NavigateFn;
 }
 
 export function CategoryList({ onNavigate }: CategoryListProps) {

@@ -28,12 +28,12 @@ import {
 } from 'lucide-react';
 import { cn, formatCurrency } from '../lib/utils';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { Screen } from '../types';
+import { Screen, NavigateFn } from '../types';
 import { listarCategorias, criarCategoria, deletarCategoria, Categoria } from '../lib/api';
 import { CATEGORY_SPENDING } from '../constants';
 
 interface CategoriesProps {
-  onNavigate: (screen: Screen) => void;
+  onNavigate: NavigateFn;
 }
 
 const ICONS = [

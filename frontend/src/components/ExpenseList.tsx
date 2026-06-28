@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowDownLeft, 
   Plus, 
@@ -8,11 +8,12 @@ import {
   TrendingDown,
   Tag,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { cn, formatCurrency, formatDate } from '../lib/utils';
-import { MOCK_TRANSACTIONS } from '../constants';
 import { Screen } from '../types';
+import { listarLancamentos, Lancamento, DEFAULT_FAMILY_GROUP_ID } from '../lib/api';
 
 interface ExpenseListProps {
   onNavigate: (screen: Screen) => void;
@@ -20,12 +21,41 @@ interface ExpenseListProps {
 
 export function ExpenseList({ onNavigate }: ExpenseListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const expenseTransactions = MOCK_TRANSACTIONS.filter(t => t.type === 'Expense');
+  const [expenses, setExpenses] = useState<Lancamento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filtered = expenseTransactions.filter(t => 
-    t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    t.category.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await listarLancamentos(DEFAULT_FAMILY_GROUP_ID, 'DESPESA');
+        if (!cancelled) {
+          setExpenses(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Erro ao carregar despesas.');
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filtered = expenses.filter(t => 
+    t.descricao.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (t.nomeCategoria && t.nomeCategoria.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -56,57 +86,82 @@ export function ExpenseList({ onNavigate }: ExpenseListProps) {
           />
         </div>
 
-        <div className="harmony-card overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Categoria</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Data Lançamento</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {filtered.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-6 py-4">
-                      <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-600 px-2 py-1 rounded">
-                        {t.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
-                          <ArrowDownLeft size={16} />
-                        </div>
-                        <span className="font-bold text-slate-900">{t.description}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-black text-rose-600">{formatCurrency(t.amount)}</span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="text-sm font-medium text-slate-500">{formatDate(t.date)}</span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={() => onNavigate('register_expense')}
-                          className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-400">
+            <Loader2 size={36} className="animate-spin" />
+            <p className="text-sm font-bold">Carregando despesas...</p>
           </div>
-        </div>
+        )}
+
+        {error && !loading && (
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600">
+            <AlertCircle size={20} />
+            <p className="text-sm font-bold">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="harmony-card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-100">
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Categoria</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Data Lançamento</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {filtered.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-12 text-center text-slate-400 font-bold">
+                        Nenhuma despesa encontrada.
+                      </td>
+                    </tr>
+                  ) : (
+                    filtered.map((t) => (
+                      <tr key={t.id} className="hover:bg-slate-50/50 transition-colors group">
+                        <td className="px-6 py-4">
+                          <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                            {t.nomeCategoria || 'Sem Categoria'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
+                              <ArrowDownLeft size={16} />
+                            </div>
+                            <span className="font-bold text-slate-900">{t.descricao}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-black text-rose-600">{formatCurrency(t.valorBruto)}</span>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span className="text-sm font-medium text-slate-500">{formatDate(t.dataTransacao)}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex justify-end gap-2">
+                            <button 
+                              onClick={() => onNavigate('register_expense')}
+                              className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                            >
+                              <Edit2 size={16} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+

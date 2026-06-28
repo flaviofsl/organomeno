@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowUpRight, 
   Plus, 
@@ -7,11 +7,13 @@ import {
   ChevronRight,
   TrendingUp,
   Tag,
-  Calendar
+  Calendar,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { cn, formatCurrency, formatDate } from '../lib/utils';
-import { MOCK_TRANSACTIONS } from '../constants';
 import { Screen } from '../types';
+import { listarLancamentos, Lancamento, DEFAULT_FAMILY_GROUP_ID } from '../lib/api';
 
 interface IncomeListProps {
   onNavigate: (screen: Screen) => void;
@@ -19,12 +21,41 @@ interface IncomeListProps {
 
 export function IncomeList({ onNavigate }: IncomeListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const incomeTransactions = MOCK_TRANSACTIONS.filter(t => t.type === 'Income');
+  const [incomes, setIncomes] = useState<Lancamento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filtered = incomeTransactions.filter(t => 
-    t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    t.category.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await listarLancamentos(DEFAULT_FAMILY_GROUP_ID, 'RECEITA');
+        if (!cancelled) {
+          setIncomes(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Erro ao carregar receitas.');
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filtered = incomes.filter(t => 
+    t.descricao.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (t.nomeCategoria && t.nomeCategoria.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -55,54 +86,79 @@ export function IncomeList({ onNavigate }: IncomeListProps) {
           />
         </div>
 
-        <div className="harmony-card overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-100">
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Data Lançamento</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50">
-                {filtered.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-                          <ArrowUpRight size={16} />
-                        </div>
-                        <div>
-                          <p className="font-bold text-slate-900">{t.description}</p>
-                          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{t.category}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm font-black text-emerald-600">{formatCurrency(t.amount)}</span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span className="text-sm font-medium text-slate-500">{formatDate(t.date)}</span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={() => onNavigate('register_income')}
-                          className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-400">
+            <Loader2 size={36} className="animate-spin" />
+            <p className="text-sm font-bold">Carregando receitas...</p>
           </div>
-        </div>
+        )}
+
+        {error && !loading && (
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600">
+            <AlertCircle size={20} />
+            <p className="text-sm font-bold">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="harmony-card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-100">
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Descrição</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Data Lançamento</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {filtered.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-12 text-center text-slate-400 font-bold">
+                        Nenhuma receita encontrada.
+                      </td>
+                    </tr>
+                  ) : (
+                    filtered.map((t) => (
+                      <tr key={t.id} className="hover:bg-slate-50/50 transition-colors group">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+                              <ArrowUpRight size={16} />
+                            </div>
+                            <div>
+                              <p className="font-bold text-slate-900">{t.descricao}</p>
+                              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{t.nomeCategoria || 'Sem Categoria'}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="text-sm font-black text-emerald-600">{formatCurrency(t.valorBruto)}</span>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span className="text-sm font-medium text-slate-500">{formatDate(t.dataTransacao)}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex justify-end gap-2">
+                            <button 
+                              onClick={() => onNavigate('register_income')}
+                              className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                            >
+                              <Edit2 size={16} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+

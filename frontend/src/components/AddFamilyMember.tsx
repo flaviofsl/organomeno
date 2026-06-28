@@ -7,10 +7,12 @@ import {
   User, 
   Mail,
   Send,
-  CheckCircle2
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Screen } from '../types';
+import { criarMembro, DEFAULT_FAMILY_GROUP_ID } from '../lib/api';
 
 interface AddFamilyMemberProps {
   onNavigate: (screen: Screen) => void;
@@ -20,17 +22,38 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
   const [name, setName] = useState('');
   const [role, setRole] = useState<'Parent' | 'Child' | 'Dependent'>('Child');
   const [email, setEmail] = useState('');
+  const [rendaMensal, setRendaMensal] = useState('0');
+  const [orcamentoMensal, setOrcamentoMensal] = useState('0');
   const [isSending, setIsSending] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleAddMember = (e: React.FormEvent) => {
+  const handleAddMember = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSending(false);
+    setError(null);
+    try {
+      // Map UI role to backend papelFinanceiro
+      let papelFinanceiro = 'DEPENDENTE';
+      if (role === 'Parent') {
+        papelFinanceiro = 'PROVEDOR_PRINCIPAL';
+      }
+
+      await criarMembro({
+        nome: name,
+        idGrupoFamiliar: DEFAULT_FAMILY_GROUP_ID,
+        papelFinanceiro,
+        rendaMensal: Number(rendaMensal) || 0,
+        orcamentoMensal: Number(orcamentoMensal) || 0,
+        ativo: true
+      });
+
       setShowSuccess(true);
-    }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao cadastrar membro.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   if (showSuccess) {
@@ -41,10 +64,9 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
             <CheckCircle2 size={48} strokeWidth={2.5} />
           </div>
           <div className="space-y-2">
-            <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight">Convite Enviado!</h3>
+            <h3 className="text-2xl font-display font-black text-slate-900 tracking-tight">Membro Adicionado!</h3>
             <p className="text-sm font-medium text-slate-500 max-w-xs mx-auto">
-              Um convite foi enviado para <span className="text-slate-900 font-bold">{email}</span>. 
-              {name} receberá as instruções para se juntar ao núcleo familiar.
+              O membro <span className="text-slate-900 font-bold">{name}</span> foi cadastrado com sucesso no núcleo familiar.
             </p>
           </div>
           <button 
@@ -69,7 +91,7 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
         </button>
         <div>
           <h2 className="text-2xl font-display font-black text-slate-900 tracking-tight">Adicionar Membro</h2>
-          <p className="text-sm font-medium text-slate-500">Convide um novo integrante para o seu núcleo familiar.</p>
+          <p className="text-sm font-medium text-slate-500">Cadastre um novo integrante para o seu núcleo familiar.</p>
         </div>
       </div>
 
@@ -109,6 +131,39 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
                 </div>
               </div>
 
+              {/* Financial Inputs */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">RENDA MENSAL</label>
+                  <div className="relative group">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">$</span>
+                    <input 
+                      type="number"
+                      step="0.01" 
+                      placeholder="0.00"
+                      value={rendaMensal}
+                      onChange={(e) => setRendaMensal(e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-transparent rounded-xl py-4 pl-8 pr-4 text-sm font-bold text-slate-900 focus:bg-white focus:border-blue-600 outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ORÇAMENTO MENSAL (LIMITE)</label>
+                  <div className="relative group">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">$</span>
+                    <input 
+                      type="number" 
+                      step="0.01"
+                      placeholder="0.00"
+                      value={orcamentoMensal}
+                      onChange={(e) => setOrcamentoMensal(e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-transparent rounded-xl py-4 pl-8 pr-4 text-sm font-bold text-slate-900 focus:bg-white focus:border-blue-600 outline-none transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Role Selection */}
               <div className="space-y-3">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">PAPEL NO NÚCLEO</label>
@@ -140,6 +195,13 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
               </div>
             </div>
 
+            {error && (
+              <div className="flex items-center gap-2 p-3 text-sm text-rose-600 bg-rose-50 rounded-xl border border-rose-100 font-bold">
+                <AlertCircle size={16} />
+                <span>{error}</span>
+              </div>
+            )}
+
             <button 
               type="submit"
               disabled={isSending}
@@ -150,7 +212,7 @@ export function AddFamilyMember({ onNavigate }: AddFamilyMemberProps) {
               ) : (
                 <>
                   <Send size={18} />
-                  <span>Enviar Convite Familiar</span>
+                  <span>Cadastrar Integrante</span>
                 </>
               )}
             </button>
