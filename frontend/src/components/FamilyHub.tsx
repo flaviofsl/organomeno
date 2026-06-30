@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   Settings, 
@@ -7,18 +7,74 @@ import {
   Heart,
   Calendar,
   Home,
-  ShieldCheck
+  ShieldCheck,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
-import { MOCK_FAMILY } from '../constants';
 import { cn } from '../lib/utils';
 
 import { Screen } from '../types';
+import { listarMembros, DEFAULT_FAMILY_GROUP_ID, MembroFamilia } from '../lib/api';
 
 interface FamilyHubProps {
   onNavigate: (screen: Screen) => void;
 }
 
 export function FamilyHub({ onNavigate }: FamilyHubProps) {
+  const [members, setMembers] = useState<MembroFamilia[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadMembers() {
+      try {
+        const data = await listarMembros(DEFAULT_FAMILY_GROUP_ID);
+        if (!cancelled) {
+          setMembers(data);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Erro ao carregar membros da família.');
+          setLoading(false);
+        }
+      }
+    }
+    loadMembers();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-3 text-slate-400">
+        <Loader2 size={36} className="animate-spin" />
+        <p className="text-sm font-bold">Carregando membros da família...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600 max-w-2xl mx-auto mt-10">
+        <AlertCircle size={20} />
+        <p className="text-sm font-bold">{error}</p>
+      </div>
+    );
+  }
+
+  const totalIncome = members.reduce((sum, m) => sum + (m.rendaMensal ?? 0), 0);
+  const totalBudget = members.reduce((sum, m) => sum + (m.orcamentoMensal ?? 0), 0);
+
+  const getRoleLabel = (papel?: string) => {
+    if (papel === 'PROVEDOR_PRINCIPAL') return 'Provedor Principal';
+    if (papel === 'CO_PROVEDOR') return 'Co-provedor';
+    if (papel === 'DEPENDENTE') return 'Dependente';
+    return papel || '';
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-end">
@@ -38,55 +94,61 @@ export function FamilyHub({ onNavigate }: FamilyHubProps) {
         {/* Hierarchy Section */}
         <div className="lg:col-span-2 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {MOCK_FAMILY.map((member) => (
-              <div 
-                key={member.id} 
-                onClick={() => onNavigate('providers')}
-                className="harmony-card group hover:scale-[1.02] transition-transform cursor-pointer"
-              >
-                <div className="p-5 flex items-center gap-4 border-b border-border-subtle bg-slate-50/50">
-                  <div className="w-14 h-14 rounded-full bg-white border-2 border-slate-200 p-0.5 flex items-center justify-center overflow-hidden">
-                    <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-400">
-                      {member.name[0]}
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
-                      {member.name}
-                      {member.role === 'Parent' && <ShieldCheck size={14} className="text-brand-blue" />}
-                    </h4>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{member.role}</p>
-                  </div>
-                  <ChevronRight size={20} className="text-slate-300 group-hover:text-brand-blue transition-colors" />
-                </div>
-                <div className="p-5 grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Contribution</p>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-brand-blue rounded-full" 
-                          style={{ width: `${member.contributionPercent}%` }}
-                        ></div>
+            {members.map((member) => {
+              const contributionPercent = totalIncome > 0 ? Math.round(((member.rendaMensal ?? 0) / totalIncome) * 100) : 0;
+              const expensesPercent = totalBudget > 0 ? Math.round(((member.orcamentoMensal ?? 0) / totalBudget) * 100) : 0;
+              const isProvider = member.papelFinanceiro === 'PROVEDOR_PRINCIPAL' || member.papelFinanceiro === 'CO_PROVEDOR';
+              
+              return (
+                <div 
+                  key={member.id} 
+                  onClick={() => onNavigate('providers')}
+                  className="harmony-card group hover:scale-[1.02] transition-transform cursor-pointer"
+                >
+                  <div className="p-5 flex items-center gap-4 border-b border-border-subtle bg-slate-50/50">
+                    <div className="w-14 h-14 rounded-full bg-white border-2 border-slate-200 p-0.5 flex items-center justify-center overflow-hidden">
+                      <div className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-400">
+                        {member.nome ? member.nome[0] : '?'}
                       </div>
-                      <span className="text-xs font-black text-slate-900">{member.contributionPercent}%</span>
                     </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                        {member.nome}
+                        {isProvider && <ShieldCheck size={14} className="text-brand-blue" />}
+                      </h4>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{getRoleLabel(member.papelFinanceiro)}</p>
+                    </div>
+                    <ChevronRight size={20} className="text-slate-300 group-hover:text-brand-blue transition-colors" />
                   </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Expenses</p>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-rose-400 rounded-full" 
-                          style={{ width: `${member.expensesPercent}%` }}
-                        ></div>
+                  <div className="p-5 grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Contribution</p>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-brand-blue rounded-full" 
+                            style={{ width: `${contributionPercent}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-xs font-black text-slate-900">{contributionPercent}%</span>
                       </div>
-                      <span className="text-xs font-black text-slate-900">{member.expensesPercent}%</span>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Expenses</p>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-rose-400 rounded-full" 
+                            style={{ width: `${expensesPercent}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-xs font-black text-slate-900">{expensesPercent}%</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             <button 
               onClick={() => onNavigate('add_family_member')}
@@ -135,10 +197,13 @@ export function FamilyHub({ onNavigate }: FamilyHubProps) {
             <h3 className="text-white/60 text-xs font-black uppercase tracking-widest mb-2 font-display">Trust Distribution</h3>
             <p className="text-3xl font-display font-extrabold tracking-tight mb-8">Asset Allocation</p>
             <div className="space-y-6 relative z-10">
-              {MOCK_FAMILY.filter(f => f.contributionPercent! > 0).map(m => (
+              {members.map(member => {
+                const contributionPercent = totalIncome > 0 ? Math.round(((member.rendaMensal ?? 0) / totalIncome) * 100) : 0;
+                return { ...member, contributionPercent };
+              }).filter(f => f.contributionPercent > 0).map(m => (
                 <div key={m.id} className="space-y-2">
                   <div className="flex justify-between items-center text-xs font-bold">
-                    <span>{m.name}</span>
+                    <span>{m.nome}</span>
                     <span>{m.contributionPercent}%</span>
                   </div>
                   <div className="h-2 bg-white/20 rounded-full overflow-hidden">
