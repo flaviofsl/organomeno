@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   Map, 
@@ -8,17 +8,98 @@ import {
   UserPlus,
   Briefcase,
   Heart,
-  MoreHorizontal
+  MoreHorizontal,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
-import { MOCK_FAMILY } from '../constants';
 import { cn } from '../lib/utils';
-import { FamilyMember, Screen } from '../types';
+import { Screen } from '../types';
+import { listarMembros, DEFAULT_FAMILY_GROUP_ID, MembroFamilia } from '../lib/api';
 
 interface FamilyStructureProps {
   onNavigate: (screen: Screen) => void;
 }
 
+const getAvatarUrl = (name: string, id?: number) => {
+  const avatars = [
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop", // Male
+    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop", // Female
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop", // Male
+    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop", // Female
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop", // Female
+    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop", // Male
+  ];
+  if (!id) return avatars[0];
+  return avatars[id % avatars.length];
+};
+
 export function FamilyStructure({ onNavigate }: FamilyStructureProps) {
+  const [members, setMembers] = useState<MembroFamilia[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadMembers() {
+      try {
+        const data = await listarMembros(DEFAULT_FAMILY_GROUP_ID);
+        if (!cancelled) {
+          setMembers(data);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Erro ao carregar membros da família.');
+          setLoading(false);
+        }
+      }
+    }
+    loadMembers();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-8 pb-12">
+        <div>
+          <h2 className="text-4xl font-display font-extrabold text-slate-900 tracking-tight">Family Structure</h2>
+          <p className="text-slate-500 mt-1">Visualizing roles and financial contributions.</p>
+        </div>
+        <div className="harmony-card bg-white border border-slate-200 p-12 min-h-[600px] flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="flex flex-col items-center gap-3 text-slate-400">
+            <Loader2 size={36} className="animate-spin" />
+            <p className="text-sm font-bold">Carregando estrutura familiar...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-8 pb-12">
+        <div>
+          <h2 className="text-4xl font-display font-extrabold text-slate-900 tracking-tight">Family Structure</h2>
+          <p className="text-slate-500 mt-1">Visualizing roles and financial contributions.</p>
+        </div>
+        <div className="harmony-card bg-white border border-slate-200 p-12 min-h-[600px] flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-600 max-w-2xl mx-auto">
+            <AlertCircle size={20} />
+            <p className="text-sm font-bold">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const activeMembers = members.filter(m => m.ativo !== false);
+  const providers = activeMembers.filter(m => m.papelFinanceiro === 'PROVEDOR_PRINCIPAL' || m.papelFinanceiro === 'CO_PROVEDOR');
+  const dependents = activeMembers.filter(m => m.papelFinanceiro === 'DEPENDENTE');
+
+  const totalIncome = activeMembers.reduce((sum, m) => sum + (m.rendaMensal ?? 0), 0);
+
   return (
     <div className="space-y-8 pb-12">
       <div>
@@ -27,204 +108,101 @@ export function FamilyStructure({ onNavigate }: FamilyStructureProps) {
       </div>
 
       <div className="harmony-card bg-white border border-slate-200 p-12 min-h-[600px] flex flex-col items-center justify-center relative overflow-hidden">
-        {/* The Tree Layout */}
-        <div className="w-full max-w-5xl flex flex-col items-center">
-          
-          {/* Top Level: Providers */}
-          <div className="flex gap-12 relative z-10">
-            {/* João */}
-            <div className="w-64 harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-4 flex items-center gap-4 border-b border-slate-50">
-                <img 
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" 
-                  alt="João" 
-                  className="w-12 h-12 rounded-lg object-cover"
-                />
-                <div>
-                  <p className="font-display font-bold text-slate-900">João</p>
-                  <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-md">Provedor Principal</span>
-                </div>
-              </div>
-              <div className="p-4 flex justify-between items-center bg-slate-50/50">
-                <span className="text-xs font-semibold text-slate-500 tracking-tight">Contribuição:</span>
-                <span className="text-sm font-black text-slate-900">70%</span>
-              </div>
-            </div>
-
-            {/* Maria */}
-            <div className="w-64 harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-4 flex items-center gap-4 border-b border-slate-50">
-                <img 
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" 
-                  alt="Maria" 
-                  className="w-12 h-12 rounded-lg object-cover"
-                />
-                <div>
-                  <p className="font-display font-bold text-slate-900">Maria</p>
-                  <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-md">Provedora Principal</span>
-                </div>
-              </div>
-              <div className="p-4 flex justify-between items-center bg-slate-50/50">
-                <span className="text-xs font-semibold text-slate-500 tracking-tight">Contribuição:</span>
-                <span className="text-sm font-black text-slate-900">30%</span>
-              </div>
-            </div>
+        {activeMembers.length === 0 ? (
+          <div className="text-center py-12 space-y-4">
+            <p className="text-slate-500 font-medium">Nenhum membro cadastrado nesta família.</p>
+            <button 
+              onClick={() => onNavigate('family')}
+              className="bg-slate-900 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-slate-800 transition-all text-sm uppercase tracking-widest"
+            >
+              Ir para Family Hub
+            </button>
           </div>
-
-          {/* Connection Lines (SVG) */}
-          <div className="w-full h-24 relative">
-            <svg className="w-full h-full" preserveAspectRatio="none">
-              {/* Vertical line from João */}
-              <line x1="calc(50% - 148px)" y1="0" x2="calc(50% - 148px)" y2="40" stroke="#e2e8f0" strokeWidth="2" />
-              {/* Vertical line from Maria */}
-              <line x1="calc(50% + 148px)" y1="0" x2="calc(50% + 148px)" y2="40" stroke="#e2e8f0" strokeWidth="2" />
-              {/* Horizontal connecting line */}
-              <line x1="calc(50% - 148px)" y1="40" x2="calc(50% + 148px)" y2="40" stroke="#e2e8f0" strokeWidth="2" />
-              {/* Main vertical line down */}
-              <line x1="50%" y1="40" x2="50%" y2="80" stroke="#e2e8f0" strokeWidth="2" />
-              
-              {/* Branching horizontal line for bottom nodes */}
-              <line x1="15%" y1="80" x2="85%" y2="80" stroke="#e2e8f0" strokeWidth="2" />
-              
-              {/* Vertical lines to bottom cards */}
-              <line x1="15%" y1="80" x2="15%" y2="110" stroke="#e2e8f0" strokeWidth="2" />
-              <line x1="50%" y1="80" x2="50%" y2="110" stroke="#e2e8f0" strokeWidth="2" />
-              <line x1="85%" y1="80" x2="85%" y2="110" stroke="#e2e8f0" strokeWidth="2" />
-            </svg>
-          </div>
-
-          {/* Bottom Level: Dependents/Contributors */}
-          <div className="w-full flex justify-between items-start pt-4 px-4 relative z-10">
-            
-            {/* Ana & Pedro Group */}
-            <div className="flex flex-col gap-4 items-center w-[30%]">
-              <div className="w-full harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm p-4 flex justify-between items-center">
-                <div className="flex flex-col items-center gap-2">
-                  <img 
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop" 
-                    alt="Ana" 
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="text-center">
-                    <p className="text-sm font-bold text-slate-900 leading-none">Ana</p>
-                    <p className="text-[10px] text-slate-400 font-bold mt-1">Filha</p>
+        ) : (
+          <div className="w-full max-w-5xl flex flex-col items-center">
+            {/* Top Level: Providers */}
+            <div className="flex flex-wrap justify-center gap-12 relative z-10">
+              {providers.map((m) => {
+                const contributionPercent = totalIncome > 0 ? Math.round(((m.rendaMensal ?? 0) / totalIncome) * 100) : 0;
+                return (
+                  <div key={m.id} className="w-64 harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-4 flex items-center gap-4 border-b border-slate-50">
+                      <img 
+                        src={getAvatarUrl(m.nome ?? '', m.id)} 
+                        alt={m.nome} 
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+                      <div>
+                        <p className="font-display font-bold text-slate-900">{m.nome}</p>
+                        <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-md">
+                          {m.papelFinanceiro === 'PROVEDOR_PRINCIPAL' ? 'Provedor Principal' : 'Co-provedor'}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-4 flex justify-between items-center bg-slate-50/50">
+                      <span className="text-xs font-semibold text-slate-500 tracking-tight">Contribuição:</span>
+                      <span className="text-sm font-black text-slate-900">{contributionPercent}%</span>
+                    </div>
                   </div>
-                </div>
-                <div className="h-10 w-px bg-slate-100 mx-4"></div>
-                <div className="flex flex-col items-center gap-2">
-                  <img 
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop" 
-                    alt="Pedro" 
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="text-center">
-                    <p className="text-sm font-bold text-slate-900 leading-none">Pedro</p>
-                    <p className="text-[10px] text-slate-400 font-bold mt-1">Genro</p>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="inline-block px-3 py-1 bg-slate-100 rounded-lg text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Contribuidores</div>
-                <p className="text-[10px] font-bold text-slate-900">Independente</p>
-              </div>
+                );
+              })}
             </div>
 
-            {/* Carlos */}
-            <div className="w-[30%] harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm">
-              <div className="p-6 flex flex-col items-center text-center">
-                <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" 
-                  alt="Carlos" 
-                  className="w-12 h-12 rounded-lg object-cover mb-3"
-                />
-                <p className="font-display font-bold text-slate-900 mb-1">Carlos</p>
-                <span className="inline-block px-2 py-0.5 bg-brand-blue/10 text-brand-blue text-[10px] font-black uppercase tracking-wider rounded-md mb-6">Dependente</span>
-                <div className="w-full flex justify-between items-center pt-4 border-t border-slate-50 uppercase tracking-tighter">
-                  <span className="text-[11px] font-bold text-slate-400">Custo Mensal:</span>
-                  <span className="text-xs font-black text-rose-600">R$ 2.500</span>
+            {/* Connection Lines */}
+            {providers.length > 0 && dependents.length > 0 && (
+              <div className="w-full h-8 flex justify-center relative">
+                <div className="w-0.5 h-full bg-slate-200"></div>
+              </div>
+            )}
+
+            {/* Bottom Level: Dependents */}
+            {dependents.length > 0 && (
+              <div className="w-full relative">
+                <div className="flex flex-wrap justify-center gap-12 items-start relative">
+                  {dependents.map((m, index) => (
+                    <div key={m.id} className="relative flex flex-col items-center pt-8">
+                      {/* Horizontal connector line segments */}
+                      {dependents.length > 1 && (
+                        <div 
+                          className="absolute top-0 h-0.5 bg-slate-200" 
+                          style={{
+                            left: index === 0 ? '50%' : '0',
+                            right: index === dependents.length - 1 ? '50%' : '0',
+                          }} 
+                        />
+                      )}
+                      {/* Vertical connector line up to the horizontal bar */}
+                      <div className="absolute top-0 w-0.5 h-8 bg-slate-200"></div>
+
+                      {/* Card */}
+                      <div className="w-64 harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <div className="p-6 flex flex-col items-center text-center">
+                          <img 
+                            src={getAvatarUrl(m.nome ?? '', m.id)} 
+                            alt={m.nome} 
+                            className="w-12 h-12 rounded-lg object-cover mb-3"
+                          />
+                          <p className="font-display font-bold text-slate-900 mb-1">{m.nome}</p>
+                          <span className="inline-block px-2 py-0.5 bg-brand-blue/10 text-brand-blue text-[10px] font-black uppercase tracking-wider rounded-md mb-6">
+                            Dependente
+                          </span>
+                          <div className="w-full flex justify-between items-center pt-4 border-t border-slate-50 uppercase tracking-tighter">
+                            <span className="text-[11px] font-bold text-slate-400">Custo Mensal:</span>
+                            <span className="text-xs font-black text-rose-600">
+                              {m.orcamentoMensal !== undefined && m.orcamentoMensal !== null 
+                                ? `R$ ${Number(m.orcamentoMensal).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` 
+                                : '—'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            {/* Beatriz */}
-            <div className="w-[30%] harmony-card bg-white border border-slate-200 overflow-hidden shadow-sm">
-              <div className="p-6 flex flex-col items-center text-center">
-                <img 
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop" 
-                  alt="Beatriz" 
-                  className="w-12 h-12 rounded-lg object-cover mb-3"
-                />
-                <p className="font-display font-bold text-slate-900 mb-1">Beatriz</p>
-                <span className="inline-block px-2 py-0.5 bg-brand-blue/10 text-brand-blue text-[10px] font-black uppercase tracking-wider rounded-md mb-3">Dependente</span>
-                <p className="text-[10px] italic font-medium text-slate-400 mb-6 font-serif">Estudante</p>
-                <div className="w-full flex justify-between items-center pt-4 border-t border-slate-50 uppercase tracking-tighter text-right">
-                  <span className="text-[11px] font-bold text-slate-400">Custo Mensal:</span>
-                  <span className="text-xs font-black text-rose-600">R$ 4.200</span>
-                </div>
-              </div>
-            </div>
-
+            )}
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SectionHeader({ title, icon, count }: { title: string, icon: React.ReactNode, count: number }) {
-  return (
-    <div className="px-6 py-4 bg-slate-50/50 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <span className="text-brand-blue opacity-70">{icon}</span>
-        <h4 className="text-xs font-black uppercase tracking-widest text-slate-500">{title}</h4>
-      </div>
-      <span className="text-[10px] bg-slate-200 text-slate-600 font-black px-2 py-0.5 rounded-full">{count}</span>
-    </div>
-  );
-}
-
-const MemberRow: React.FC<{ member: FamilyMember, description: string, onClick?: () => void }> = ({ member, description, onClick }) => {
-  return (
-    <div 
-      className="px-6 py-5 flex items-center gap-6 hover:bg-slate-50 transition-colors group cursor-pointer"
-      onClick={onClick}
-    >
-      <div className="w-12 h-12 rounded-xl bg-harmony-gray flex items-center justify-center font-display font-black text-slate-400 group-hover:bg-brand-light group-hover:text-brand-blue transition-colors">
-        {member.name[0]}
-      </div>
-      <div className="flex-1">
-        <div className="flex items-center gap-2">
-          <p className="font-bold text-slate-900">{member.name}</p>
-          <span className="text-[10px] font-black uppercase text-slate-400">ID: {member.id}</span>
-        </div>
-        <p className="text-xs text-slate-500 leading-relaxed max-w-md">{description}</p>
-      </div>
-      <div className="text-right">
-        <p className="text-sm font-bold text-slate-900">{member.contributionPercent}% Contr.</p>
-        <p className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Share of expense: {member.expensesPercent}%</p>
-      </div>
-      <button className="p-2 text-slate-300 hover:text-slate-600 transition-colors">
-        <MoreHorizontal size={20} />
-      </button>
-    </div>
-  );
-}
-
-function ToggleItem({ label, description, active }: { label: string, description: string, active: boolean }) {
-  return (
-    <div className="flex items-start justify-between gap-4">
-      <div>
-        <p className="text-sm font-bold text-slate-900">{label}</p>
-        <p className="text-xs text-slate-500">{description}</p>
-      </div>
-      <div className={cn(
-        "w-10 h-5 rounded-full relative transition-colors cursor-pointer shrink-0",
-        active ? "bg-brand-blue" : "bg-slate-200"
-      )}>
-        <div className={cn(
-          "absolute top-1 w-3 h-3 bg-white rounded-full transition-all",
-          active ? "left-6" : "left-1"
-        )}></div>
+        )}
       </div>
     </div>
   );
