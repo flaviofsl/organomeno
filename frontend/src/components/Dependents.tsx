@@ -7,11 +7,13 @@ import {
   TrendingUp,
   Info,
   ChevronRight,
+  ChevronLeft,
   Plus,
   Loader2,
   AlertCircle,
   CheckCircle2
 } from 'lucide-react';
+import { Screen } from '../types';
 import { cn, formatCurrency } from '../lib/utils';
 import { 
   listarMembros, 
@@ -20,7 +22,11 @@ import {
   DEFAULT_FAMILY_GROUP_ID 
 } from '../lib/api';
 
-export function Dependents() {
+interface DependentsProps {
+  onNavigate?: (screen: Screen) => void;
+}
+
+export function Dependents({ onNavigate }: DependentsProps) {
   const [members, setMembers] = useState<MembroFamilia[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -139,7 +145,15 @@ export function Dependents() {
 
   return (
     <div className="space-y-8 pb-12">
-      <div className="flex justify-between items-end">
+      <div className="flex items-center gap-4">
+        {onNavigate && (
+          <button 
+            onClick={() => onNavigate('family')}
+            className="p-2 -ml-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors"
+          >
+            <ChevronLeft size={24} />
+          </button>
+        )}
         <div>
           <h2 className="text-3xl font-display font-extrabold text-slate-900 tracking-tight">Dependents Planning</h2>
           <p className="text-slate-500 mt-1">Monthly oversight and budget allocation for family dependents.</p>
@@ -155,7 +169,7 @@ export function Dependents() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {dependentsList.map((dep) => {
               const isSelected = selectedDependentId === dep.id;
-              const budget = dep.orcamentoMensal ?? 0;
+              const budget = budgets[dep.id!] ?? dep.orcamentoMensal ?? 0;
               
               let tag = "DEPENDENTE";
               let subtext = "Membro Dependente";
@@ -244,41 +258,44 @@ export function Dependents() {
             })}
           </div>
 
-          {selectedDependent && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Semester Costs Breakdown */}
-              <div className="lg:col-span-7 harmony-card overflow-hidden">
-                <div className="p-6 border-b border-border-subtle bg-white">
-                  <h3 className="text-lg font-display font-bold text-slate-900">
-                    Semester Costs Breakdown — {selectedDependent.nome}
-                  </h3>
+          {selectedDependent && (() => {
+            const currentBudget = budgets[selectedDependent.id!] ?? selectedDependent.orcamentoMensal ?? 0;
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Semester Costs Breakdown */}
+                <div className="lg:col-span-7 harmony-card overflow-hidden">
+                  <div className="p-6 border-b border-border-subtle bg-white">
+                    <h3 className="text-lg font-display font-bold text-slate-900">
+                      Semester Costs Breakdown — {selectedDependent.nome}
+                    </h3>
+                  </div>
+                  <div className="divide-y divide-border-subtle">
+                    <CostItem icon={<GraduationCap size={18} />} label="Tuition" value={Math.round(currentBudget * 0.50 * 6)} />
+                    <CostItem icon={<BookOpen size={18} />} label="Books & Materials" value={Math.round(currentBudget * 0.05 * 6)} />
+                    <CostItem icon={<Building2 size={18} />} label="Dormitory" value={Math.round(currentBudget * 0.25 * 6)} />
+                  </div>
                 </div>
-                <div className="divide-y divide-border-subtle">
-                  <CostItem icon={<GraduationCap size={18} />} label="Tuition" value={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.50 * 6)} />
-                  <CostItem icon={<BookOpen size={18} />} label="Books & Materials" value={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.05 * 6)} />
-                  <CostItem icon={<Building2 size={18} />} label="Dormitory" value={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.25 * 6)} />
-                </div>
-              </div>
 
-              {/* Living Expenses */}
-              <div className="lg:col-span-5 harmony-card p-6">
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-display font-bold text-slate-900">
-                    Living Expenses — {selectedDependent.nome}
-                  </h3>
-                  <button className="text-brand-blue hover:bg-brand-light p-1 rounded-lg transition-colors">
-                    <PencilLine size={18} />
-                  </button>
-                </div>
-                <div className="space-y-6">
-                  <ExpenseItem label="Rent Contribution" subtext="Shared apartment" amount={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.40)} />
-                  <ExpenseItem label="Groceries" subtext="Estimated" amount={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.20)} />
-                  <ExpenseItem label="Utilities & Internet" subtext="Fixed monthly" amount={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.10)} />
-                  <ExpenseItem label="Miscellaneous" subtext="Discretionary" amount={Math.round((selectedDependent.orcamentoMensal ?? 0) * 0.15)} />
+                {/* Living Expenses */}
+                <div className="lg:col-span-5 harmony-card p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-lg font-display font-bold text-slate-900">
+                      Living Expenses — {selectedDependent.nome}
+                    </h3>
+                    <button className="text-brand-blue hover:bg-brand-light p-1 rounded-lg transition-colors">
+                      <PencilLine size={18} />
+                    </button>
+                  </div>
+                  <div className="space-y-6">
+                    <ExpenseItem label="Rent Contribution" subtext="Shared apartment" amount={Math.round(currentBudget * 0.40)} />
+                    <ExpenseItem label="Groceries" subtext="Estimated" amount={Math.round(currentBudget * 0.20)} />
+                    <ExpenseItem label="Utilities & Internet" subtext="Fixed monthly" amount={Math.round(currentBudget * 0.10)} />
+                    <ExpenseItem label="Miscellaneous" subtext="Discretionary" amount={Math.round(currentBudget * 0.15)} />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </>
       )}
 

@@ -102,7 +102,7 @@ export function FamilyHub({ onNavigate }: FamilyHubProps) {
               return (
                 <div 
                   key={member.id} 
-                  onClick={() => onNavigate('providers')}
+                  onClick={() => onNavigate(isProvider ? 'providers' : 'dependents')}
                   className="harmony-card group hover:scale-[1.02] transition-transform cursor-pointer"
                 >
                   <div className="p-5 flex items-center gap-4 border-b border-border-subtle bg-slate-50/50">

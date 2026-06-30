@@ -85,7 +85,7 @@ export default function App() {
       case 'providers':
         return <Providers onNavigate={navigateTo} />;
       case 'dependents':
-        return <Dependents />;
+        return <Dependents onNavigate={navigateTo} />;
       case 'categories':
         return <Categories onNavigate={navigateTo} />;
       case 'register_category':
