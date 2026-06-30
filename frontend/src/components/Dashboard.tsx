@@ -284,6 +284,7 @@ export function Dashboard() {
                     <SpendingBar 
                       key={name} 
                       label={name} 
+                      value={val}
                       color={color} 
                       height={heightStyle} 
                     />
@@ -378,15 +379,23 @@ const SummaryCard: React.FC<{ label: string, value: number, trend: string, trend
   );
 };
 
-const SpendingBar: React.FC<{ label: string, color: string, height: string }> = ({ label, color, height }) => {
+const SpendingBar: React.FC<{ label: string, value: number, color: string, height: string }> = ({ label, value, color, height }) => {
   return (
     <div className="flex flex-col items-center gap-4 h-full group flex-1">
-      <div className="flex-1 w-full flex items-end justify-center bg-slate-50/50 rounded-xl overflow-hidden pb-4">
+      <div className="flex-1 w-full flex flex-col justify-end items-center bg-slate-50/50 rounded-xl overflow-hidden pb-4 relative">
+        <span className="text-[10px] font-black text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 font-mono">
+          {formatCurrency(value)}
+        </span>
         <div className={cn("rounded-full w-2 shadow-sm transition-all duration-1000", color)} style={{ height: height }}></div>
       </div>
-      <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest group-hover:text-slate-900 transition-colors truncate max-w-full" title={label}>
-        {label}
-      </p>
+      <div className="text-center w-full">
+        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest group-hover:text-slate-900 transition-colors truncate max-w-full" title={label}>
+          {label}
+        </p>
+        <p className="text-[9px] font-mono text-slate-500 mt-0.5 group-hover:text-slate-700 transition-colors">
+          {formatCurrency(value)}
+        </p>
+      </div>
     </div>
   );
 };
