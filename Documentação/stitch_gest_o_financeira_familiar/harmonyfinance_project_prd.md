@@ -21,6 +21,6 @@ A ReactJS-based family financial management application designed for clarity, tr
 
 ## Development Roadmap
 - [x] UI/UX Design & Prototyping
-- [ ] Component Architecture
-- [ ] Global Navigation Shell
-- [ ] Screen Integration
+- [x] Component Architecture
+- [x] Global Navigation Shell
+- [x] Screen Integration
