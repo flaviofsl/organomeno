@@ -4,7 +4,6 @@ package br.com.organomeno.ofx.leitura;
 import br.com.organomeno.ofx.rest.MulitipleDocumentDetailsRequest;
 import br.com.organomeno.util.UtilFile;
 import com.webcohesion.ofx4j.domain.data.MessageSetType;
-import com.webcohesion.ofx4j.io.OFXParseException;
 
 import java.io.IOException;
 import java.io.InputStream;
