@@ -6,6 +6,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { Screen } from '../types';
+import { solicitarRecuperacaoSenha } from '../lib/api';
 
 interface ForgotPasswordProps {
   onNavigate: (screen: Screen) => void;
@@ -13,11 +14,23 @@ interface ForgotPasswordProps {
 
 export function ForgotPassword({ onNavigate }: ForgotPasswordProps) {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic for sending recovery instructions
-    alert('Instruções enviadas para ' + email);
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const response = await solicitarRecuperacaoSenha(email);
+      setMessage({ text: response.mensagem || 'Se o email estiver cadastrado, você receberá as instruções.', type: 'success' });
+      setEmail('');
+    } catch (err) {
+      setMessage({ text: err instanceof Error ? err.message : 'Erro ao solicitar recuperação.', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -38,6 +51,11 @@ export function ForgotPassword({ onNavigate }: ForgotPasswordProps) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
+            {message && (
+              <div className={`p-4 border rounded-xl ${message.type === 'success' ? 'bg-emerald-50 border-emerald-100 text-emerald-600' : 'bg-red-50 border-red-100 text-red-600'}`}>
+                <p className="text-sm font-medium">{message.text}</p>
+              </div>
+            )}
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail</label>
               <div className="relative group">
@@ -56,10 +74,11 @@ export function ForgotPassword({ onNavigate }: ForgotPasswordProps) {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-[0.98]"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-[0.98]"
             >
-              <span>Enviar instruções</span>
-              <ArrowRight size={20} />
+              <span>{loading ? 'Enviando...' : 'Enviar instruções'}</span>
+              {!loading && <ArrowRight size={20} />}
             </button>
           </form>
 
