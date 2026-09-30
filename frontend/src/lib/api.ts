@@ -393,6 +393,71 @@ export interface Lancamento {
 
 export const DEFAULT_FAMILY_GROUP_ID = 1;
 
+export interface TokenAcessoDTO {
+  token: string;
+  usuario: {
+    id: number;
+    nome: string;
+    email: string;
+    papel: string;
+    status: string;
+    ativo: boolean;
+    dataCriacao: string;
+    ultimoAcesso: string;
+    idGrupoFamiliar: number;
+    nomeGrupoFamiliar: string;
+  };
+}
+
+export interface CadastroUsuarioDTO {
+  nome: string;
+  email: string;
+  senha?: string;
+  confirmacaoSenha?: string;
+  nomeGrupoFamiliar?: string;
+  codigoConvite?: string;
+}
+
+export async function registrarUsuario(usuario: CadastroUsuarioDTO): Promise<{ id: number; nome: string; email: string }> {
+  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usuario),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível cadastrar usuário.'));
+  }
+
+  return response.json();
+}
+
+export async function solicitarRecuperacaoSenha(email: string): Promise<{ mensagem: string }> {
+  const response = await fetch(`${API_BASE_URL}/auth/forgot-password?email=${encodeURIComponent(email)}`, {
+    method: 'POST', // Backend route has a @POST annotation mapping
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível solicitar a recuperação de senha.'));
+  }
+
+  return response.json();
+}
+
+export async function login(email: string, senha: string): Promise<TokenAcessoDTO> {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, senha }),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorResponse(response, 'Não foi possível fazer login.'));
+  }
+
+  return response.json();
+}
+
 export async function listarMembros(idGrupo: number): Promise<MembroFamilia[]> {
   const response = await fetch(`${API_BASE_URL}/membros?idGrupo=${idGrupo}`);
 

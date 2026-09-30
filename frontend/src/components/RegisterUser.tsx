@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Screen } from '../types';
+import { registrarUsuario, login } from '../lib/api';
 
 interface RegisterUserProps {
   onNavigate: (screen: Screen) => void;
@@ -19,13 +20,36 @@ export function RegisterUser({ onNavigate }: RegisterUserProps) {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    nomeGrupoFamiliar: ''
   });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic for registration would go here
-    onNavigate('dashboard');
+    setError(null);
+    setLoading(true);
+
+    try {
+      await registrarUsuario({
+        nome: formData.name,
+        email: formData.email,
+        senha: formData.password,
+        confirmacaoSenha: formData.confirmPassword,
+        nomeGrupoFamiliar: formData.nomeGrupoFamiliar
+      });
+
+      const response = await login(formData.email, formData.password);
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('user_info', JSON.stringify(response.usuario));
+
+      onNavigate('dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível concluir o cadastro.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,6 +71,11 @@ export function RegisterUser({ onNavigate }: RegisterUserProps) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
+            {error && (
+              <div className="p-4 bg-red-50 border border-red-100 rounded-xl">
+                <p className="text-sm text-red-600 font-medium">{error}</p>
+              </div>
+            )}
             <div className="space-y-6">
               {/* Full Name */}
               <div className="space-y-2">
@@ -76,6 +105,22 @@ export function RegisterUser({ onNavigate }: RegisterUserProps) {
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-0 outline-none transition-all placeholder:text-slate-300 shadow-sm"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              {/* Family Group Name */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">NOME DO GRUPO FAMILIAR</label>
+                <div className="relative group">
+                  <Landmark className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={20} />
+                  <input
+                    type="text"
+                    placeholder="Família Silva"
+                    required
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-4 pl-12 pr-4 text-sm font-bold text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-0 outline-none transition-all placeholder:text-slate-300 shadow-sm"
+                    value={formData.nomeGrupoFamiliar}
+                    onChange={(e) => setFormData({ ...formData, nomeGrupoFamiliar: e.target.value })}
                   />
                 </div>
               </div>
@@ -126,10 +171,11 @@ export function RegisterUser({ onNavigate }: RegisterUserProps) {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-[0.98] uppercase tracking-wider"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-100 active:scale-[0.98] uppercase tracking-wider"
             >
-              <span>Começar</span>
-              <ArrowRight size={20} />
+              <span>{loading ? 'CADASTRANDO...' : 'COMEÇAR'}</span>
+              {!loading && <ArrowRight size={20} />}
             </button>
           </form>
 
